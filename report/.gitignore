@@ -1,0 +1,17 @@
+*.aux
+*.bcf
+*.fdb_latexmk
+*.log
+*.synctex.gz
+*.synctex(busy)
+*.run.xml
+*.fls
+*.bbl
+*.blg
+*.out
+*.markdown.lua
+
+svg-inkscape/
+_markdown_report
+
+*.pdf
