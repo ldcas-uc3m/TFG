@@ -1,18 +1,19 @@
 # Project architecture
 
-## Instruction set
+## RISC-V architecture
+
+### Instruction set
+
 - System calls (`ecal`)
     - Print_int
     - Print_string
-    - Print_char
     - Read_int
     - Read_string
-    - Read_char
     - Exit
 - Data transfer
     - `li`
     - `mv`
-- Arithmetic (integer)
+- Arithmetic (integer) -> convert reg to signed, operate, convert to unsigned
     - `add`
     - `addi`
     - `sub`
@@ -23,11 +24,21 @@
     - `and`
     - `or`
     - `not`
+        - 1's complement
     - `neg`
+        - 2's complement
     - `xor`
     - `srli`
+        - unsigned
+    - `srai`
+        - signed
     - `slli`
-- Branch
+        - unsigned
+    - `sra`
+        - signed
+    - `srl`
+        - unsigned
+- Branch (signed)
     - `beq`
     - `bne`
     - `blt`
@@ -38,21 +49,37 @@
     - `la`
     - `lw`
     - `sw`
+    - `lb`
+    - `sb`
 - Function Calls
     - `jal`
     - `jr`
 
 
-## Functionalities
-- Parser
+### Functionalities
+
+### Parser
+
+Treat line by line
+
+Line ::=
+- Comment
+- Line + comment
+- Segment directive (`.data`, `.text`)
+- Label + type directive + value (`.data`)
+- Label + instruction (`.text`)
+- Instruction (`.text`)
+
+<!-- TODO: put in Backus-Naur Form -->
+
+---
+
+
 - "GDB" interface
     - With register status
 - Registers
+    - Treat as unsigned
 - System calls
-- `.data`, `.text`
-- Tags
-- Indexed Addressing
 - Memory (dynamically generated)
-- Comments
-- Load files
 - GUI
+
