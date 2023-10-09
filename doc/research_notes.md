@@ -27,6 +27,7 @@ Three ways to do it:
 1. Use [ANTLR](https://www.antlr.org/) to generate the parser.
     - T. Parr. Language Implementation Patterns: Create Your Own Domain-Specific and General Programming Languages. Pragmatic Bookshelf, 2009
     - [Antlr4 for C++ with CMake: A practical example](https://beyondtheloop.dev/Antlr-cpp-cmake/)
+    - [ANTLR C++ Documentation](https://github.com/antlr/antlr4/blob/master/doc/cpp-target.md)
 2. Use lex ([GNU flex](https://github.com/westes/flex)) and yacc ([GNU bison](https://www.gnu.org/software/bison/))
     - J. Levine, D. Brown, T. Mason. lex & yacc, 2nd Edition. O'Reilly, 1992
 3. By hand (programming the parser)

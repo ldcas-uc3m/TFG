@@ -9,4 +9,13 @@ Universidad Carlos III de Madrid
 
 ## Installation and execution
 
+Compile
+```bash
+cd build/
+make
+```
 
+Run
+```bash
+./src/tfg
+```

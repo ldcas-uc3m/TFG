@@ -82,4 +82,5 @@ Line ::=
 - System calls
 - Memory (dynamically generated)
 - GUI
+- Savestates
 
