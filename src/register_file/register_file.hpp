@@ -37,6 +37,9 @@ class RegisterFile {
 
         // overload << operator
         friend std::ostream & operator << (std::ostream & out, RegisterFile const & rf) {
+            // print all registers separated by tabs
+            // TODO: Hex values
+            // TODO: Print in different lines
             for (int i = 0; i < rf._reg_names.size(); ++i) {
                 out << rf._reg_names[i] << ": " << rf._rf[i] << '\t';
             }
