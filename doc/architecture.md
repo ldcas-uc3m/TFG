@@ -4,8 +4,8 @@
 ## Parser
 
 General functionality:
-1. Translate from ASM to Lisp-like instructions using the architecture definition file
-2. Save those instructions to memory, in order for them to be executed by the CPU.
+1. Translate from ASM to Lisp-like instructions using the architecture definition file (LISP-like instructions already codified in config file)
+2. Save those instructions to memory, in order for them to be executed by the CPU
 
 ```mermaid
 graph LR;
