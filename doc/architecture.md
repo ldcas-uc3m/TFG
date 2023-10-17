@@ -86,7 +86,25 @@ graph LR;
 The full grammar is defined in [`riscv_asm.g4`](../src/parser/riscv_asm.g4).
 
 
-### Functionalities
+### Register File (`RegisterFile`)
+The Register File class can be found in [register_file.hpp](../src/cpu/register_file.hpp), and takes an initializer list of strings with the names of the registers.
+
+The class is composed of three parts:
+- A vector of unsigned 32b integers `_rf` with the values of the registers (indexed by ints, as it's a vector).
+- A vector of strings `_reg_names` with the names of the registers from the initializer list, which acts as a map between the register indexes (ints) and the register names (index → name).
+- A map `_reg_map` between the register names and the register indexes (name → index).
+
+This is done so you can access the value of a register either by name (that's why you need `_reg_map`) or by index, by overloading the `[]` operator, and so that you can print the names of the registers with the values (that's why you need `_reg_names`), by overloading the `<<` operator.
+
+#### Display modes
+
+The Register File also has different display modes. These modes control how the RF will be displayed when using the `<<` operator.  
+There are three modes:
+- Hexadecimal (`rfdmode::HEX`): Displays the values as hex values
+- Signed (`rfdmode::SIG`): Displays the values as signed integers
+- Unsigned (`rfdmode::USG`): Displays the values as unsigned integers
+
+These modes are defined in the `rfdmode::dmode` enum and can be changed through the `RegisterFile.setdmode()` method (which the `_dmode` attribute).
 
 
 ---
