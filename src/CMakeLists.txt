@@ -1,3 +1,3 @@
 add_executable(tfg "main.cpp")
 
-include_directories("register_file")
+include_directories("cpu" "memory" "parser")

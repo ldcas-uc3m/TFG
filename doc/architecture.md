@@ -1,5 +1,32 @@
 # Project architecture
 
+
+## Parser
+
+General functionality:
+1. Translate from ASM to Lisp-like instructions using the architecture definition file
+2. Save those instructions to memory, in order for them to be executed by the CPU.
+
+```mermaid
+graph LR;
+    asm[fa:fa-file-code Assembly file] & json["
+            fa:fa-file-alt Architecture config file
+            (JSON)
+        "] --> parser(fa:fa-industry Parser);
+    parser -.-> lisp["
+                    fa:fa-align-justify Lisp-like instructions
+                    (.text)
+                "]
+    lisp --> cpu(fa:fa-microchip CPU)
+```
+<!-- Icons from https://fontawesome.com/icons -->
+
+
+### Architecture definition file
+<!-- TODO -->
+
+
+
 ## RISC-V architecture
 
 ### Instruction set
@@ -56,21 +83,11 @@
     - `jr`
 
 
+The full grammar is defined in [`riscv_asm.g4`](../src/parser/riscv_asm.g4).
+
+
 ### Functionalities
 
-### Parser
-
-Treat line by line
-
-Line ::=
-- Comment
-- Line + comment
-- Segment directive (`.data`, `.text`)
-- Label + type directive + value (`.data`)
-- Label + instruction (`.text`)
-- Instruction (`.text`)
-
-<!-- TODO: put in Backus-Naur Form -->
 
 ---
 
