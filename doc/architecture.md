@@ -4,7 +4,7 @@
 ## Parser
 
 General functionality:
-1. Translate from ASM to Lisp-like instructions using the architecture definition file (LISP-like instructions already codified in config file)
+1. Translate from ASM to Lisp dialect (LUISP-DA) instructions using the architecture definition file (LUISP-DA instructions already codified in config file)
 2. Save those instructions to memory, in order for them to be executed by the CPU
 
 ```mermaid
@@ -14,7 +14,7 @@ graph LR;
             (JSON)
         "] --> parser(fa:fa-industry Parser);
     parser -.-> lisp["
-                    fa:fa-align-justify Lisp-like instructions
+                    fa:fa-align-justify LUISP-DA instructions
                     (.text)
                 "]
     lisp --> cpu(fa:fa-microchip CPU)
@@ -24,6 +24,27 @@ graph LR;
 
 ### Architecture definition file
 <!-- TODO -->
+
+
+## LUISP-DA
+assembLy analogoUs Interpreted liSP DiAlect
+<!--
+Lisp  
+Ubiquitous  
+Interpreted  
+Simple  
+Post  
+-  
+Decoding language for  
+Assembly
+-->
+
+Make minimum possible set of "assembly" instructions.
+
+
+## Interpreter
+
+An interpreter for the LUISP-DA language.
 
 
 
@@ -105,6 +126,8 @@ There are three modes:
 - Unsigned (`rfdmode::USG`): Displays the values as unsigned integers
 
 These modes are defined in the `rfdmode::dmode` enum and can be changed through the `RegisterFile.setdmode()` method (which the `_dmode` attribute).
+
+
 
 
 ---

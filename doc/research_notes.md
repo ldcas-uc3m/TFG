@@ -22,36 +22,38 @@ You can do all branch instructions with two: `beq` and `blt`:
     - `beq t0 t1 label`
 
 
-### Parser
+### Assembly interpreter
 Three ways to do it:
-1. Use [ANTLR](https://www.antlr.org/) to generate the parser.
-    - T. Parr. Language Implementation Patterns: Create Your Own Domain-Specific and General Programming Languages. Pragmatic Bookshelf, 2009  
-        - P.25. Tree-Based Interpreter (p. 243)
-            - P.4. LL(k) Recursive-Descent Parser (p. 59)
-            - P.9. Homogeneous AST (p. 109)
-            - P.12. External Tree Visitor (p. 131)
-        - P.28. Register-Based Bytecode Interpreter (p. 281)
-        - 10.2 Defining an Assembly Language Syntax (p. 257)
-    - [Antlr4 for C++ with CMake: A practical example](https://beyondtheloop.dev/Antlr-cpp-cmake/)
-    - [ANTLR C++ Documentation](https://github.com/antlr/antlr4/blob/master/doc/cpp-target.md)
-    - [Writing interpreters with ANTLR](https://gjdanis.github.io/2016/01/23/roman/)
-    - [Step by step creation of a simple compiler using ANTLR4](https://medium.com/@isetitra/step-by-step-creation-of-a-simple-compiler-using-antlr4-9285755cf943)
-    - [Building a Scripting Language with Antlr 4 and C#](https://github.com/Doddler/Scripting-Language-Guide)
-    - [Creating a LISP-like Interpreter (Introduction to ANTLR)](https://simonodonoghue.blog/2019/12/09/creating-a-lisp-like-interpreter-introduction-to-antlr/)
-    - [Easy intro to writing a BASIC interpreter (with ANTLR)](https://mateiw.github.io/antlr-intro/)
-    - [Getting Started with ANTLR in C++](https://tomassetti.me/getting-started-antlr-cpp/)
-    - [Listeners And Visitors](https://tomassetti.me/listeners-and-visitors/)
-    - [Best Practices for ANTLR Parsers](https://tomassetti.me/best-practices-for-antlr-parsers/)
-    - [The ANTLR Mega Tutorial](https://tomassetti.me/antlr-mega-tutorial/)
 
-2. Use lex ([GNU flex](https://github.com/westes/flex)) and yacc ([GNU bison](https://www.gnu.org/software/bison/))
-    - J. Levine, D. Brown, T. Mason. lex & yacc, 2nd Edition. O'Reilly, 1992
+#### 1. [ANTLR](https://www.antlr.org/) 
+To generate the lexer/parser and use ASTs and Visitors.
+- T. Parr. Language Implementation Patterns: Create Your Own Domain-Specific and General Programming Languages. Pragmatic Bookshelf, 2009  
+    - P.25. Tree-Based Interpreter (p. 243)
+        - P.4. LL(k) Recursive-Descent Parser (p. 59)
+        - P.9. Homogeneous AST (p. 109)
+        - P.12. External Tree Visitor (p. 131)
+    - P.28. Register-Based Bytecode Interpreter (p. 281)
+    - 10.2 Defining an Assembly Language Syntax (p. 257)
+- [Antlr4 for C++ with CMake: A practical example](https://beyondtheloop.dev/Antlr-cpp-cmake/)
+- [ANTLR C++ Documentation](https://github.com/antlr/antlr4/blob/master/doc/cpp-target.md)
+- [Writing interpreters with ANTLR](https://gjdanis.github.io/2016/01/23/roman/)
+- [Step by step creation of a simple compiler using ANTLR4](https://medium.com/@isetitra/step-by-step-creation-of-a-simple-compiler-using-antlr4-9285755cf943)
+- [Building a Scripting Language with Antlr 4 and C#](https://github.com/Doddler/Scripting-Language-Guide)
+- [Creating a LISP-like Interpreter (Introduction to ANTLR)](https://simonodonoghue.blog/2019/12/09/creating-a-lisp-like-interpreter-introduction-to-antlr/)
+- [Easy intro to writing a BASIC interpreter (with ANTLR)](https://mateiw.github.io/antlr-intro/)
+- [Getting Started with ANTLR in C++](https://tomassetti.me/getting-started-antlr-cpp/)
+- [Listeners And Visitors](https://tomassetti.me/listeners-and-visitors/)
+- [Best Practices for ANTLR Parsers](https://tomassetti.me/best-practices-for-antlr-parsers/)
+- [The ANTLR Mega Tutorial](https://tomassetti.me/antlr-mega-tutorial/)
 
-3. By hand (programming the parser)
-    - Wepsim [lexical.js](https://github.com/wepsim/wepsim/blob/master/sim_sw/assembly/lexical.js) and [asm_v2.js](https://github.com/wepsim/wepsim/blob/master/sim_sw/assembly/asm_v2.js)
-    - [CREATOR RISC-V architecture config](https://github.com/creatorsim/creator/blob/master/architecture/RISC_V_RV32IMFD.json)
-    - A. V. Aho, Ravi Sethi, J. D. Ullman. Compiladores: Principios, Técnicas y Herramientas. Addison-Wesley Iberoamericana, 1990
-    - [Emulating a CPU in C++ (6502)](https://www.youtube.com/watch?v=qJgsuQoy9bc)
+#### 2. Use lex ([GNU flex](https://github.com/westes/flex)) and yacc ([GNU bison](https://www.gnu.org/software/bison/))
+- J. Levine, D. Brown, T. Mason. lex & yacc, 2nd Edition. O'Reilly, 1992
+
+#### 3. ASM to lisp-like interpreter (LUISP-DA)
+Create a lisp language and an interpreter for it. ASM translates to lisp through architecture.
+- [Make A Lisp](https://github.com/kanaka/mal/blob/master/process/guide.md)
+- Wepsim [lexical.js](https://github.com/wepsim/wepsim/blob/master/sim_sw/assembly/lexical.js) and [asm_v2.js](https://github.com/wepsim/wepsim/blob/master/sim_sw/assembly/asm_v2.js)
+- [CREATOR RISC-V architecture config](https://github.com/creatorsim/creator/blob/master/architecture/RISC_V_RV32IMFD.json)
 
 
 ### Other useful links & bibliography
@@ -63,6 +65,12 @@ Three ways to do it:
 - [A Guide to Parsing: Algorithms and Terminology](https://tomassetti.me/guide-parsing-algorithms-terminology/)
 - [Language Processors OCW-UC3M](https://ocw.uc3m.es/course/view.php?id=131)
 - [CS143 Compilers (Standford University)](https://web.stanford.edu/class/cs143/)
+- José Daniel García Sánchez. Advanced C++ modern programming.
+- A. V. Aho, Ravi Sethi, J. D. Ullman. Compiladores: Principios, Técnicas y Herramientas. Addison-Wesley Iberoamericana, 1990
+- [Emulating a CPU in C++ (6502)](https://www.youtube.com/watch?v=qJgsuQoy9bc)
+- [D. Solomons. Assemblers And Loaders.](https://www.davidsalomon.name/assem.advertis/AssemAd.html)
+- Torben Ægidius Mogensen. Basics of Compiler Design, Anniversary edition. lulu.com, 2010.
+- Andrew W. Appel. Modern Compiler Implementation in C. Cambridge University Press, 1998.
 
 
 

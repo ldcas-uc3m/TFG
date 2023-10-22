@@ -112,6 +112,7 @@ class RegisterFile {
 };
 
 
+extern RegisterFile reg_file {"t0", "t1", "t2", "t3", "t4", "t5"};
 
 
 #endif
