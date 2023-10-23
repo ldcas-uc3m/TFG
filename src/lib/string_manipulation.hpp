@@ -1,3 +1,7 @@
+#ifndef STRING_MANIPULATION_HPP
+#define STRING_MANIPULATION_HPP
+
+
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -36,3 +40,31 @@ size_t split_string(const std::string &txt, std::vector<std::string> &strs, char
 }
 
 
+std::vector<std::string> regex_find(const std::string & text, const std::regex & pattern) {
+    /*
+    Returns a vector of all matches for a specified string and parameter
+    */
+
+    std::vector<std::string> r;
+
+    std::sregex_iterator start {text.cbegin(), text.cend(), pattern};
+    std::sregex_iterator end;
+
+    for (auto i = start; i != end; ++i) {
+        std::string elem = i->str();
+
+        // if (elem == "") continue;
+
+        r.push_back(elem);
+    }
+
+    // std::cout << text << ": ";
+    // for (const auto& i: r)
+    //     std::cout << i << ';';
+    // std::cout << std::endl;
+
+    return r;
+}
+
+
+#endif
