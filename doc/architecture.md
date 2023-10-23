@@ -7,7 +7,7 @@ General functionality:
 1. Translate from ASM to Lisp dialect (LUISP-DA) instructions using the architecture definition file (LUISP-DA instructions already codified in config file)
 2. Save those instructions to memory, in order for them to be executed by the CPU
 
-```mermaid
+``` mermaid
 graph LR;
     asm[fa:fa-file-code Assembly file] & json["
             fa:fa-file-alt Architecture config file
@@ -45,6 +45,53 @@ Make minimum possible set of "assembly" instructions.
 ## Interpreter
 
 An interpreter for the LUISP-DA language.
+
+``` mermaid
+flowchart TD
+    subgraph READ
+        read_inst <--> read_str
+
+        read_str <--> tokenize
+
+        read_str <---> read_token
+
+        read_token <--> read_list
+        read_list <--> read_token
+        read_token <--> read_atom
+
+    end
+
+
+    read_inst == "AST" ==> EVAL
+
+    subgraph EVAL
+        eval_ast
+    end
+```
+
+``` mermaid
+stateDiagram-v2
+
+    [*] --> read_inst: Instruction
+
+    state READ {
+        read_inst --> read_str
+        read_str --> tokenize
+        read_str --> read_token
+
+        --
+
+        read_token --> read_atom
+        read_token --> read_list
+        read_list --> read_token
+    }
+
+    read_inst --> EVAL: AST
+
+    state EVAL {
+        eval_ast
+    }
+```
 
 
 

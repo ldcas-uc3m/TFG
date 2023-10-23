@@ -10,7 +10,7 @@
 #include "../lib/string_manipulation.hpp"
 
 
-
+// TODO: Separate in files under interpreter/
 
 /* Token */
 
@@ -214,7 +214,7 @@ class Interpreter {
             Takes a single string and return an array/list of all the tokens in it.
             */
 
-            const std::regex re {R"((?:\s,)*([\[\]()!]|"(?:\\.|[^\\"])*"?|[^\s\[\]{}()'"`,;]*))"};
+            const std::regex re {R"((?:\s,)*([\[\]()]|"(?:\\.|[^\\"])*"?|[^\s\[\]{}()'"`,;]*))"};
             std::vector<Token> v;
 
             std::sregex_iterator start {string.cbegin(), string.cend(), re};
