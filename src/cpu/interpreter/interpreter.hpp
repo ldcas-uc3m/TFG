@@ -1,6 +1,8 @@
 #ifndef INTERPRETER_HPP
 #define INTERPRETER_HPP
 
+
+
 #include <string>
 #include <vector>
 #include <regex>
@@ -8,6 +10,7 @@
 #include "register_file.hpp"
 #include "reader.hpp"
 #include "ast.hpp"
+#include "alu.hpp"
 #include "../memory/text.hpp"
 #include "../lib/string_manipulation.hpp"
 
@@ -22,12 +25,14 @@ class Interpreter {
     */
 
     public:
-        Interpreter() { }
+        Interpreter(RegisterFile & rf) : _rf {rf} {
+            _rf = rf;
+        }
 
+        /**
+        * @brief Executes a LUISP-DA instruction
+        */
         void exec(const Memory::Instruction & inst) {
-            /*
-            Executes a LUISP-DA instruction
-            */
 
             AST ast = read_inst(inst);
             std::cout << ast;
@@ -36,20 +41,24 @@ class Interpreter {
         }
 
     private:
-        // TODO: const refs 'n stuff
+
+        RegisterFile & _rf;
+
 
         /* READ - Lexer */
+
+        /**
+        * @brief Reads a LUISP-DA instruction and generates its AST.
+        */
         AST read_inst(const Memory::Instruction & inst) {
-            /*
-            Reads a LUISP-DA instruction and generates its AST.
-            */
+
             return read_str(inst);
         }
 
+        /**
+        * @brief Takes a single string and return an array/list of all the tokens in it.
+        */
         std::vector<Token> tokenize(const std::string & string) {
-            /*
-            Takes a single string and return an array/list of all the tokens in it.
-            */
 
             const std::regex re {R"((?:\s,)*([\[\]()]|"(?:\\.|[^\\"])*"?|[^\s\[\]{}()'"`,;]*))"};
             std::vector<Token> v;
@@ -70,10 +79,10 @@ class Interpreter {
             return v;
         }
 
+        /**
+        * @brief Creates a new Reader and calls read_token().
+        */
         AST read_str(const std::string & string) {
-            /*
-            Creates a new Reader and calls read_token().
-            */
 
            Reader reader { tokenize(string) };
 
@@ -91,7 +100,6 @@ class Interpreter {
             return read_atom(reader);
         }
 
-        // TODO: optimize... use std::move for tokens?
         AST_Node read_list(Reader & reader) {
             AST_Node node { Token {reader.next().string, token_type::LIST} };
 
@@ -133,10 +141,15 @@ class Interpreter {
 
         /* EVAL */
         std::string eval(AST ast) {
+            // std::map<std::string, lisp_function> repl_env;
+
+            // repl_env.emplace("ADDI", addi);
+            // repl_env.emplace("ADDI", [] (Token t) -> Token {return jflkjkd});
 
         }
 
 };
 
+using lisp_function = std::function<Token (*) (std::vector<Token>)>;
 
 #endif

@@ -12,14 +12,12 @@
 
 
 
-namespace rfdmode {
     // Register File Display mode
-    enum dmode {
-        HEX,  // hexadecimal
-        SIG,  // signed
-        USG   // unsigned
-    };
-}
+enum class dmode {
+    HEX,  // hexadecimal
+    SIG,  // signed
+    USG   // unsigned
+};
 
 
 class RegisterFile {
@@ -52,13 +50,10 @@ class RegisterFile {
             return _rf[index];
         }
 
-        // TODO
-        std::uint32_t const & operator[] (std::string const & r) const {
+        std::uint32_t operator[] (std::string const & r) const {
+            auto it = _reg_map.find(r);
+            return (*it).second;
         };
-        // std::uint32_t const & get (std::string const & r) const {
-        //     return _rf[_reg_map[r]];
-        
-        // }
 
 
         // overload << operator
@@ -70,15 +65,15 @@ class RegisterFile {
                 out << rf._reg_names[i] << ": ";
 
                 switch (rf._dmode) {
-                    case rfdmode::HEX:
+                    case dmode::HEX:
                         out << "0x" << std::setfill('0') << std::setw(8) << std::right << std::hex << rf._rf[i];
                         break;
 
-                    case rfdmode::SIG:
+                    case dmode::SIG:
                         out << std::setfill(' ') << std::setw(8) << std::left << std::to_string(static_cast<int32_t>(rf._rf[i]));
                         break;
 
-                    case rfdmode::USG:
+                    case dmode::USG:
                         out << 'u' << std::setfill(' ') << std::setw(8) << std::left << std::to_string(rf._rf[i]);
                         break;
                 };
@@ -98,7 +93,7 @@ class RegisterFile {
         }
 
 
-        void setdmode(rfdmode::dmode dmode) { _dmode = dmode; }
+        void setdmode(dmode dmode) { _dmode = dmode; }
 
 
     private:
@@ -107,7 +102,7 @@ class RegisterFile {
         std::map<std::string, int> _reg_map;  // map between register names and register indexes
         std::vector<std::string> _reg_names;  // map between register indexes and register names
 
-        rfdmode::dmode _dmode = rfdmode::HEX;
+        dmode _dmode = dmode::HEX;
 
 };
 

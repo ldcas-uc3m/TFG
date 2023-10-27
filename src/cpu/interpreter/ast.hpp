@@ -26,12 +26,11 @@ struct Token {
 
 /* Abstract Syntax Tree */
 
-class AST_Node {
+class AST_Node final {
 
     public:
-        AST_Node(Token token) : _children {} {
-            _token = token;
-        }
+        AST_Node(Token token) : _children {}, _token {token} {}
+
 
         void add_child(AST_Node node) {
             _children.push_back(node);
@@ -86,7 +85,6 @@ class AST_Node {
             }
 
             return out;
-
         }
 };
 

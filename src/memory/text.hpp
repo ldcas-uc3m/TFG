@@ -16,10 +16,10 @@
 namespace Memory {
 
     // TODO: export this
-    extern short WORD_SIZE = 4;  // Bytes
+    constexpr int WORD_SIZE = 4;  // Bytes
 
-    typedef std::string Instruction;
-    typedef std::uint32_t Address;
+    using Instruction = std::string;
+    using Address = std::uint32_t;
 
 
     class text {

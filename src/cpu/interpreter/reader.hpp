@@ -4,31 +4,26 @@
 #include <string>
 #include <vector>
 #include <iostream>
-
+#include <exception>
 
 #include "ast.hpp"
 
 
-class Reader {
+class Reader final {
 
     public:
 
-        Reader(std::vector<Token> const & tokens) {
-            _tokens = tokens;
-            _pos = 0;
-            _current_token = _tokens[_pos];
+        Reader(std::vector<Token> && tokens)  // && moves (gets ownership)
+            : _tokens{tokens}, _pos{0}, _current_token{_tokens[_pos]} {
 
             print_tokens();
         }
 
+        /**
+        * Returns the token at the current position and increments the position.
+        */
         Token next() {
-            /*
-            Returns the token at the current position and increments the position.
-            */
-            if (is_end()) {
-                std::cout << "Reached end of inst" << std::endl;
-                throw;  // TODO: Exception
-            }
+            if (is_end()) throw std::out_of_range{"Reached end of inst"};
 
             Token token = _current_token;
             _current_token = _tokens[++_pos];
@@ -38,17 +33,22 @@ class Reader {
             return token;
         }
 
-        Token peek() {
-            /*
-            Returns the token at the current position.
-            */
 
+        /**
+        * Returns the token at the current position.
+        */
+        Token peek() const {
             return _current_token;
         }
 
-        bool is_end() {
+
+        /**
+        * Checks if it has reached the end of instrucions.
+        */
+        bool is_end() const {
             return _pos == _tokens.size() - 1;
         }
+
 
     private:
         std::vector<Token> _tokens;
@@ -64,7 +64,7 @@ class Reader {
             std::cout << "current_token: " << " [" << _pos <<  "] " << _current_token.string << std::endl;
         }
 
-        void print_tokens() {
+        void print_tokens() const {
             /*
             Prints all tokens
             */

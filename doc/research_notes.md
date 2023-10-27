@@ -98,3 +98,51 @@ Create a lisp language and an interpreter for it. ASM translates to lisp through
 - [Online Gantt Chart Generator](https://www.onlinegantt.com/#/gantt)
 - [Mermaid Gantt Diagrams](https://mermaid.js.org/syntax/gantt.html)
 - [Mermaid Flowcharts](https://mermaid.js.org/syntax/flowchart.html?id=flowcharts-basic-syntax)
+
+
+
+## C++
+
+### Casting
+- `static_cast<target_type>(value)`
+
+
+### Member functions (methods)
+
+- **Specifiers:** Modify the function's properties
+    - `static`: Allow for it to be called outside the class.
+    - `const` (after parenthesis): Use it if you don't modify any class member.
+    - `noexcept`: The function doesn't lauch exception. If it does, **shit goes down**.
+    - `friend`: As if you define the function outside the class, you must pass a parameter for the class object. It has acces to the private members of the class.
+    - `[[nodiscard]]`: You have to assign to something whatever the function returns.
+- **Parameter passing convention:** Types of parameter passing.
+    - **By value `type p`:** It makes a copy.
+    - **By constant value `type const p`:** It makes a copy, but it can't be modified.
+    - **By reference `type & p`:** Passes a reference to the object.
+    - **By constant reference `type const & p`:** Passes a reference to the object, but it can't be modified.
+    - **By movement `type && p`:** Passes the ownership of the object to the function.
+
+### Classes
+- **Constructor**: Get executed when the object is created. Methods, same name as the class.
+    - Called with its arguments with `class{ p1, p2, ...}`.
+    - Initialization list `class(...) : p1{...}, p2{...}, ...`: List of constructors to be run before this constructor. Add here the constructors of the class members.  
+- **Accesibility:**
+    - `public`: Everyone can access.
+        - Default in `struct`.
+    - `private` Only members can access.
+        - Default in `class`.
+    - `protected`: Only members and children can access.
+- **Specifiers:**
+    - `final`: To prevent further inheritance.
+
+### Enums
+- Use `enum class`.
+
+
+### Typedef
+Don't use it, use aliases: `using new_type = old_type`
+
+### #define
+Don't use it, use `constexpr`
+
+### Namespaces
