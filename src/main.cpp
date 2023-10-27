@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "cpu/register_file.hpp"
-#include "cpu/interpreter.hpp"
+#include "cpu/interpreter/interpreter.hpp"
 #include "memory/text.hpp"
 
 
