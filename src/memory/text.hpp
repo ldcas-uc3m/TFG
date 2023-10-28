@@ -48,11 +48,9 @@ namespace Memory {
                 /*
                 Prints all current instructions
                 */
-                for(const auto& elem : text._inst_map) {
-                    out << "0x" << std::setfill('0') << std::setw(8) << std::right << std::hex << elem.first;
-                    out << '\t';
-                    out << elem.second;
-                    out << '\n';
+                for(const auto & [addr, inst] : text._inst_map) {
+                    out << "0x" << std::setfill('0') << std::setw(8) << std::right << std::hex << addr;
+                    out << '\t'<< inst << '\n';
                 }
                 return out;
             }

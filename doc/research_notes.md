@@ -102,6 +102,8 @@ Create a lisp language and an interpreter for it. ASM translates to lisp through
 
 
 ## C++
+- [C++ reference](https://en.cppreference.com)
+- [31 nooby C++ habits you need to ditch](https://www.youtube.com/watch?v=i_wDa2AS_8w)
 
 ### Casting
 - `static_cast<target_type>(value)`
@@ -126,6 +128,7 @@ Create a lisp language and an interpreter for it. ASM translates to lisp through
 - **Constructor**: Get executed when the object is created. Methods, same name as the class.
     - Called with its arguments with `class{ p1, p2, ...}`.
     - Initialization list `class(...) : p1{...}, p2{...}, ...`: List of constructors to be run before this constructor. Add here the constructors of the class members.  
+    **IMPORTANT:** Class members don't initialize in the order that they appear, they are initialized in the order they are declared in.
 - **Accesibility:**
     - `public`: Everyone can access.
         - Default in `struct`.
@@ -146,3 +149,29 @@ Don't use it, use aliases: `using new_type = old_type`
 Don't use it, use `constexpr`
 
 ### Namespaces
+
+
+### Data structures
+- `std::array<type, size>`
+- `std::vector<type>`
+- `std::map<typeA, typeB>`
+    - Constructor: `{ {key0, value0}, ... }`
+    - `[]` operator will create the element if it doesn't exist. Use `.at()` to access the element.
+
+
+### Ranged loops
+
+`for (type elem : iterable) {}`
+- Remember you can use `auto` for the type (you still need to put your `const` and `&` if needed).
+- You can use structured bindings in order to make your life easier: `for (type [memberA, memberB, ...] : iterable) {}`.  
+  Specially usefull with maps. E.g.:
+  ``` cpp
+  std::unordered_map<std::string, std::array<int>> my_map { 
+      {"A", [0, 1, 2]},
+      {"B", [3, 4, 5]}
+  };
+
+  for (const auto & [key, value] : my_map) {
+      std::cout << key << ": " << value << std::endl;
+  }
+  ```

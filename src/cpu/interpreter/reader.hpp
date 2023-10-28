@@ -61,7 +61,7 @@ class Reader final {
             */
 
             std::cout << "pos: " << _pos << '\t';
-            std::cout << "current_token: " << " [" << _pos <<  "] " << _current_token.string << std::endl;
+            std::cout << "current_token: " << " [" << _pos <<  "] " << _current_token.string << '\n';
         }
 
         void print_tokens() const {
@@ -72,7 +72,7 @@ class Reader final {
             std::cout << "tokens: ";
             for (const auto & i: _tokens)
                 std::cout << i.string << ' ';
-            std::cout << std::endl;
+            std::cout << '\n';
         }
 
 };

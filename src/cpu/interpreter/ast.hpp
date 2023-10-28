@@ -70,7 +70,7 @@ class AST_Node final {
                     out << " [" << static_cast<int>(ast._token.type) << "] " << ast._token.string;
                     break;
             }
-            out << std::endl;
+            out << '\n';
 
             // print children
             for (auto child = ast._children.begin(); child != ast._children.end(); ++child) {

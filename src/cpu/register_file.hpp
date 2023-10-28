@@ -12,7 +12,7 @@
 
 
 
-    // Register File Display mode
+/* Register File Display mode */
 enum class dmode {
     HEX,  // hexadecimal
     SIG,  // signed
@@ -24,7 +24,7 @@ class RegisterFile {
 
     public:
 
-        // constructor
+        /* constructor */
         RegisterFile(std::initializer_list<std::string> l) : _reg_names{l} {
             // fill up register map
             for (int i = 0; i < _reg_names.size(); ++i) {
@@ -35,28 +35,27 @@ class RegisterFile {
         }
 
 
-        // overload []  operator
+        /* overload []  operator */
 
         std::uint32_t & operator[] (int index) {
             return _rf[index];
         }
 
         std::uint32_t & operator[] (std::string const & r) {
-            return _rf[_reg_map[r]];
+            return _rf[_reg_map.at(r)];
         }
 
-        // when passing RegisterFile by constant reference
-        std::uint32_t const & operator[] (int index) const {
+        // (usefull when passing RegisterFile by constant reference)
+        const std::uint32_t & operator[] (int index) const {
             return _rf[index];
         }
 
-        std::uint32_t operator[] (std::string const & r) const {
-            auto it = _reg_map.find(r);
-            return (*it).second;
+        const std::uint32_t & operator[] (std::string const & r) const {
+            return _rf[_reg_map.at(r)];
         };
 
 
-        // overload << operator
+        /* overload << operator */
         friend std::ostream & operator << (std::ostream & out, RegisterFile const & rf) {
 
             // print all registers
@@ -82,7 +81,7 @@ class RegisterFile {
 
                 // print in different lines
                 if (i % 4 == 3) {
-                    out << std::endl;
+                    out << '\n';
                 }
                 else {
                     out << '\t';
@@ -102,7 +101,7 @@ class RegisterFile {
         std::map<std::string, int> _reg_map;  // map between register names and register indexes
         std::vector<std::string> _reg_names;  // map between register indexes and register names
 
-        dmode _dmode = dmode::HEX;
+        dmode _dmode = dmode::HEX;  // display mode
 
 };
 
