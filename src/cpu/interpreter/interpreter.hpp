@@ -17,6 +17,8 @@
 
 
 
+
+
 /* Interpreter */
 
 class Interpreter {
@@ -34,10 +36,14 @@ class Interpreter {
         */
         void exec(const Memory::Instruction & inst) {
 
+            std::cout << "Instruction: " << inst << '\n';
+
             AST ast = read_inst(inst);
             std::cout << ast;
 
-            // eval(ast);
+            AST result = eval(ast);
+
+            std::cout << "Result: " << '\n' << result;
         }
 
     private:
@@ -54,6 +60,7 @@ class Interpreter {
 
             return read_str(inst);
         }
+
 
         /**
         * @brief Takes a single string and return an array/list of all the tokens in it.
@@ -79,6 +86,7 @@ class Interpreter {
             return v;
         }
 
+
         /**
         * @brief Creates a new Reader and calls read_token().
         */
@@ -89,10 +97,11 @@ class Interpreter {
            return read_token(reader);
         }
 
+
+        /**
+        * @brief Reads a token, checks if it's the start of a list, and calls the appropiate function to read the token(s). Returns the tree associated to that token.
+        */
         AST_Node read_token(Reader & reader) {
-            /*
-            Reads a token, returns the tree asociated to that token.
-            */
             if (reader.peek().string == "(") {
                 return read_list(reader);
             }
@@ -100,35 +109,48 @@ class Interpreter {
             return read_atom(reader);
         }
 
+
+        /**
+        * @brief Reads a list token, returns the tree asociated to that token.
+        */
         AST_Node read_list(Reader & reader) {
+
+            // create token
             AST_Node node { Token {reader.next().string, token_type::LIST} };
 
+            // read list
             while (reader.peek().string != ")") {
+
                 if (reader.peek().type == token_type::EOI) {
-                    std::cout << "found EOI" << std::endl;
+                    std::cout << "EOI found before end of list token" << std::endl;
                     throw;  // TODO: exception
                 }
+
                 node.add_child(read_token(reader));
             }
 
-            if (!reader.is_end()) {
-                reader.next();
-            }
+            reader.next();
 
             return node;
         }
 
+
+        /**
+        * @brief Reads an atomic token, sets its type, adn returns the tree asociated to that token.
+        */
         AST_Node read_atom(Reader & reader) {
             std::string token_str = reader.next().string;
             token_type type;
 
+            /* Inmediates */
             if (is_number(token_str)) {
                 type = token_type::INM;
             }
-            else if (token_str == "ADDI") {  // TODO: expand for all symbols
+            /* Symbols */
+            else if (repl_env.contains(token_str)) {
                 type = token_type::SYM;
-
             }
+
             else {
                 std::cout << "bad symbol: " << token_str << std::endl;
                 throw;  // TODO: exception
@@ -139,17 +161,74 @@ class Interpreter {
         }
 
 
+
         /* EVAL */
-        std::string eval(AST ast) {
-            // std::map<std::string, lisp_function> repl_env;
 
-            // repl_env.emplace("ADDI", addi);
-            // repl_env.emplace("ADDI", [] (Token t) -> Token {return jflkjkd});
+        AST_Node eval(AST ast) {
 
+            Token token = ast.get_token();
+
+            if (token.type == token_type::LIST) {
+
+                if (ast.get_children().size() == 0) {
+                    return ast;
+                }
+
+                // call first item of the evaluated list as function using the rest of the evaluated list as its arguments
+                std::vector<AST_Node> evaluated_list = eval_ast(ast).get_children();
+
+                // get function (head)
+                Token symbol = evaluated_list[0].get_token();
+                lisp_function func = repl_env.find(symbol.string)->second;
+
+                // get arguments (tail)
+                std::vector<Token> args;
+
+                for (auto it = evaluated_list.begin() + 1; it < evaluated_list.end(); ++it) {
+                    args.push_back(it->get_token());
+                }
+
+                // function call
+                return AST_Node { func(args) };
+
+            }
+
+            return eval_ast(ast);
+
+        }
+
+
+        AST_Node eval_ast(AST ast) {
+            Token token = ast.get_token();
+
+            switch (token.type) {
+                case token_type::SYM: {
+                    // check the symbol exists in REPL
+
+                    if (!repl_env.contains(token.string))
+                        throw;  // TODO: exception
+
+                    return ast;
+                }
+
+                case token_type::LIST: {
+                    // return a list with the result of calling EVAL on each of the members of the list
+
+                    AST new_list {Token { "", token_type::LIST }};
+
+                    for (auto child : ast.get_children()) {
+                        new_list.add_child(eval(child));
+                    }
+
+                    return new_list;
+                }
+
+                default:
+                    return ast;
+            }
         }
 
 };
 
-using lisp_function = std::function<Token (*) (std::vector<Token>)>;
 
 #endif

@@ -32,8 +32,27 @@ class AST_Node final {
         AST_Node(Token token) : _children {}, _token {token} {}
 
 
+        /**
+        * @brief Adds a child to the node
+        */
         void add_child(AST_Node node) {
             _children.push_back(node);
+        }
+
+
+        /**
+        * @brief Returns the token of the node
+        */
+        const Token get_token() const {
+            return _token;
+        }
+
+
+        /**
+        * @brief Returns a list of child nodes
+        */
+        const std::vector<AST_Node> get_children() const {
+            return _children;
         }
 
 
@@ -47,10 +66,10 @@ class AST_Node final {
         std::vector<AST_Node> _children;
 
 
+        /**
+        * @brief Returns a ostream with a graphical representation of the specified node
+        */
         static std::ostream & print_tree(std::ostream & out, AST_Node const & ast, const std::string & prefix = "", bool last_child = false) {
-            /*
-            Returns a stringstream with a graphical representation of the specified node
-            */
 
             // print node
             out << prefix;

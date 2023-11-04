@@ -16,7 +16,7 @@ class Reader final {
         Reader(std::vector<Token> && tokens)  // && moves (gets ownership)
             : _tokens{tokens}, _pos{0}, _current_token{_tokens[_pos]} {
 
-            print_tokens();
+            // print_tokens();
         }
 
         /**
