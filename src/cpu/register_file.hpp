@@ -10,6 +10,10 @@
 #include <map>
 #include <iomanip>
 #include <algorithm>
+#include <exception>
+
+#include "../exceptions.hpp"
+
 
 
 
@@ -51,20 +55,40 @@ class RegisterFile {
         /* overload []  operator */
 
         std::uint32_t & operator[] (int index) {
-            return _rf[index];
+            try {
+                return _rf[index];
+            }
+            catch (std::out_of_range e) {
+                throw LUISPDAException("Register " + std::to_string(index) + " not found.");
+            }
         }
 
         std::uint32_t & operator[] (std::string const & r) {
-            return _rf[_reg_map.at(r)];
+            try {
+                return _rf[_reg_map.at(r)];
+            }
+            catch (std::out_of_range e) {
+                throw LUISPDAException("Register " + r + " not found.");
+            }
         }
 
         // (usefull when passing RegisterFile by constant reference)
         const std::uint32_t & operator[] (int index) const {
-            return _rf[index];
+            try {
+                return _rf[index];
+            }
+            catch (std::out_of_range e) {
+                throw LUISPDAException("Register " + std::to_string(index) + " not found.");
+            }
         }
 
         const std::uint32_t & operator[] (std::string const & r) const {
-            return _rf[_reg_map.at(r)];
+            try {
+                return _rf[_reg_map.at(r)];
+            }
+            catch (std::out_of_range e) {
+                throw LUISPDAException("Register " + r + " not found.");
+            }
         };
 
 

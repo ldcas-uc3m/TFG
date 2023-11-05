@@ -4,6 +4,7 @@
 #include "cpu/alu.hpp"
 #include "cpu/interpreter/interpreter.hpp"
 #include "memory/text.hpp"
+#include "exceptions.hpp"
 
 
 
@@ -20,17 +21,24 @@ int main() {
 
     Interpreter interp {reg_file, alu};
 
-    interp.exec(i0);
+    try {
 
-    std::cout << std::endl;
+        interp.exec(i0);
 
-    interp.exec(i1);
+        std::cout << std::endl;
 
-    interp.exec(i2);
+        interp.exec(i1);
 
-    std::cout << std::endl;
+        interp.exec(i2);
 
-    interp.exec(i3);
+        std::cout << std::endl;
+
+        interp.exec(i3);
+    }
+    catch (TFGException e) {
+        std::cout << '[' << e.type() << "] " << e.what() << std::endl;
+        return -1;
+    }
 
     std::cout << std::endl;
 

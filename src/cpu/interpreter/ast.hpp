@@ -13,6 +13,7 @@ enum class token_type {
     SYM,  // symbol
     INM,  // inmediate
     LIST,  // list
+    REG,  // register
     EOI,  // end of instruction
     NS  // not set
 };
@@ -84,6 +85,9 @@ class AST_Node final {
                     break;
                 case token_type::SYM:
                     out << " [SYM] " << ast._token.string;
+                    break;
+                case token_type::REG:
+                    out << " [REG] " << ast._token.string;
                     break;
                 default:
                     out << " [" << static_cast<int>(ast._token.type) << "] " << ast._token.string;

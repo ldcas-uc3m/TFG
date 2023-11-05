@@ -160,6 +160,7 @@ Don't use it, use `constexpr`
 - `std::map<keyType, valueType>`: Ordered key-value pairs
     - Constructor: `{ {key0, value0}, ... }`
     - `[]` operator will create the element if it doesn't exist. Use `.at()` to access the element.
+    - `.contains(key)` checks if a key exists in the map
 - `std::unordered_map<keyType, valueType>`: Unordered `std::map`.
 
 
@@ -214,6 +215,12 @@ int x = 69;
     ```
 
 
+## Exceptions
+
+
+[Custom C++ Exceptions for Beginners](https://peterforgacs.github.io/2017/06/25/Custom-C-Exceptions-For-Beginners/)
+
+
 ## Modules (C++ 20)
 - [C++20 Modules | A Gentle Introduction](https://www.studyplan.dev/pro-cpp/modules)
 - [Understanding C++ Modules: Part 1: Hello Modules, and Module Units](https://vector-of-bool.github.io/2019/03/10/modules-1.html)
@@ -221,3 +228,4 @@ int x = 69;
 - [Understanding C++ Modules: Part 3: Linkage and Fragments](https://vector-of-bool.github.io/2019/10/07/modules-3.html)
 
 Couldn't get them to work :(.
+

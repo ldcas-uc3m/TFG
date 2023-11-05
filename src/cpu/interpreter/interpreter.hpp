@@ -6,6 +6,9 @@
 #include <string>
 #include <vector>
 #include <regex>
+#include <format>
+#include <stdexcept>
+
 
 #include "register_file.hpp"
 #include "reader.hpp"
@@ -13,15 +16,15 @@
 #include "alu.hpp"
 #include "../memory/text.hpp"
 #include "../lib/string_manipulation.hpp"
+#include "../exceptions.hpp"
 
 
 
-/* Interpreter */
+
+
+/* LUISP-DA interpreter */
 
 class Interpreter {
-    /*
-    LUISP-DA interpreter
-    */
 
     public:
         Interpreter(RegisterFile & rf, ALU & alu) : _rf {rf}, _alu {alu} { }
@@ -107,7 +110,7 @@ class Interpreter {
 
 
         /**
-        * @brief Reads a list token, returns the tree asociated to that token.
+        * @brief Reads a list token, returns the node asociated to that token.
         */
         AST_Node read_list(Reader & reader) {
 
@@ -118,8 +121,7 @@ class Interpreter {
             while (reader.peek().string != ")") {
 
                 if (reader.peek().type == token_type::EOI) {
-                    std::cout << "EOI found before end of list token" << std::endl;
-                    throw;  // TODO: exception
+                    throw LUISPDAException("EOI found before end of list token");
                 }
 
                 node.add_child(read_token(reader));
@@ -132,7 +134,7 @@ class Interpreter {
 
 
         /**
-        * @brief Reads an atomic token, sets its type, adn returns the tree asociated to that token.
+        * @brief Sets an atomic token's type, and returns the node asociated to that token.
         */
         AST_Node read_atom(Reader & reader) {
             std::string token_str = reader.next().string;
@@ -142,8 +144,9 @@ class Interpreter {
             if (is_number(token_str)) {
                 type = token_type::INM;
             }
+            /* Registers */
             else if (_rf.exists(token_str)) {
-                type = token_type::INM;
+                type = token_type::REG;
             }
             /* Symbols */
             else if (_alu.repl_env.contains(token_str)) {
@@ -151,8 +154,7 @@ class Interpreter {
             }
 
             else {
-                std::cout << "bad symbol: " << token_str << std::endl;
-                throw;  // TODO: exception
+                throw LUISPDAException("Unrecognized token type: " + token_str);
             }
 
             return AST_Node { Token {token_str, type} };
@@ -195,7 +197,14 @@ class Interpreter {
                 }
 
                 // function call
-                return AST_Node { func(args) };
+                try {
+                    return AST_Node { func(args) };
+                }
+                catch (std::invalid_argument e) {
+                    std::string msg = e.what();
+
+                    throw LUISPDAException(msg + " for operator '" + symbol.string + "'" );
+                }
 
             }
 
@@ -215,7 +224,8 @@ class Interpreter {
                     // check the symbol exists in REPL
 
                     if (!_alu.repl_env.contains(token.string))
-                        throw;  // TODO: exception
+                        throw LUISPDAException("Unrecognized symbol: " + token.string);
+
 
                     return ast;
                 }
