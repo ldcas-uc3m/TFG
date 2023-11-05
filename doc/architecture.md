@@ -42,32 +42,23 @@ Assembly
 Make minimum possible set of "assembly" instructions.
 
 
-## Interpreter
+## CPU
 
 An interpreter for the LUISP-DA language.
 
 ``` mermaid
 flowchart TD
-    subgraph READ
-        read_inst <--> read_str
-
-        read_str <--> tokenize
-
-        read_str <---> read_token
-
-        read_token <--> read_list
-        read_list <--> read_token
-        read_token <--> read_atom
+    subgraph CPU
+        Interpreter --> ALU
+        Interpreter --> RegisterFile
+        ALU --> RegisterFile
 
     end
 
-
-    read_inst == "AST" ==> EVAL
-
-    subgraph EVAL
-        eval_ast
-    end
 ```
+
+
+### Interpreter
 
 ``` mermaid
 stateDiagram-v2
@@ -89,8 +80,11 @@ stateDiagram-v2
     read_inst --> EVAL: AST
 
     state EVAL {
-        eval_ast
+        eval_token --> eval_ast
+        eval_ast --> eval
     }
+
+    EVAL --> repl_env
 ```
 
 

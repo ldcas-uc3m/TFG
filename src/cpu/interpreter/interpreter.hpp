@@ -16,9 +16,6 @@
 
 
 
-
-
-
 /* Interpreter */
 
 class Interpreter {
@@ -27,9 +24,7 @@ class Interpreter {
     */
 
     public:
-        Interpreter(RegisterFile & rf) : _rf {rf} {
-            _rf = rf;
-        }
+        Interpreter(RegisterFile & rf, ALU & alu) : _rf {rf}, _alu {alu} { }
 
         /**
         * @brief Executes a LUISP-DA instruction
@@ -49,6 +44,7 @@ class Interpreter {
     private:
 
         RegisterFile & _rf;
+        ALU & _alu;
 
 
         /* READ - Lexer */
@@ -146,8 +142,11 @@ class Interpreter {
             if (is_number(token_str)) {
                 type = token_type::INM;
             }
+            else if (_rf.exists(token_str)) {
+                type = token_type::INM;
+            }
             /* Symbols */
-            else if (repl_env.contains(token_str)) {
+            else if (_alu.repl_env.contains(token_str)) {
                 type = token_type::SYM;
             }
 
@@ -164,7 +163,14 @@ class Interpreter {
 
         /* EVAL */
 
-        AST_Node eval(AST ast) {
+        const AST_Node eval(const AST & ast) const {
+            return eval_token(ast);
+        }
+
+        /**
+        * @brief Evaluates an AST and executes the specified function.
+        */
+        const AST_Node eval_token(const AST & ast) const {
 
             Token token = ast.get_token();
 
@@ -179,7 +185,7 @@ class Interpreter {
 
                 // get function (head)
                 Token symbol = evaluated_list[0].get_token();
-                lisp_function func = repl_env.find(symbol.string)->second;
+                lisp_function func = _alu.repl_env.find(symbol.string)->second;
 
                 // get arguments (tail)
                 std::vector<Token> args;
@@ -198,14 +204,17 @@ class Interpreter {
         }
 
 
-        AST_Node eval_ast(AST ast) {
+        /**
+        * @brief Recursively evaluates an AST node depending on its token type.
+        */
+        const AST_Node eval_ast(const AST & ast) const {
             Token token = ast.get_token();
 
             switch (token.type) {
                 case token_type::SYM: {
                     // check the symbol exists in REPL
 
-                    if (!repl_env.contains(token.string))
+                    if (!_alu.repl_env.contains(token.string))
                         throw;  // TODO: exception
 
                     return ast;
@@ -229,6 +238,7 @@ class Interpreter {
         }
 
 };
+
 
 
 #endif

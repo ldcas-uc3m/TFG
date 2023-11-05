@@ -151,12 +151,16 @@ Don't use it, use `constexpr`
 ### Namespaces
 
 
+
 ### Data structures
-- `std::array<type, size>`
-- `std::vector<type>`
-- `std::map<typeA, typeB>`
+- `std::array<type, size>`: Classic arrays
+- `std::vector<type>`: A non-fixed size array
+    - Constructor: `{ value0, ... }`
+    - To append a value, use `.push_back(value)`
+- `std::map<keyType, valueType>`: Ordered key-value pairs
     - Constructor: `{ {key0, value0}, ... }`
     - `[]` operator will create the element if it doesn't exist. Use `.at()` to access the element.
+- `std::unordered_map<keyType, valueType>`: Unordered `std::map`.
 
 
 ### Ranged loops
@@ -175,3 +179,45 @@ Don't use it, use `constexpr`
       std::cout << key << ": " << value << std::endl;
   }
   ```
+
+## Lambdas
+Nameless functions: `[captured_variable0, ...] (param_type param0, ...) -> return_type { <body> }`
+- The return type is optional
+- Captured variables are variables from the local scope to be passed to the lambda function
+    - They are copied by default, use `&captured_variable` to reference it.
+    - Use `[&]` to capture everything, `[=]` to copy everything.
+  
+E.g.:
+
+``` cpp
+int x = 69;
+[&x] (int y) -> std::string { return std::to_string(y + x); }
+```
+
+- Useful to map keys to functions:
+    ``` cpp
+    int x = 69;
+    std::string add_stuff(int y) {
+        return std::to_string(y + x);
+    }
+
+    using myFunction = std::function<std::string (int)>;
+    const std::unordered_map<std::string, myFunction> myMap {
+        {
+            "+",
+            [&x] (int y) {return add_stuff(y);}
+        }
+    };
+
+    int y = 420;
+    myMap["+"](y)
+    ```
+
+
+## Modules (C++ 20)
+- [C++20 Modules | A Gentle Introduction](https://www.studyplan.dev/pro-cpp/modules)
+- [Understanding C++ Modules: Part 1: Hello Modules, and Module Units](https://vector-of-bool.github.io/2019/03/10/modules-1.html)
+- [Understanding C++ Modules: Part 2: export, import, visible, and reachable](https://vector-of-bool.github.io/2019/03/31/modules-2.html)
+- [Understanding C++ Modules: Part 3: Linkage and Fragments](https://vector-of-bool.github.io/2019/10/07/modules-3.html)
+
+Couldn't get them to work :(.

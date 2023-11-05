@@ -9,6 +9,7 @@
 #include <string>
 #include <map>
 #include <iomanip>
+#include <algorithm>
 
 
 
@@ -32,6 +33,18 @@ class RegisterFile {
             }
 
             _rf.resize(_reg_names.size());
+        }
+
+
+        /**
+        * @brief checks if a register exists
+        */
+        bool exists(std::string const & r) {
+            return std::find(_reg_names.begin(), _reg_names.end(), r) != _reg_names.end();
+        }
+
+        bool exists(int index) {
+            return index < _reg_names.size();
         }
 
 
