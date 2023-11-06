@@ -222,6 +222,8 @@ int x = 69;
 
 
 
+### Header files
+- [Classes and header files](https://www.learncpp.com/cpp-tutorial/classes-and-header-files/)
 
 
 ### Modules (C++ 20)
@@ -234,6 +236,7 @@ Couldn't get them to work :(.
 
 
 ## CMake
+- [CMake Tutorial¶](https://cmake.org/cmake/help/latest/guide/tutorial/index.html)
 
 ### Circular dependencies
 - [Circular Dependencies in C++](https://pvigier.github.io/2018/02/09/dependency-graph.html)

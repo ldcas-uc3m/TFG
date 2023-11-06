@@ -14,6 +14,7 @@ enum class token_type {
     INM,  // inmediate
     LIST,  // list
     REG,  // register
+    BEG,  // begin statement
     EOI,  // end of instruction
     NS  // not set
 };
@@ -88,6 +89,9 @@ class AST_Node final {
                     break;
                 case token_type::REG:
                     out << " [REG] " << ast._token.value;
+                    break;
+                case token_type::BEG:
+                    out << " [BEG] " << ast._token.value;
                     break;
                 default:
                     out << " [" << static_cast<int>(ast._token.type) << "] " << ast._token.value;

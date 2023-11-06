@@ -64,7 +64,6 @@ namespace Memory {
             std::vector<Instruction> _inst;  // instructions
             std::map<Address, Instruction> _inst_map;  // map between addreses and instructions 
 
-            // TODO: map virtual (simulator) addreses to real (LUISP-DA interpreter) addreses, as one virtual instruction can map to multiple real instructions
     };
 }
 

@@ -39,7 +39,46 @@ Decoding language for
 Assembly
 -->
 
-Make minimum possible set of "assembly" instructions.
+It's a Lisp-like language, where instructions are defined as a list (`LST`).
+- A list is always in between parenthesis:
+    ```lisp
+    (+ 1 2)
+    ```
+- Its first element is called the symbol (`SYM`), or operator, which will be applied to the rest of the elements of the list.  
+    In the example:
+    ```lisp
+    (+ 1 2)
+    ```
+    The operator `+` is applied to `1` and `2`, giving as a result `3`.
+- A list can be an element of another list. Inner lists are computed first, and they return the evaluation of the list.  
+    In the example:
+    ```lisp
+    (+ 1 (+ 2 2))
+    ```
+    The operator `+` is applied to `2` and `2`, giving as a result `4`:
+    ```lisp
+    (+ 1 4)
+    ```
+    Then the operator `+` is applied to `1` and `4` (`(+ 2 2)`), giving as a result `5`.
+
+The atomic symbols implemented are:
+- `INM`: Integer numbers
+- `REG`: Registers defined in the architecture file
+- `SYM`: Operators
+
+The implemented operators (with its operands) are:
+- `+ A B`: Adds two inmediates (`INM`) `A` and `B`
+- `reg A`: Returns the value stored in register (`REG`) `A`
+- `reg! A B`: Stores the inmediate (`INM`) `B` in register (`REG`) `A`
+- `pc `: Returns the value stored in the PC
+- `pc! A`: Stores the inmediate (`INM`) `A` in the PC
+
+A block `BEG` is also implemented. This allows to sequentially execute multiple instructions inside one instruction (PC is not updated for those instructions).
+
+After each instruction, the PC is updated.
+
+
+You have the full grammar definition of the language in [LUISP_DA.g4](../src/cpu/interpreter/LUISP_DA.g4).
 
 
 ## CPU

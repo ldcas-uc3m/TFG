@@ -33,7 +33,7 @@ class Interpreter {
         /**
         * @brief Executes the next LUISP-DA instruction
         */
-        void exec() {
+        void next() {
             // TODO: signal end of instructions
 
             /* fetch */
@@ -41,15 +41,29 @@ class Interpreter {
             _rf.pc += Memory::WORD_SIZE;
 
             /* decode */
+            AST ast = read_inst(inst);
+
+            /* execute */
+            eval(ast);
+        }
+
+
+        /**
+        * @brief Executes a LUISP-DA instruction
+        */
+        AST_Node exec(const Memory::Instruction & inst) {
+            /* decode */
             std::cout << "Instruction: " << inst << '\n';
 
             AST ast = read_inst(inst);
-            // std::cout << ast;
+            std::cout << ast;
 
             /* execute */
-            AST result = eval(ast);
+            AST_Node result = eval(ast);
 
-            std::cout << "Result: " << '\n' << result;
+            std::cout << "Result: " << '\n' << result << '\n';
+
+            return result;
         }
 
 
@@ -154,6 +168,9 @@ class Interpreter {
             if (_alu.repl_env.contains(token_str)) {
                 type = token_type::SYM;
             }
+            else if (token_str == "begin") {
+                type = token_type::BEG;
+            }
             /* Registers */
             else if (_rf.contains(token_str)) {
                 type = token_type::REG;
@@ -197,6 +214,15 @@ class Interpreter {
 
                 // get function (head)
                 Token symbol = evaluated_list[0].get_token();
+
+                if (symbol.type == token_type::BEG) {
+                    for (auto child : evaluated_list) {
+                        eval_ast(child);
+
+                        return AST_Node { Token {"begin", token_type::BEG} };
+                    }
+                }
+
                 lisp_function func = _alu.repl_env.find(symbol.value)->second;
 
                 // get arguments (tail)
@@ -246,7 +272,7 @@ class Interpreter {
                     AST new_list {Token { "", token_type::LIST }};
 
                     for (auto child : ast.get_children()) {
-                        new_list.add_child(eval(child));
+                        new_list.add_child(eval_token(child));
                     }
 
                     return new_list;
