@@ -19,7 +19,7 @@ enum class token_type {
 };
 
 struct Token {
-    std::string string;
+    std::string value;
     token_type type;
 };
 
@@ -81,16 +81,16 @@ class AST_Node final {
                     out << " [LIST]";
                     break;
                 case token_type::INM:
-                    out << " [INM] " << ast._token.string;
+                    out << " [INM] " << ast._token.value;
                     break;
                 case token_type::SYM:
-                    out << " [SYM] " << ast._token.string;
+                    out << " [SYM] " << ast._token.value;
                     break;
                 case token_type::REG:
-                    out << " [REG] " << ast._token.string;
+                    out << " [REG] " << ast._token.value;
                     break;
                 default:
-                    out << " [" << static_cast<int>(ast._token.type) << "] " << ast._token.string;
+                    out << " [" << static_cast<int>(ast._token.type) << "] " << ast._token.value;
                     break;
             }
             out << '\n';

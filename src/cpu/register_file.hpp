@@ -16,7 +16,6 @@
 
 
 
-
 /* Register File Display mode */
 enum class dmode {
     HEX,  // hexadecimal
@@ -30,7 +29,7 @@ class RegisterFile {
     public:
 
         /* constructor */
-        RegisterFile(std::initializer_list<std::string> l) : _reg_names{l} {
+        RegisterFile(std::uint32_t pc_start_addr, std::initializer_list<std::string> l) : pc {pc_start_addr}, _reg_names{l} {
             // fill up register map
             for (int i = 0; i < _reg_names.size(); ++i) {
                 _reg_map.insert({_reg_names[i], i});
@@ -40,14 +39,17 @@ class RegisterFile {
         }
 
 
+        std::uint32_t pc;  // TODO: move to interpreter
+
+
         /**
         * @brief checks if a register exists
         */
-        bool exists(std::string const & r) {
+        bool contains(const std::string & r) const {
             return std::find(_reg_names.begin(), _reg_names.end(), r) != _reg_names.end();
         }
 
-        bool exists(int index) {
+        bool contains(int index) const {
             return index < _reg_names.size();
         }
 
@@ -59,7 +61,7 @@ class RegisterFile {
                 return _rf[index];
             }
             catch (std::out_of_range e) {
-                throw LUISPDAException("Register " + std::to_string(index) + " not found.");
+                throw LUISPDAException("Register '" + std::to_string(index) + "' not found.");
             }
         }
 
@@ -68,17 +70,17 @@ class RegisterFile {
                 return _rf[_reg_map.at(r)];
             }
             catch (std::out_of_range e) {
-                throw LUISPDAException("Register " + r + " not found.");
+                throw LUISPDAException("Register '" + r + "' not found.");
             }
         }
 
-        // (usefull when passing RegisterFile by constant reference)
+        // (useful when passing RegisterFile by constant reference)
         const std::uint32_t & operator[] (int index) const {
             try {
                 return _rf[index];
             }
             catch (std::out_of_range e) {
-                throw LUISPDAException("Register " + std::to_string(index) + " not found.");
+                throw LUISPDAException("Register '" + std::to_string(index) + "' not found.");
             }
         }
 
@@ -87,13 +89,20 @@ class RegisterFile {
                 return _rf[_reg_map.at(r)];
             }
             catch (std::out_of_range e) {
-                throw LUISPDAException("Register " + r + " not found.");
+                throw LUISPDAException("Register '" + r + "' not found.");
             }
         };
 
 
+
         /* overload << operator */
         friend std::ostream & operator << (std::ostream & out, RegisterFile const & rf) {
+
+            // Program Counter
+            out << "PC: ";
+            out << "0x" << std::setfill('0') << std::setw(8) << std::right << std::hex << rf.pc;
+            out << '\n';
+
 
             // print all registers
             for (int i = 0; i < rf._reg_names.size(); ++i) {
@@ -133,6 +142,8 @@ class RegisterFile {
 
 
     private:
+
+        // TODO: forget about indexing with ints
 
         std::vector<std::uint32_t> _rf;  // vector with register values
         std::map<std::string, int> _reg_map;  // map between register names and register indexes

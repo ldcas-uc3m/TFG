@@ -181,7 +181,7 @@ Don't use it, use `constexpr`
   }
   ```
 
-## Lambdas
+### Lambdas
 Nameless functions: `[captured_variable0, ...] (param_type param0, ...) -> return_type { <body> }`
 - The return type is optional
 - Captured variables are variables from the local scope to be passed to the lambda function
@@ -215,13 +215,16 @@ int x = 69;
     ```
 
 
-## Exceptions
+### Exceptions
 
 
 [Custom C++ Exceptions for Beginners](https://peterforgacs.github.io/2017/06/25/Custom-C-Exceptions-For-Beginners/)
 
 
-## Modules (C++ 20)
+
+
+
+### Modules (C++ 20)
 - [C++20 Modules | A Gentle Introduction](https://www.studyplan.dev/pro-cpp/modules)
 - [Understanding C++ Modules: Part 1: Hello Modules, and Module Units](https://vector-of-bool.github.io/2019/03/10/modules-1.html)
 - [Understanding C++ Modules: Part 2: export, import, visible, and reachable](https://vector-of-bool.github.io/2019/03/31/modules-2.html)
@@ -229,3 +232,8 @@ int x = 69;
 
 Couldn't get them to work :(.
 
+
+## CMake
+
+### Circular dependencies
+- [Circular Dependencies in C++](https://pvigier.github.io/2018/02/09/dependency-graph.html)

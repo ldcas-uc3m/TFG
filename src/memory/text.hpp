@@ -15,25 +15,21 @@
 
 namespace Memory {
 
-    // TODO: export this
     constexpr int WORD_SIZE = 4;  // Bytes
 
+    /* LUISP-DA instruction definition */
     using Instruction = std::string;
     using Address = std::uint32_t;
 
 
     class text {
-    /*
-    LUISP-DA instruction definition
-    */
         public:
             text(Address start_addr) : _inst {} {
                 _curr_addr = start_addr;
             }
 
-            // TODO: overload with []
-            const Instruction & get_instuction(Address addr) {
-                return _inst_map[addr];
+            const Instruction & get_instuction(Address addr) const {
+                return _inst_map.at(addr);
             }
 
             void add_instruction(Instruction inst) {
@@ -42,6 +38,11 @@ namespace Memory {
                 _curr_addr += WORD_SIZE;
 
             }
+
+            const Address get_last_address() const {
+                return _curr_addr;
+            }
+
 
             // overload << operator
             friend std::ostream & operator << (std::ostream & out, text const & text) {
@@ -54,11 +55,16 @@ namespace Memory {
                 }
                 return out;
             }
-        
+
+
         private:
-            std::vector<Instruction> _inst;  // instructions
             Address _curr_addr;  // current last address
-            std::map<Address, Instruction> _inst_map;  // map between addreses and instructions
+
+            // TODO: rely only on vector, not on map ('tis faster)
+            std::vector<Instruction> _inst;  // instructions
+            std::map<Address, Instruction> _inst_map;  // map between addreses and instructions 
+
+            // TODO: map virtual (simulator) addreses to real (LUISP-DA interpreter) addreses, as one virtual instruction can map to multiple real instructions
     };
 }
 

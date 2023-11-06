@@ -10,13 +10,14 @@
 #include <stdexcept>
 
 
-#include "register_file.hpp"
+#include "../register_file.hpp"
 #include "reader.hpp"
 #include "ast.hpp"
-#include "alu.hpp"
-#include "../memory/text.hpp"
-#include "../lib/string_manipulation.hpp"
-#include "../exceptions.hpp"
+#include "../register_file.hpp"
+#include "../alu.hpp"
+#include "../../memory/text.hpp"
+#include "../../lib/string_manipulation.hpp"
+#include "../../exceptions.hpp"
 
 
 
@@ -27,27 +28,36 @@
 class Interpreter {
 
     public:
-        Interpreter(RegisterFile & rf, ALU & alu) : _rf {rf}, _alu {alu} { }
+        Interpreter(RegisterFile & rf, Memory::text & mem) : _rf {rf}, _mem {mem}, _alu {rf, mem} { }
 
         /**
-        * @brief Executes a LUISP-DA instruction
+        * @brief Executes the next LUISP-DA instruction
         */
-        void exec(const Memory::Instruction & inst) {
+        void exec() {
+            // TODO: signal end of instructions
 
+            /* fetch */
+            Memory::Instruction inst = _mem.get_instuction(_rf.pc);
+            _rf.pc += Memory::WORD_SIZE;
+
+            /* decode */
             std::cout << "Instruction: " << inst << '\n';
 
             AST ast = read_inst(inst);
-            std::cout << ast;
+            // std::cout << ast;
 
+            /* execute */
             AST result = eval(ast);
 
             std::cout << "Result: " << '\n' << result;
         }
 
+
     private:
 
         RegisterFile & _rf;
-        ALU & _alu;
+        Memory::text & _mem;
+        ALU _alu;
 
 
         /* READ - Lexer */
@@ -101,7 +111,7 @@ class Interpreter {
         * @brief Reads a token, checks if it's the start of a list, and calls the appropiate function to read the token(s). Returns the tree associated to that token.
         */
         AST_Node read_token(Reader & reader) {
-            if (reader.peek().string == "(") {
+            if (reader.peek().value == "(") {
                 return read_list(reader);
             }
 
@@ -115,13 +125,13 @@ class Interpreter {
         AST_Node read_list(Reader & reader) {
 
             // create token
-            AST_Node node { Token {reader.next().string, token_type::LIST} };
+            AST_Node node { Token {reader.next().value, token_type::LIST} };
 
             // read list
-            while (reader.peek().string != ")") {
+            while (reader.peek().value != ")") {
 
                 if (reader.peek().type == token_type::EOI) {
-                    throw LUISPDAException("EOI found before end of list token");
+                    throw LUISPDAException("EOI found before end of list token ')'");
                 }
 
                 node.add_child(read_token(reader));
@@ -137,24 +147,24 @@ class Interpreter {
         * @brief Sets an atomic token's type, and returns the node asociated to that token.
         */
         AST_Node read_atom(Reader & reader) {
-            std::string token_str = reader.next().string;
+            std::string token_str = reader.next().value;
             token_type type;
 
-            /* Inmediates */
-            if (is_number(token_str)) {
-                type = token_type::INM;
+            /* Symbols */
+            if (_alu.repl_env.contains(token_str)) {
+                type = token_type::SYM;
             }
             /* Registers */
-            else if (_rf.exists(token_str)) {
+            else if (_rf.contains(token_str)) {
                 type = token_type::REG;
             }
-            /* Symbols */
-            else if (_alu.repl_env.contains(token_str)) {
-                type = token_type::SYM;
+            /* Inmediates */
+            else if (is_number(token_str)) {
+                type = token_type::INM;
             }
 
             else {
-                throw LUISPDAException("Unrecognized token type: " + token_str);
+                throw LUISPDAException("Unrecognized type for token: " + token_str);
             }
 
             return AST_Node { Token {token_str, type} };
@@ -187,7 +197,7 @@ class Interpreter {
 
                 // get function (head)
                 Token symbol = evaluated_list[0].get_token();
-                lisp_function func = _alu.repl_env.find(symbol.string)->second;
+                lisp_function func = _alu.repl_env.find(symbol.value)->second;
 
                 // get arguments (tail)
                 std::vector<Token> args;
@@ -203,7 +213,7 @@ class Interpreter {
                 catch (std::invalid_argument e) {
                     std::string msg = e.what();
 
-                    throw LUISPDAException(msg + " for operator '" + symbol.string + "'" );
+                    throw LUISPDAException(msg + " for operator '" + symbol.value + "'" );
                 }
 
             }
@@ -223,8 +233,8 @@ class Interpreter {
                 case token_type::SYM: {
                     // check the symbol exists in REPL
 
-                    if (!_alu.repl_env.contains(token.string))
-                        throw LUISPDAException("Unrecognized symbol: " + token.string);
+                    if (!_alu.repl_env.contains(token.value))
+                        throw LUISPDAException("Unrecognized symbol: " + token.value);
 
 
                     return ast;
