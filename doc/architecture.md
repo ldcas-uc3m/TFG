@@ -39,12 +39,12 @@ Decoding language for
 Assembly
 -->
 
-It's a Lisp-like language, where instructions are defined as a list (`LST`).
+It's a Lisp-like language, where instructions are defined as a list (`LIST`) of symbols and/or other lists.
 - A list is always in between parenthesis:
     ```lisp
     (+ 1 2)
     ```
-- Its first element is called the symbol (`SYM`), or operator, which will be applied to the rest of the elements of the list.  
+- Its first element is called the operand symbol, which will be applied to the rest of the elements (inmediate symbols or lists) of the list.  
     In the example:
     ```lisp
     (+ 1 2)
@@ -60,20 +60,46 @@ It's a Lisp-like language, where instructions are defined as a list (`LST`).
     (+ 1 4)
     ```
     Then the operator `+` is applied to `1` and `4` (`(+ 2 2)`), giving as a result `5`.
+- A list of one element is evaluated as the element. A list with no elements is evaluated as a `NIL`.
 
-The atomic symbols implemented are:
-- `INM`: Integer numbers
+An operand symbol can be:
+- An operator `OP`, which takes the child elements as arguments.
+    The implemented operators (with its operands) are:
+    - `+ A B`: Adds two `NUM` `A` and `B`
+    - `- A B`: Subtracts two `NUM` `A` and `B`
+        - `- A`: Negates the integer (`NUM`) `A`
+    - `* A B`: Multiplies two `NUM` `A` and `B`
+    - `/ A B`: Divides two `NUM` `A` and `B`
+    - `% A B`: Computes the modulo two `NUM` `A` and `B`
+    - `< A B`: For two `NUM` `A` and `B`, checks if `A` is less than `B`
+    - `> A B`: For two `NUM` `A` and `B`, checks if `A` is bigger than `B`
+    - `<= A B`: For two `NUM` `A` and `B`, checks if `A` is less or equal than `B`
+    - `>= A B`: For two `NUM` `A` and `B`, checks if `A` is bigger or equal than `B`
+    - `== A B`: For two `NUM` `A` and `B`, checks if `A` is equal to `B`
+    - `!= A B`: For two `NUM` `A` and `B`, checks if `A` is not equal to `B`
+    - `! A`: Negates the `BOOL` `A`
+    - `reg A`: Returns the value stored in register (`REG`) `A`
+    - `reg! A B`: Stores the integer (`NUM`) `B` in register (`REG`) `A`
+    - `pc`: Returns the value stored in the PC
+    - `pc! A`: Stores the integer (`NUM`) `A` in the PC
+- A block `BLK`. It sequentially executes multiple instructions (`LIST`), and returns the result of the last one (PC is not updated for those instructions).  
+    In the example:
+    ``` lisp
+    (do (+ 1 2) (+ -1 1))
+    ```
+    That would return the result of `(+ -1 1)`, `0`.
+- A conditional `CND`. It checks the condition (first element) (which must evaluate to a `BOOL`), if it's other than `NIL` of `false`, it evaluates and returns the second element. Else, it evaluates and returns the third element (if it doesn't exist, it returns `NIL`).  
+    In the example:
+    ``` lisp
+    (if (> 2 1) (+ 1 1) (+ 2 2))
+    ```
+    That would return the result of `(+ 1 1)`, `2`.
+
+The inmediate symbols implemented are:
+- `NUM`: Integer numbers
+- `BOOL`: Booleans, `true` or `false`
+- `NIL`: Undefined token.
 - `REG`: Registers defined in the architecture file
-- `SYM`: Operators
-
-The implemented operators (with its operands) are:
-- `+ A B`: Adds two inmediates (`INM`) `A` and `B`
-- `reg A`: Returns the value stored in register (`REG`) `A`
-- `reg! A B`: Stores the inmediate (`INM`) `B` in register (`REG`) `A`
-- `pc `: Returns the value stored in the PC
-- `pc! A`: Stores the inmediate (`INM`) `A` in the PC
-
-A block `BEG` is also implemented. This allows to sequentially execute multiple instructions inside one instruction (PC is not updated for those instructions).
 
 After each instruction, the PC is updated.
 

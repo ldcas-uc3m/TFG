@@ -10,13 +10,15 @@
 /* Token */
 
 enum class token_type {
-    SYM,  // symbol
-    INM,  // inmediate
     LIST,  // list
+    OP,  // operator
+    NUM,  // number
+    BOOL,  // bool
+    NIL,  // undefined
     REG,  // register
-    BEG,  // begin statement
-    EOI,  // end of instruction
-    NS  // not set
+    BLK,  // block statement
+    CND,  // conditional statement
+    EOI  // end of instruction
 };
 
 struct Token {
@@ -81,20 +83,29 @@ class AST_Node final {
                 case token_type::LIST:
                     out << " [LIST]";
                     break;
-                case token_type::INM:
-                    out << " [INM] " << ast._token.value;
+                case token_type::OP:
+                    out << " [OP] " << ast._token.value;
                     break;
-                case token_type::SYM:
-                    out << " [SYM] " << ast._token.value;
+                case token_type::NUM:
+                    out << " [NUM] " << ast._token.value;
+                    break;
+                case token_type::BOOL:
+                    out << " [BOOL] " << ast._token.value;
+                    break;
+                case token_type::NIL:
+                    out << " [NIL] ";
                     break;
                 case token_type::REG:
                     out << " [REG] " << ast._token.value;
                     break;
-                case token_type::BEG:
-                    out << " [BEG] " << ast._token.value;
+                case token_type::BLK:
+                    out << " [BLK] " << ast._token.value;
+                    break;
+                case token_type::CND:
+                    out << " [CND] " << ast._token.value;
                     break;
                 default:
-                    out << " [" << static_cast<int>(ast._token.type) << "] " << ast._token.value;
+                    out << " [" << static_cast<int>(ast._token.type) << "] ";
                     break;
             }
             out << '\n';

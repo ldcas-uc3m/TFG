@@ -101,7 +101,7 @@ class Interpreter {
 
                 if (elem == "") continue;
 
-                v.push_back(Token {elem, token_type::NS});
+                v.push_back(Token {elem, token_type::NIL});
             }
 
             v.push_back(Token {"", token_type::EOI});  // add end of instruction
@@ -164,20 +164,33 @@ class Interpreter {
             std::string token_str = reader.next().value;
             token_type type;
 
-            /* Symbols */
+            /* Operators */
             if (_alu.repl_env.contains(token_str)) {
-                type = token_type::SYM;
-            }
-            else if (token_str == "begin") {
-                type = token_type::BEG;
+                type = token_type::OP;
             }
             /* Registers */
             else if (_rf.contains(token_str)) {
                 type = token_type::REG;
             }
-            /* Inmediates */
+            /* Blocks */
+            else if (token_str == "do") {
+                type = token_type::BLK;
+            }
+            /* Conditionals */
+            else if (token_str == "if") {
+                type = token_type::CND;
+            }
+            /* Booleans */
+            else if (token_str == "true" || token_str == "false") {
+                type = token_type::BOOL;
+            /* NIL */
+            }
+            else if (token_str == "nil") {
+                type = token_type::NIL;
+            }
+            /* Numbers */
             else if (is_number(token_str)) {
-                type = token_type::INM;
+                type = token_type::NUM;
             }
 
             else {
@@ -205,43 +218,87 @@ class Interpreter {
 
             if (token.type == token_type::LIST) {
 
-                if (ast.get_children().size() == 0) {
-                    return ast;
+                auto children = ast.get_children();
+
+                // if the list is empty, return NIL
+                if (children.size() == 0) {
+                    return AST { Token {"nil", token_type::NIL} };
                 }
 
-                // call first item of the evaluated list as function using the rest of the evaluated list as its arguments
+                // if the list only has one non-list member, return the member
+                if (children.size() == 1 && children[0].get_token().type != token_type::LIST) {
+                    return AST_Node { children[0].get_token() };
+                }
+
                 std::vector<AST_Node> evaluated_list = eval_ast(ast).get_children();
 
                 // get function (head)
                 Token symbol = evaluated_list[0].get_token();
 
-                if (symbol.type == token_type::BEG) {
-                    for (auto child : evaluated_list) {
-                        eval_ast(child);
+                switch (symbol.type) {
+                    /* Blocks */
+                    case  token_type::BLK: {
+                        // evaluate the elements of the list and return the final evaluated element
 
-                        return AST_Node { Token {"begin", token_type::BEG} };
+                        Token result = symbol;
+                        for (auto child : evaluated_list) {
+                            result = eval_ast(child).get_token();
+                        }
+
+                        return AST_Node { result };
                     }
+
+                    /* Conditionals */
+                    case token_type::CND: {
+                        // Evaluate the first parameter. If the result is anything other than nil or false, then evaluate the second parameter and return the result. Otherwise, evaluate the third parameter and return the result. If condition is false and there is no third parameter, then return nil
+
+                        if (evaluated_list.size() > 4 || evaluated_list.size() < 3) {
+                            throw LUISPDAException("Not enough arguments for 'if' statement");
+                        }
+
+                        Token first_param = eval_ast(evaluated_list[1]).get_token();
+
+                        // if
+                        if (first_param.type != token_type::NIL && first_param.value != "false") {
+                            // then
+                            return eval_ast(evaluated_list[2]);
+                        }
+
+                        if (evaluated_list.size() == 3) {  // no else
+                            return AST_Node { Token {"nil", token_type::NIL} };
+                        }
+
+                        // else
+                        return eval_ast(evaluated_list[3]);
+                    }
+
+                    /* Operators */
+                    case token_type::OP: {
+                        // call first item of the evaluated list as function using the rest of the evaluated list as its arguments
+
+                        lisp_function func = _alu.repl_env.find(symbol.value)->second;
+
+                        // get arguments (tail)
+                        std::vector<Token> args;
+
+                        for (auto it = evaluated_list.begin() + 1; it < evaluated_list.end(); ++it) {
+                            args.push_back(it->get_token());
+                        }
+
+                        // function call
+                        try {
+                            return AST_Node { func(args) };
+                        }
+                        catch (std::invalid_argument e) {
+                            std::string msg = e.what();
+
+                            throw LUISPDAException(msg + " for operator '" + symbol.value + "'");
+                        }
+                    }
+
+                    default:
+                        throw LUISPDAException("Token " + symbol.value + " is not suitable as a symbol");
                 }
-
-                lisp_function func = _alu.repl_env.find(symbol.value)->second;
-
-                // get arguments (tail)
-                std::vector<Token> args;
-
-                for (auto it = evaluated_list.begin() + 1; it < evaluated_list.end(); ++it) {
-                    args.push_back(it->get_token());
-                }
-
-                // function call
-                try {
-                    return AST_Node { func(args) };
-                }
-                catch (std::invalid_argument e) {
-                    std::string msg = e.what();
-
-                    throw LUISPDAException(msg + " for operator '" + symbol.value + "'" );
-                }
-
             }
 
             return eval_ast(ast);
@@ -256,7 +313,7 @@ class Interpreter {
             Token token = ast.get_token();
 
             switch (token.type) {
-                case token_type::SYM: {
+                case token_type::OP: {
                     // check the symbol exists in REPL
 
                     if (!_alu.repl_env.contains(token.value))

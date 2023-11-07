@@ -8,6 +8,34 @@
 
 
 
+void test_run(RegisterFile & reg_file, Memory::text & mem_t, Interpreter & interp) {
+    mem_t.add_instruction("(reg! t0 (+ (reg t0) 1))");  // ADDI t0, t0, 1
+    mem_t.add_instruction("(do (reg! t0 1) (reg! t1 (+ (reg t0) 1)))");
+    mem_t.add_instruction("(if (> (reg t1) (reg t0)) (reg! t2 69))");
+    mem_t.add_instruction("(if (> (reg t1) (reg t0)) ())");
+    mem_t.add_instruction("(pc! 0)");  // j 0x00000000
+
+    std::cout << ".text" << '\n' << mem_t;
+
+    int NUM_CYCLES = 5;
+
+    for (int i = 0; i < NUM_CYCLES; ++i) {
+
+
+        std::cout << '\n' << "----" << '\n';
+        std::cout << "CYCLE " << i;
+        std::cout << '\n' << "----" << '\n';
+        std::cout << "Instruction: " << mem_t.get_instuction(reg_file.pc) << "\n\n";
+
+        interp.next();
+
+        std::cout << reg_file << std::endl;
+
+    }
+}
+
+
+
 int main() {
     std::uint32_t start_addr = 0;
 
@@ -16,34 +44,15 @@ int main() {
 
     Interpreter interp {reg_file, mem_t};
 
-
-    mem_t.add_instruction("(+ 1 2)");
-    mem_t.add_instruction("(+ (+ 1 2) (+ 1 3))");
-    mem_t.add_instruction("(reg t0)");
-    mem_t.add_instruction("(reg! t0 (+ (reg t0) 1))");  // ADDI t0, t0, 1
-    mem_t.add_instruction("(begin (reg! t0 1) (reg! t1 (+ (reg t0) 1)))");
-    mem_t.add_instruction("(pc! 0)");  // j 0x00000000
-
-    std::cout << ".text" << '\n' << mem_t;
-
-    int NUM_CYCLES = 6;
-
     try {
-        for (int i = 0; i < NUM_CYCLES; ++i) {
+        test_run(reg_file, mem_t, interp);
 
+        std::cout << std::endl;
 
-            std::cout << '\n' << "----" << '\n';
-            std::cout << "CYCLE " << i;
-            std::cout << '\n' << "----" << '\n';
-            std::cout << "Instruction: " << mem_t.get_instuction(reg_file.pc) << "\n\n";
-
-            interp.next();
-
-            std::cout << reg_file << std::endl;
-
-        }
+        interp.exec("(if (> (reg t1) (reg t0)) ())");
     }
     catch (TFGException e) {
+        // TODO: make sure .type() returns the correct type
         std::cout << '[' << e.type() << "] " << e.what() << std::endl;
         return -1;
     }

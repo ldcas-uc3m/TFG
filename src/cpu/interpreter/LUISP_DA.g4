@@ -1,45 +1,121 @@
 grammar LUISP_DA;
 
 
+// TODO: fix this shit
+
+
 /* PARSER */
 
 expression
   : ATOMIC_SYMBOL
   | list
+  | block
+  | conditional
+  | b_expression
+  | op_expression
+  | i_expression
   ;
+
+b_expression
+  : B_OP expression expression
+  ;
+
+op_expression
+  : sum
+  | get_register
+  | set_register
+  | get_pc
+  | set_pc
+  ;
+
+i_expression
+  : NUM
+  | b_sum
+  | '+' NUM NUM
+  ;
+
+sum
+  : '+' i_expression i_expression
+  | b_sum
+  ;
+
+b_sum  // base sum
+  : '+' NUM NUM
+  ;
+
+get_register
+  : 'reg' REG
+  ;
+
+set_register
+  : 'reg!' REG expression
+  ;
+  
+get_pc
+  : 'pc'
+  ;
+
+set_pc
+  : 'pc!' expression
+  ;
+
 
 list
   : '(' expression+ ')'
-  | block
   ;
 
-
 block
-  : BEG list+
+  : BLK expression+
+  ;
+
+conditional
+  : CND b_expression b_expression?
   ;
 
 
 /* LEXER */
 
 
+B_OP
+  : '<'
+  | '<='
+  | '>'
+  | '>='
+  | '=='
+  | '!='
+  ;
+
+
 ATOMIC_SYMBOL
-  : BEG
-  | SYM
-  | REG
-  | INM
+  : NUM
+  | BOOL
+  | NIL
   ;
 
 
-BEG
-  : 'begin'
+BLK
+  : 'do'
   ;
 
-SYM
+OP
   : '+'
   | 'reg'
   | 'reg!'
   | 'pc'
   | 'pc!'
+  ;
+
+NUM
+  : [0-9]+
+  ;
+
+BOOL
+  : 'true'
+  | 'false'
+  ;
+
+NIL
+  : 'nil'
   ;
 
 REG  // depends on architecture, here we'll use RISC-V
@@ -58,10 +134,9 @@ REG  // depends on architecture, here we'll use RISC-V
   | 'x3'[0-1]
   ;
 
-INM
-  : [0-9]+
+CND
+  : 'if'
   ;
-
 
 WS
   : [ \r\n\t]+ -> skip
