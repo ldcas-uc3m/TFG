@@ -14,24 +14,13 @@ class Reader final {
     public:
 
         Reader(std::vector<Token> && tokens)  // && moves (gets ownership)
-            : _tokens{tokens}, _pos{0}, _current_token{_tokens[_pos]} {
+            : _tokens{tokens}, _pos{0}, _current_token{_tokens[_pos]} {}
 
-            // print_tokens();
-        }
 
         /**
         * Returns the token at the current position and increments the position.
         */
-        Token next() {
-            if (is_end()) throw std::out_of_range{"Reached end of inst"};
-
-            Token token = _current_token;
-            _current_token = _tokens[++_pos];
-
-            // print_state();
-
-            return token;
-        }
+        Token next();
 
 
         /**
@@ -46,7 +35,7 @@ class Reader final {
         * Checks if it has reached the end of instrucions.
         */
         bool is_end() const {
-            return _pos == _tokens.size() - 1;
+            return static_cast<std::size_t>(_pos) + 1 == _tokens.size();
         }
 
 
@@ -55,25 +44,15 @@ class Reader final {
         int _pos;
         Token _current_token;
 
-        void print_state() {
-            /*
-            Prints the state of the reader (current position and token)
-            */
+        /**
+        * @brief Prints the state of the reader (current position and token)
+        */
+        void print_state();
 
-            std::cout << "pos: " << _pos << '\t';
-            std::cout << "current_token: " << " [" << _pos <<  "] " << _current_token.value << '\n';
-        }
-
-        void print_tokens() const {
-            /*
-            Prints all tokens
-            */
-
-            std::cout << "tokens: ";
-            for (const auto & i: _tokens)
-                std::cout << i.value << ' ';
-            std::cout << '\n';
-        }
+        /**
+        * @brief Prints all tokens
+        */
+        void print_tokens() const;
 
 };
 

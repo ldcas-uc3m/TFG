@@ -51,7 +51,7 @@ int main() {
 
         interp.exec("(if (> (reg t1) (reg t0)) ())");
     }
-    catch (TFGException e) {
+    catch (TFGException &e) {
         // TODO: make sure .type() returns the correct type
         std::cout << '[' << e.type() << "] " << e.what() << std::endl;
         return -1;

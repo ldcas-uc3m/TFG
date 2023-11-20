@@ -12,7 +12,7 @@
 #include <algorithm>
 #include <exception>
 
-#include "../exceptions.hpp"
+#include "exceptions.hpp"
 
 
 
@@ -31,7 +31,7 @@ class RegisterFile {
         /* constructor */
         RegisterFile(std::uint32_t pc_start_addr, std::initializer_list<std::string> l) : pc {pc_start_addr}, _reg_names{l} {
             // fill up register map
-            for (int i = 0; i < _reg_names.size(); ++i) {
+            for (std::size_t i = 0; i < _reg_names.size(); ++i) {
                 _reg_map.insert({_reg_names[i], i});
             }
 
@@ -39,7 +39,7 @@ class RegisterFile {
         }
 
 
-        std::uint32_t pc;  // TODO: move to interpreter
+        std::uint32_t pc;
 
 
         /**
@@ -50,7 +50,7 @@ class RegisterFile {
         }
 
         bool contains(int index) const {
-            return index < _reg_names.size();
+            return static_cast<std::size_t>(index) < _reg_names.size();
         }
 
 
@@ -60,7 +60,7 @@ class RegisterFile {
             try {
                 return _rf[index];
             }
-            catch (std::out_of_range e) {
+            catch (std::out_of_range &e) {
                 throw LUISPDAException("Register '" + std::to_string(index) + "' not found.");
             }
         }
@@ -69,7 +69,7 @@ class RegisterFile {
             try {
                 return _rf[_reg_map.at(r)];
             }
-            catch (std::out_of_range e) {
+            catch (std::out_of_range &e) {
                 throw LUISPDAException("Register '" + r + "' not found.");
             }
         }
@@ -79,7 +79,7 @@ class RegisterFile {
             try {
                 return _rf[index];
             }
-            catch (std::out_of_range e) {
+            catch (std::out_of_range &e) {
                 throw LUISPDAException("Register '" + std::to_string(index) + "' not found.");
             }
         }
@@ -88,11 +88,10 @@ class RegisterFile {
             try {
                 return _rf[_reg_map.at(r)];
             }
-            catch (std::out_of_range e) {
+            catch (std::out_of_range &e) {
                 throw LUISPDAException("Register '" + r + "' not found.");
             }
         };
-
 
 
         /* overload << operator */
@@ -105,7 +104,7 @@ class RegisterFile {
 
 
             // print all registers
-            for (int i = 0; i < rf._reg_names.size(); ++i) {
+            for (std::size_t i = 0; i < rf._reg_names.size(); ++i) {
 
                 out << rf._reg_names[i] << ": ";
 

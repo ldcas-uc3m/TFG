@@ -36,10 +36,9 @@ namespace Memory {
                 _inst_map.insert({ _curr_addr, inst });
 
                 _curr_addr += WORD_SIZE;
-
             }
 
-            const Address get_last_address() const {
+            Address get_last_address() const {
                 return _curr_addr;
             }
 
