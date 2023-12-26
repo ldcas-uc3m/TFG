@@ -6,7 +6,11 @@
 #include <map>
 #include <iomanip>
 #include <vector>
+#include <iostream>
 #include <ostream>
+#include <format>
+
+#include "exceptions.hpp"
 
 
 
@@ -26,9 +30,16 @@ namespace Memory {
         public:
             text(Address start_addr) : _inst {} {
                 _curr_addr = start_addr;
+                _start_addr = start_addr;
             }
 
             const Instruction & get_instuction(Address addr) const {
+                if (addr % WORD_SIZE != 0)
+                    throw MEMException(std::format("Illegal addr {:#010x}.", addr));
+
+                if (addr >= _curr_addr)
+                    throw MEMException(std::format("Segmentation fault. Requested addr: {:#010x}.", addr));
+
                 return _inst_map.at(addr);
             }
 
@@ -42,6 +53,11 @@ namespace Memory {
                 return _curr_addr;
             }
 
+
+            void purge() {
+                _inst_map.clear();
+                _curr_addr = _start_addr;
+            }
 
             // overload << operator
             friend std::ostream & operator << (std::ostream & out, text const & text) {
@@ -57,6 +73,7 @@ namespace Memory {
 
 
         private:
+            Address _start_addr;  // start address
             Address _curr_addr;  // current last address
 
             // TODO: rely only on vector, not on map ('tis faster)

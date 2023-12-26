@@ -16,9 +16,7 @@
 
 
 
-void Interpreter::next() {
-    // TODO: signal end of instructions
-
+bool Interpreter::next() {
     /* fetch */
     Memory::Instruction inst = _mem.get_instuction(_rf.pc);
     _rf.pc += Memory::WORD_SIZE;
@@ -28,6 +26,8 @@ void Interpreter::next() {
 
     /* execute */
     eval(ast);
+
+    return _rf.pc < _mem.get_last_address();
 }
 
 

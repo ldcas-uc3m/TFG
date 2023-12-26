@@ -10,38 +10,33 @@ class TFGException : public std::exception {
 
     public:
         TFGException(std::string msg) : _message(msg) {}
-        std::string what() {
-            return _message;
-        }
+        std::string what() { return _message; }
 
-        std::string type() {
-            return _type;
-        }
-
-
+        const std::string type = "TFGException";
     private:
         std::string _message;
-        const std::string _type = "TFGException";
 };
 
 
 class LUISPDAException : public TFGException {
     using TFGException::TFGException;
-    using TFGException::what;
-    using TFGException::type;
+    public:
+        const std::string type = "LUISPDAException";
 
-    private:
-        const std::string _type = "LUISPDAException";
 };
 
 
 class RFException : public TFGException {
     using TFGException::TFGException;
-    using TFGException::what;
-    using TFGException::type;
+    public:
+        const std::string type = "RFException";
+};
 
-    private:
-        const std::string _type = "RFException";
+
+class MEMException : public TFGException {
+    using TFGException::TFGException;
+    public:
+        const std::string type = "MEMException";
 };
 
 

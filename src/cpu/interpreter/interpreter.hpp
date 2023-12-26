@@ -24,8 +24,9 @@ class Interpreter final {
 
         /**
         * @brief Executes the next LUISP-DA instruction
+        * @return True if there are more instructions to execute, False otherwise.
         */
-        void next();
+        bool next();
 
 
         /**
@@ -37,7 +38,7 @@ class Interpreter final {
     private:
 
         RegisterFile & _rf;
-        Memory::text & _mem;
+        const Memory::text & _mem;
         ALU _alu;
 
 
