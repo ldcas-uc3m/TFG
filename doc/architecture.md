@@ -27,17 +27,7 @@ graph LR;
 
 
 ## LUISP-DA
-assembLy analogoUs Interpreted liSP DiAlect
-<!--
-Lisp  
-Ubiquitous  
-Interpreted  
-Simple  
-Post  
--  
-Decoding language for  
-Assembly
--->
+assembLy analogoUs lISP DiAlect
 
 It's a Lisp-like language, where instructions are defined as a list (`LIST`) of symbols and/or other lists.
 - A list is always in between parenthesis:
@@ -78,8 +68,8 @@ An operand symbol can be:
     - `== A B`: For two `NUM` `A` and `B`, checks if `A` is equal to `B`
     - `!= A B`: For two `NUM` `A` and `B`, checks if `A` is not equal to `B`
     - `! A`: Negates the `BOOL` `A`
-    - `reg A`: Returns the value stored in register (`REG`) `A`
-    - `reg! A B`: Stores the integer (`NUM`) `B` in register (`REG`) `A`
+    - `reg RA`: Returns the value stored in register (`REG`) `RA`
+    - `reg! RA B`: Stores the integer (`NUM`) `B` in register (`REG`) `RA`
     - `pc`: Returns the value stored in the PC
     - `pc! A`: Stores the integer (`NUM`) `A` in the PC
 - A block `BLK`. It sequentially executes multiple instructions (`LIST`), and returns the result of the last one (PC is not updated for those instructions).  
@@ -94,6 +84,13 @@ An operand symbol can be:
     (if (> 2 1) (+ 1 1) (+ 2 2))
     ```
     That would return the result of `(+ 1 1)`, `2`.
+- A system call `CALL`. It checks the _opcode_ (first element) (which must evaluate to a `NUM`), and executes the specified system call with its arguments.
+    - `print_int` - `call N A`: Prints the value of the `NUM` `A`.
+    - `print_char` - `call N A`: Prints the value of the `NUM` `A` as an ascii character.
+    - `read_int` - `call N RA`: Reads the value of a `NUM` and saves it to the register `RA`.
+    - `read_char` - `call N RA`: Reads the value of an ascii character and saves it as a `NUM` to the register `RA`.
+    - `exit` - `call N`: <!-- TODO -->
+The definition of the _opcodes_ is defined in the architecture definition file.:
 
 The inmediate symbols implemented are:
 - `NUM`: Integer numbers
@@ -158,7 +155,7 @@ stateDiagram-v2
 
 ### Instruction set
 
-- System calls (`ecal`)
+- System calls
     - Print_int
     - Print_string
     - Read_int

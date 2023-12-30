@@ -146,7 +146,7 @@ class RegisterFile {
 
         std::vector<std::uint32_t> _rf;  // vector with register values
         std::map<std::string, int> _reg_map;  // map between register names and register indexes
-        std::vector<std::string> _reg_names;  // map between register indexes and register names
+        const std::vector<std::string> _reg_names;  // map between register indexes and register names
 
         dmode _dmode = dmode::HEX;  // display mode
 

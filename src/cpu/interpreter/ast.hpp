@@ -18,6 +18,7 @@ enum class token_type {
     REG,  // register
     BLK,  // block statement
     CND,  // conditional statement
+    CALL,  // system call
     EOI  // end of instruction
 };
 

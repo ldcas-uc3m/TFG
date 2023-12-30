@@ -15,12 +15,12 @@
 
 
 
-/* LUISP-DA interpreter */
+/* LUISP-DA interpreter, based on Make A Lisp */
 
 class Interpreter final {
 
     public:
-        Interpreter(RegisterFile & rf, Memory::text & mem) : _rf {rf}, _mem {mem}, _alu {rf, mem} { }
+        Interpreter(RegisterFile & rf, Memory::text & mem, std::initializer_list<std::pair<const std::string, std::string>> calls) : _rf {rf}, _mem {mem}, _alu {rf, mem, calls} { }
 
         /**
         * @brief Executes the next LUISP-DA instruction
@@ -70,7 +70,7 @@ class Interpreter final {
 
 
         /**
-        * @brief Reads a token, checks if it's the start of a list, and calls the appropiate function to read the token(s). Returns the tree associated to that token.
+        * @brief Lexer. Reads a token, checks if it's the start of a list, and calls the appropiate function to read the token(s). Returns the tree associated to that token.
         */
         AST_Node read_token(Reader & reader) {
             if (reader.peek().value == "(") {

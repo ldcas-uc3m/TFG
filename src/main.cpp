@@ -8,7 +8,7 @@
 
 
 
-void test_run(RegisterFile & reg_file, Memory::text & mem_t, Interpreter & interp) {
+void test_basic(RegisterFile & reg_file, Memory::text & mem_t, Interpreter & interp) {
     std::cout << '\n' << "-------- TEST RUN --------" << '\n';
 
 
@@ -37,7 +37,7 @@ void test_run(RegisterFile & reg_file, Memory::text & mem_t, Interpreter & inter
 
 }
 
-void test_run2(RegisterFile & reg_file, Memory::text & mem_t, Interpreter & interp) {
+void test_blocks(RegisterFile & reg_file, Memory::text & mem_t, Interpreter & interp) {
 
     std::cout << '\n' << "-------- TEST RUN 2 --------" << '\n';
 
@@ -67,6 +67,24 @@ void test_run2(RegisterFile & reg_file, Memory::text & mem_t, Interpreter & inte
 }
 
 
+void test_syscalls(RegisterFile & reg_file, Memory::text & mem_t, Interpreter & interp) {
+
+    std::cout << '\n' << "-------- TEST RUN 3 --------" << '\n';
+
+    mem_t.add_instruction("(call 0 42)");
+    mem_t.add_instruction("(call 1 70)");  // 'F'
+    mem_t.add_instruction("(call 1 10)");  // '\n' (LF)
+    mem_t.add_instruction("(call 2 t0)");
+    mem_t.add_instruction("(call 3 t1)");
+
+    std::cout << ".text" << '\n' << mem_t;
+
+    while (interp.next()) {}
+
+    std::cout << reg_file << std::endl;
+}
+
+
 
 int main() {
     std::uint32_t start_addr = 0;
@@ -74,20 +92,38 @@ int main() {
     RegisterFile reg_file {start_addr, {"t0", "t1", "t2", "t3", "t4", "t5"}};
     Memory::text mem_t {start_addr};
 
-    Interpreter interp {reg_file, mem_t};
+    Interpreter interp {
+        reg_file,
+        mem_t,
+        {
+            {"0", "print_int" },
+            {"1", "print_char" },
+            {"2", "read_int" },
+            {"3", "read_char" },
+            {"4", "exit"}
+        }
+    };
 
     try {
-        test_run(reg_file, mem_t, interp);
+        test_basic(reg_file, mem_t, interp);
 
         mem_t.purge();
 
-        test_run2(reg_file, mem_t, interp);
+        test_blocks(reg_file, mem_t, interp);
+
+        mem_t.purge();
+
+        // test_syscalls(reg_file, mem_t, interp);
 
         std::cout << std::endl;
 
-
         std::cout << '\n' << "-------- EXEC RUN --------" << '\n';
         interp.exec("(if (> (reg t1) (reg t0)) ())");
+    }
+    catch (LUISPDAException &e) {
+        std::cout << "[" << e.type << "] " << e.what() << std::endl;
+
+        return -1;
     }
     catch (MEMException &e) {
         std::cout << "[" << e.type << "] " << e.what() << std::endl;

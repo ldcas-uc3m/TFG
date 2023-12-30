@@ -37,6 +37,9 @@ std::ostream & AST_Node::print_tree(std::ostream & out, AST_Node const & ast, co
         case token_type::CND:
             out << " [CND] " << ast._token.value;
             break;
+        case token_type::CALL:
+            out << " [CALL] " << ast._token.value;
+            break;
         default:
             out << " [" << static_cast<int>(ast._token.type) << "] ";
             break;

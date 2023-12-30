@@ -157,7 +157,7 @@ Don't use it, use `constexpr`
 - `std::vector<type>`: A non-fixed size array
     - Constructor: `{ value0, ... }`
     - To append a value, use `.push_back(value)`
-- `std::map<keyType, valueType>`: Ordered key-value pairs
+- `std::map<keyType, valueType>`: Ordered key-value pairs. Keys must be constant.
     - Constructor: `{ {key0, value0}, ... }`
     - `[]` operator will create the element if it doesn't exist. Use `.at()` to access the element.
     - `.contains(key)` checks if a key exists in the map

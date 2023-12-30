@@ -69,7 +69,7 @@ std::vector<Token> Interpreter::tokenize(const std::string & string) {
 }
 
 
-AST_Node Interpreter::read_atom(Reader & reader) {
+AST_Node Interpreter::read_atom(Reader & reader) {  // lexer
     std::string token_str = reader.next().value;
     token_type type;
 
@@ -96,6 +96,10 @@ AST_Node Interpreter::read_atom(Reader & reader) {
     }
     else if (token_str == "nil") {
         type = token_type::NIL;
+    }
+    /* System call */
+    else if (token_str == "call") {
+        type = token_type::CALL;
     }
     /* Numbers */
     else if (is_number(token_str)) {
@@ -200,12 +204,44 @@ const AST_Node Interpreter::eval_token(const AST & ast) const {
 
                 // get arguments (tail)
                 std::vector<Token> args;
-
                 for (auto it = evaluated_list.begin() + 1; it < evaluated_list.end(); ++it) {
                     args.push_back(it->get_token());
                 }
 
                 // function call
+                try {
+                    return AST_Node { func(args) };
+                }
+                catch (std::invalid_argument &e) {
+                    std::string msg = e.what();
+
+                    throw LUISPDAException(msg + " for operator '" + symbol.value + "'");
+                }
+            }
+            /* System calls */
+            case token_type::CALL: {
+                // find the correct system call to execute acording to its opcode and execute it
+
+                // get opcode (head)
+                Token opcode = evaluated_list[1].get_token();
+
+                // get arguments (tail)
+                std::vector<Token> args;
+                for (auto it = evaluated_list.begin() + 2; it < evaluated_list.end(); ++it) {
+                    args.push_back(it->get_token());
+                }
+
+                if (!_alu.call_opcodes.contains(opcode.value))  // check opcode
+                    throw LUISPDAException(std::format("Invalid opcode '{}'", opcode.value));
+
+                // check call name
+                std::string call = _alu.call_opcodes.find(opcode.value)->second;
+                if (!_alu.call_env.contains(call))
+                    throw LUISPDAException(std::format("Invalid call name '{}'", call));
+
+                // function call
+                lisp_function func = _alu.call_env.find(call)->second;
+
                 try {
                     return AST_Node { func(args) };
                 }

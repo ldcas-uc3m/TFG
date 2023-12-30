@@ -5,6 +5,8 @@
 #include <unordered_map>
 #include <string>
 #include <functional>
+#include <initializer_list>
+
 
 #include "interpreter/ast.hpp"
 #include "memory/text.hpp"
@@ -13,24 +15,36 @@
 
 
 using lisp_function = std::function<const Token (const std::vector<Token> &)>;
+#define ALU_FUNCTION(func)  [this] (const std::vector<Token> & v) -> const Token { return this->func(v); }  // lambda wrapper for the functions
 
 
 class ALU final {
 
     public:
-        ALU(RegisterFile & rf, Memory::text & mem_t) : _rf {rf}, _mem_t {mem_t} {}
+        ALU(RegisterFile & rf, Memory::text & mem_t, std::initializer_list<std::pair<const std::string, std::string>> calls)
+          : call_opcodes {calls}, _rf {rf}, _mem_t {mem_t} {
 
-        // map of function names and function pointers
+            // check calls
+            if (calls.size() != call_env.size())
+                throw LUISPDAException("Invalid system calls list");
 
-        #define ALU_FUNCTION(func)  [this] (const std::vector<Token> & v) -> const Token { return this->func(v); }  // we need a lambda wrapper for the functions
+            for (const auto & [opcode, call_name] : call_opcodes) {
+                if (!call_env.contains(call_name)) {
+                    // FIXME: throwing this exception breaks things
+                    throw LUISPDAException("Invalid system calls list");
+                }
+            }
+        }
 
+
+        // map of operators names and function pointers
         const std::unordered_map<std::string, lisp_function> repl_env {
             /* Integer operators */
             { "+", ALU_FUNCTION(add) },
             { "-", ALU_FUNCTION(sub) },
             { "*", ALU_FUNCTION(mul) },
             { "/", ALU_FUNCTION(div) },
-            { "%", ALU_FUNCTION(mod) },
+            { "%", ALU_FUNCTION(_mod) },
             /* Boolean operators */
             { "<", ALU_FUNCTION(lt) },
             { ">", ALU_FUNCTION(gt) },
@@ -44,7 +58,7 @@ class ALU final {
             { "reg!", ALU_FUNCTION(set_register) },
             /* PC operators */
             { "pc", ALU_FUNCTION(get_pc) },
-            { "pc!", ALU_FUNCTION(set_pc) }
+            { "pc!", ALU_FUNCTION(set_pc) },
         };
 
 
@@ -60,14 +74,14 @@ class ALU final {
 
         const Token div(const std::vector<Token> & v);
 
-        const Token mod(const std::vector<Token> & v);
+        const Token _mod(const std::vector<Token> & v);
 
 
         /* BOOLEAN OPERATORS */
 
-        const Token gt(const std::vector<Token> & v);
-
         const Token lt(const std::vector<Token> & v);
+
+        const Token gt(const std::vector<Token> & v);
 
         const Token get(const std::vector<Token> & v);
 
@@ -82,33 +96,61 @@ class ALU final {
 
         /* REGISTER OPERATORS */
 
-        const Token get_register (const std::vector<Token> & v);
+        const Token get_register(const std::vector<Token> & v);
 
-        const Token set_register (const std::vector<Token> & v);
+        const Token set_register(const std::vector<Token> & v);
 
 
         /* PROGRAM COUNTER OPERATORS*/
 
-        const Token get_pc (const std::vector<Token> & v);
+        const Token get_pc(const std::vector<Token> & v);
 
-        const Token set_pc (const std::vector<Token> & v);
+        const Token set_pc(const std::vector<Token> & v);
 
+
+        /* SYSTEM CALLS */
+
+        // map of call opcodes and call names
+        const std::unordered_map<std::string, std::string> call_opcodes;
+
+
+        // map of call names and functions
+        const std::unordered_map<std::string, lisp_function> call_env {
+            { "print_int", ALU_FUNCTION(print_int) },
+            { "print_char", ALU_FUNCTION(print_char) },
+            { "read_int", ALU_FUNCTION(read_int) },
+            { "read_char", ALU_FUNCTION(read_char) },
+            { "exit", ALU_FUNCTION(exit) }
+        };
+
+        const Token print_int(const std::vector<Token> & v);
+
+        const Token print_char(const std::vector<Token> & v);
+
+        const Token read_int(const std::vector<Token> & v);
+
+        const Token read_char(const std::vector<Token> & v);
+
+        const Token exit(const std::vector<Token> & v);
 
 
     private:
         RegisterFile & _rf;
         const Memory::text & _mem_t;
 
-        bool to_bool(const Token & token) const;
 
-        Token from_bool(bool value) const {
+        /* AUX FUNCTIONS */
+
+        bool _to_bool(const Token & token) const;
+
+        Token _from_bool(bool value) const {
             return Token {std::to_string(value), token_type::BOOL};
         }
 
 
-        int to_num(const Token & token) const;
+        int _to_num(const Token & token) const;
 
-        Token from_num(int num) const {
+        Token _from_num(int num) const {
             return Token {std::to_string(num), token_type::NUM};
         }
 };
