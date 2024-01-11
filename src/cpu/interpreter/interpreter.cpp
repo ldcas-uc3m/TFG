@@ -18,7 +18,7 @@
 
 bool Interpreter::next() {
     /* fetch */
-    Memory::Instruction inst = _mem.get_instuction(_rf.pc);
+    Memory::Instruction inst = _mem_t.get_instuction(_rf.pc);
     _rf.pc += Memory::WORD_SIZE;
 
     /* decode */
@@ -27,7 +27,7 @@ bool Interpreter::next() {
     /* execute */
     eval(ast);
 
-    return _rf.pc < _mem.get_last_address();
+    return _rf.pc < _mem_t.get_last_address();
 }
 
 
@@ -104,6 +104,11 @@ AST_Node Interpreter::read_atom(Reader & reader) {  // lexer
     /* Numbers */
     else if (is_number(token_str)) {
         type = token_type::NUM;
+    }
+    else if (token_str.substr(0, 2) == "0x" && token_str.length() == 10) {  // hex format
+        type = token_type::NUM;
+        std::uint32_t value = std::stoul(token_str, nullptr, 16);  // convert to regular uint
+        token_str = std::to_string(value);
     }
 
     else {

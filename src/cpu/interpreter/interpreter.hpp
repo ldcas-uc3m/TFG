@@ -12,6 +12,7 @@
 #include "ast.hpp"
 #include "cpu/alu.hpp"
 #include "memory/text.hpp"
+#include "memory/data.hpp"
 
 
 
@@ -20,7 +21,20 @@
 class Interpreter final {
 
     public:
-        Interpreter(RegisterFile & rf, Memory::text & mem, std::initializer_list<std::pair<const std::string, std::string>> calls) : _rf {rf}, _mem {mem}, _alu {rf, mem, calls} { }
+        /* constructor */
+        Interpreter(
+            RegisterFile & rf,
+            Memory::text & mem_t,
+            Memory::data & mem_d,
+            std::initializer_list<std::pair<const std::string, std::string>> calls
+        )
+        :
+            _rf {rf},
+            _mem_t {mem_t},
+            _mem_d {mem_d},
+            _alu {calls, rf, mem_t, mem_d}
+        { }
+
 
         /**
         * @brief Executes the next LUISP-DA instruction
@@ -38,7 +52,8 @@ class Interpreter final {
     private:
 
         RegisterFile & _rf;
-        const Memory::text & _mem;
+        const Memory::text & _mem_t;
+        Memory::data & _mem_d;
         ALU _alu;
 
 

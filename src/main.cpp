@@ -9,8 +9,10 @@
 
 
 void test_basic(RegisterFile & reg_file, Memory::text & mem_t, Interpreter & interp) {
-    std::cout << '\n' << "-------- TEST RUN --------" << '\n';
+    std::cout << '\n' << "-------- TEST BASIC --------" << '\n';
 
+    mem_t.purge();
+    reg_file.pc = 0;
 
     mem_t.add_instruction("(reg! t0 (+ (reg t0) 1))");  // ADDI t0, t0, 1
     mem_t.add_instruction("(do (reg! t0 1) (reg! t1 (+ (reg t0) 1)))");
@@ -39,7 +41,10 @@ void test_basic(RegisterFile & reg_file, Memory::text & mem_t, Interpreter & int
 
 void test_blocks(RegisterFile & reg_file, Memory::text & mem_t, Interpreter & interp) {
 
-    std::cout << '\n' << "-------- TEST RUN 2 --------" << '\n';
+    std::cout << '\n' << "-------- TEST BLOCKS --------" << '\n';
+
+    mem_t.purge();
+    reg_file.pc = 0;
 
     mem_t.add_instruction("(reg! t0 (+ (reg t0) 1))");  // ADDI t0, t0, 1
     mem_t.add_instruction("(do (reg! t0 1) (reg! t1 (+ (reg t0) 1)))");
@@ -69,13 +74,16 @@ void test_blocks(RegisterFile & reg_file, Memory::text & mem_t, Interpreter & in
 
 void test_syscalls(RegisterFile & reg_file, Memory::text & mem_t, Interpreter & interp) {
 
-    std::cout << '\n' << "-------- TEST RUN 3 --------" << '\n';
+    std::cout << '\n' << "-------- TEST SYSCALLS --------" << '\n';
+
+    mem_t.purge();
+    reg_file.pc = 0;
 
     mem_t.add_instruction("(call 0 42)");
     mem_t.add_instruction("(call 1 70)");  // 'F'
     mem_t.add_instruction("(call 1 10)");  // '\n' (LF)
     mem_t.add_instruction("(call 2 t0)");
-    mem_t.add_instruction("(call 3 t1)");
+    mem_t.add_instruction("(call 3 t1)");  // read a char
 
     std::cout << ".text" << '\n' << mem_t;
 
@@ -85,16 +93,42 @@ void test_syscalls(RegisterFile & reg_file, Memory::text & mem_t, Interpreter & 
 }
 
 
+void test_mem(RegisterFile & reg_file, Memory::data & mem_d, Memory::text & mem_t, Interpreter & interp) {
+    std::cout << '\n' << "-------- TEST MEM --------" << '\n';
+
+    mem_t.purge();
+    reg_file.pc = 0;
+
+    mem_t.add_instruction("(mem! 0x00000100 69)");
+    mem_t.add_instruction("(reg! t0 (mem 0x00000100))");
+
+    while (interp.next()) {}
+
+    std::cout << ".data" << '\n' << mem_d;
+    std::cout << reg_file << std::endl;
+}
+
+
+void test_exec(Interpreter & interp) {
+    std::cout << '\n' << "-------- EXEC RUN --------" << '\n';
+    interp.exec("(if (> (reg t1) (reg t0)) ())");
+}
+
+
 
 int main() {
-    std::uint32_t start_addr = 0;
+    std::uint32_t start_addr_t = 0x00000000;
+    std::uint32_t start_addr_d = 0x00000100;
+    std::uint32_t end_addr_d   = 0xFFFFFFFF;
 
-    RegisterFile reg_file {start_addr, {"t0", "t1", "t2", "t3", "t4", "t5"}};
-    Memory::text mem_t {start_addr};
+    RegisterFile reg_file {start_addr_t, {"t0", "t1", "t2", "t3", "t4", "t5"}};
+    Memory::data mem_d {start_addr_d, end_addr_d};
+    Memory::text mem_t {start_addr_t};
 
     Interpreter interp {
         reg_file,
         mem_t,
+        mem_d,
         {
             {"0", "print_int" },
             {"1", "print_char" },
@@ -106,28 +140,16 @@ int main() {
 
     try {
         test_basic(reg_file, mem_t, interp);
-
-        mem_t.purge();
-
         test_blocks(reg_file, mem_t, interp);
+        test_syscalls(reg_file, mem_t, interp);
+        test_mem(reg_file, mem_d, mem_t, interp);
+        test_exec(interp);
 
-        mem_t.purge();
-
-        // test_syscalls(reg_file, mem_t, interp);
-
-        std::cout << std::endl;
-
-        std::cout << '\n' << "-------- EXEC RUN --------" << '\n';
-        interp.exec("(if (> (reg t1) (reg t0)) ())");
-    }
-    catch (LUISPDAException &e) {
-        std::cout << "[" << e.type << "] " << e.what() << std::endl;
-
-        return -1;
     }
     catch (MEMException &e) {
         std::cout << "[" << e.type << "] " << e.what() << std::endl;
         std::cout << ".text" << '\n' << mem_t;
+        std::cout << ".data" << '\n' << mem_d;
 
         return -1;
     }
@@ -137,12 +159,16 @@ int main() {
 
         return -1;
     }
+    catch (LUISPDAException &e) {
+        std::cout << "[" << e.type << "] " << e.what() << std::endl;
+
+        return -1;
+    }
     catch (TFGException &e) {
         std::cout << "[" << e.type << "] " << e.what() << std::endl;
 
         return -1;
     }
-
 
 
     return 0;

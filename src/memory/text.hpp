@@ -19,7 +19,7 @@
 
 namespace Memory {
 
-    constexpr int WORD_SIZE = 4;  // Bytes
+    constexpr int WORD_SIZE = 4;  // Bytes  // TODO: move to memory file
 
     /* LUISP-DA instruction definition */
     using Instruction = std::string;
@@ -38,7 +38,7 @@ namespace Memory {
                     throw MEMException(std::format("Illegal addr {:#010x}.", addr));
 
                 if (addr >= _curr_addr)
-                    throw MEMException(std::format("Segmentation fault. Requested addr: {:#010x}.", addr));
+                    throw MEMException(std::format(".text Segmentation fault. Requested addr: {:#010x}.", addr));
 
                 return _inst_map.at(addr);
             }
@@ -73,8 +73,8 @@ namespace Memory {
 
 
         private:
-            Address _start_addr;  // start address
-            Address _curr_addr;  // current last address
+            Address _start_addr;  // start address of the memory segment
+            Address _curr_addr;  // address of the last instruction
 
             // TODO: rely only on vector, not on map ('tis faster)
             std::vector<Instruction> _inst;  // instructions

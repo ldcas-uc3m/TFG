@@ -185,10 +185,49 @@ const Token ALU::set_register(const std::vector<Token> & v) {
 
     if (v[0].type != token_type::REG)
         throw std::invalid_argument("Invalid argument type");
+    if (v[1].type != token_type::NUM)
+        throw std::invalid_argument("Invalid argument type");
 
 
     std::uint32_t value = static_cast<std::uint32_t>(_to_num(v[1]));
     _rf[v[0].value] = value;
+
+    return Token {std::to_string(value), token_type::NUM};
+}
+
+
+
+/* MEM OPERATORS*/
+
+const Token ALU::get_mem(const std::vector<Token> & v) {
+    // check parameters
+    if (v.size() != 1)
+        throw std::invalid_argument("Incorrect number of parameters");
+
+    if (v[0].type != token_type::NUM)
+        throw std::invalid_argument("Invalid argument type");
+
+    // get value
+    std::uint32_t result = _mem_d.get_value(static_cast<Memory::Address>(_to_num(v[0])));
+
+    return Token {std::to_string(result), token_type::NUM};
+}
+
+
+const Token ALU::set_mem(const std::vector<Token> & v) {
+    // check parameters
+    if (v.size() != 2)
+        throw std::invalid_argument("Incorrect number of parameters");
+
+    if (v[0].type != token_type::NUM)
+        throw std::invalid_argument("Invalid argument type");
+    if (v[1].type != token_type::NUM)
+        throw std::invalid_argument("Invalid argument type");
+
+    std::uint32_t addr = static_cast<std::uint32_t>(_to_num(v[0]));
+    std::uint32_t value = static_cast<std::uint32_t>(_to_num(v[1]));
+
+    _mem_d.set_value(addr, value);
 
     return Token {std::to_string(value), token_type::NUM};
 }

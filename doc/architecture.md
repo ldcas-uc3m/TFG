@@ -69,9 +69,11 @@ An operand symbol can be:
     - `!= A B`: For two `NUM` `A` and `B`, checks if `A` is not equal to `B`
     - `! A`: Negates the `BOOL` `A`
     - `reg RA`: Returns the value stored in register (`REG`) `RA`
-    - `reg! RA B`: Stores the integer (`NUM`) `B` in register (`REG`) `RA`
+    - `reg! RA B`: Stores the integer (`NUM`) `B` in register (`REG`) `RA`, and returns `B`
+    - `mem A`: Returns the value stored in memory address (`NUM`) `A`
+    - `mem! A B`: Stores the integer (`NUM`) `B` in memory address (`NUM`) `A`, and returns `B`
     - `pc`: Returns the value stored in the PC
-    - `pc! A`: Stores the integer (`NUM`) `A` in the PC
+    - `pc! A`: Stores the integer (`NUM`) `A` in the PC, and returns `A`
 - A block `BLK`. It sequentially executes multiple instructions (`LIST`), and returns the result of the last one (PC is not updated for those instructions).  
     In the example:
     ``` lisp
@@ -90,7 +92,7 @@ An operand symbol can be:
     - `read_int` - `call N RA`: Reads the value of a `NUM` and saves it to the register `RA`.
     - `read_char` - `call N RA`: Reads the value of an ascii character and saves it as a `NUM` to the register `RA`.
     - `exit` - `call N`: <!-- TODO -->
-The definition of the _opcodes_ is defined in the architecture definition file.:
+The definition of the _opcodes_ is defined in the architecture definition file.
 
 The inmediate symbols implemented are:
 - `NUM`: Integer numbers

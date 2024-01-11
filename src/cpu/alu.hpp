@@ -10,6 +10,7 @@
 
 #include "interpreter/ast.hpp"
 #include "memory/text.hpp"
+#include "memory/data.hpp"
 #include "register_file.hpp"
 
 
@@ -21,8 +22,19 @@ using lisp_function = std::function<const Token (const std::vector<Token> &)>;
 class ALU final {
 
     public:
-        ALU(RegisterFile & rf, Memory::text & mem_t, std::initializer_list<std::pair<const std::string, std::string>> calls)
-          : call_opcodes {calls}, _rf {rf}, _mem_t {mem_t} {
+        /* constructor */
+        ALU(
+            std::initializer_list<std::pair<const std::string, std::string>> calls,
+            RegisterFile & rf,
+            Memory::text & mem_t,
+            Memory::data & mem_d
+        )
+        :
+            call_opcodes {calls},
+            _rf {rf},
+            _mem_t {mem_t},
+            _mem_d {mem_d}
+        {
 
             // check calls
             if (calls.size() != call_env.size())
@@ -53,12 +65,15 @@ class ALU final {
             { "==", ALU_FUNCTION(eq) },
             { "!=", ALU_FUNCTION(neq) },
             { "!", ALU_FUNCTION(neg) },
+            /* MEM operators */
+            { "mem", ALU_FUNCTION(get_mem) },
+            { "mem!", ALU_FUNCTION(set_mem) },
             /* Register operators */
             { "reg", ALU_FUNCTION(get_register) },
             { "reg!", ALU_FUNCTION(set_register) },
             /* PC operators */
             { "pc", ALU_FUNCTION(get_pc) },
-            { "pc!", ALU_FUNCTION(set_pc) },
+            { "pc!", ALU_FUNCTION(set_pc) }
         };
 
 
@@ -101,6 +116,13 @@ class ALU final {
         const Token set_register(const std::vector<Token> & v);
 
 
+        /* MEM OPERATORS*/
+
+        const Token get_mem(const std::vector<Token> & v);
+
+        const Token set_mem(const std::vector<Token> & v);
+
+
         /* PROGRAM COUNTER OPERATORS*/
 
         const Token get_pc(const std::vector<Token> & v);
@@ -137,6 +159,7 @@ class ALU final {
     private:
         RegisterFile & _rf;
         const Memory::text & _mem_t;
+        Memory::data & _mem_d;
 
 
         /* AUX FUNCTIONS */

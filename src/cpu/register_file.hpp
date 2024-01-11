@@ -21,6 +21,7 @@ enum class dmode {
     HEX,  // hexadecimal
     SIG,  // signed
     USG   // unsigned
+    // TODO: ascii display mode
 };
 
 
@@ -29,7 +30,11 @@ class RegisterFile {
     public:
 
         /* constructor */
-        RegisterFile(std::uint32_t pc_start_addr, std::initializer_list<std::string> l) : pc {pc_start_addr}, _reg_names{l} {
+        RegisterFile(
+            std::uint32_t pc_start_addr,
+            std::initializer_list<std::string> l
+        ) : pc {pc_start_addr}, _reg_names{l} {
+
             // fill up register map
             for (std::size_t i = 0; i < _reg_names.size(); ++i) {
                 _reg_map.insert({_reg_names[i], i});
