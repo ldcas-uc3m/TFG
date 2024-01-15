@@ -10,7 +10,7 @@
 #include <ostream>
 #include <format>
 
-#include "exceptions.hpp"
+#include "exceptions/exceptions.hpp"
 
 
 

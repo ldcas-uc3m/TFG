@@ -11,4 +11,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20")
 add_compile_options(-Wall -Werror -Wextra -pedantic -pedantic-errors -fPIC)
 
 
+# include targets
 add_subdirectory("src")
+add_subdirectory("test")

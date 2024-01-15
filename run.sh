@@ -1,6 +1,6 @@
 #!/bin/bash
 
 cd build
-make
+cmake ..
 
-./src/tfg
+make && src/tfg

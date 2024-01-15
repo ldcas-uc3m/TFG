@@ -12,7 +12,7 @@
 #include <algorithm>
 #include <exception>
 
-#include "exceptions.hpp"
+#include "exceptions/exceptions.hpp"
 
 
 
@@ -138,6 +138,7 @@ class RegisterFile {
                 }
             }
 
+            out << '\n';
             return out;
         }
 

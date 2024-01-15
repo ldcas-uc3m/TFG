@@ -1,6 +1,6 @@
-project(CPU)
+target_sources (
+    CPU
 
-target_sources ( CPU
     PUBLIC
         interpreter/interpreter.hpp
         register_file.hpp

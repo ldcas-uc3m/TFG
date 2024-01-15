@@ -12,7 +12,7 @@
 #include "cpu/alu.hpp"
 #include "memory/text.hpp"
 #include "lib/string_manipulation.hpp"
-#include "exceptions.hpp"
+#include "exceptions/exceptions.hpp"
 
 
 

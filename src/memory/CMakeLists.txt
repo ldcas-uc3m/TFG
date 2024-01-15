@@ -1,6 +1,6 @@
-project(Memory)
+target_sources (
+    Memory
 
-target_sources ( Memory
     PUBLIC
         text.hpp
         data.hpp
