@@ -6,23 +6,21 @@ gantt
     dateFormat DD/MM/YY
 
     section Implementation
-        %% WIP
-        Register File: 08/10/22, 1m
-        %% WIP
-        Memory: 23/10/22, 1m
-        %% WIP
-        Interpreter: 22/10/22, 2w
+        Register File: 08/10/23, 06/11/23
+        Memory: 23/10/23, 11/01/24
+        Interpreter: 22/10/23, 11/01/24
+        ALU: 20/11/23, 30/12/23
         %% TODO
         Parser:  
     section Research
-        WASM: 29/09/22, 04/10/22
-        RISC-V: 29/09/22, 04/10/22
+        WASM: 29/09/23, 04/10/23
+        RISC-V: 29/09/23, 04/10/23
         %% WIP
-        CPP: 08/10/22, 1m
-        Parser/Interpreter: 04/10/22, 21/10/22
+        CPP: 08/10/23, 1m
+        Parser/Interpreter: 04/10/23, 21/10/23
 
     section Documentation
-        Project Documentation: 29/09/22, 6m
+        Project Documentation: 29/09/23, 6m
     section Report
         %% TODO
     section Evaluation
