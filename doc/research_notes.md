@@ -46,6 +46,10 @@ To generate the lexer/parser and use ASTs and Visitors.
 - [Best Practices for ANTLR Parsers](https://tomassetti.me/best-practices-for-antlr-parsers/)
 - [The ANTLR Mega Tutorial](https://tomassetti.me/antlr-mega-tutorial/)
 
+Why not:
+1. No tengo ni idea sobre Procesadores del Lenguaje, ni tampoco tiene pinta de que esto sea lo mío. ANTLR es interesante, me encanta la idea de que le metes una gramática y te escupe una librería, y te deja hacer muchas cosas, pero creo que al menos para yo aprender y suplir esa asignatura que no me dejaron cursar, es mejor que aprenda haciéndolo desde cero. 2. Prefiero no tener dependencias, y ANTLR y CMake me quitan las ganas de vivir.
+3. Hacerlo de esta forma permite definir tus propias arquitecturas, al final acaba siendo un intérprete más genérico, y se parece más a CREATOR, lo cual implica que os puede ser más útil a vosotros. 4. No hay que recompilar para cambiar la arquitectura (ésto le hace mucha ilusión a Jose Antonio). ANTLR no está pensado para implementar esta arquitectura con archivos de configuración como los descritos, y ésta arquitectura implica un parser muy simple (básicamente buscar en un diccionario) y un intérprete más parecido a como funciona una CPU: tienes un set de instrucciones en memoria y las vas ejecutando. Ni árboles ni leches.
+
 #### 2. Use lex ([GNU flex](https://github.com/westes/flex)) and yacc ([GNU bison](https://www.gnu.org/software/bison/))
 - J. Levine, D. Brown, T. Mason. lex & yacc, 2nd Edition. O'Reilly, 1992
 
@@ -54,6 +58,10 @@ Create a lisp language and an interpreter for it. ASM translates to lisp through
 - [Make A Lisp](https://github.com/kanaka/mal/blob/master/process/guide.md)
 - Wepsim [lexical.js](https://github.com/wepsim/wepsim/blob/master/sim_sw/assembly/lexical.js) and [asm_v2.js](https://github.com/wepsim/wepsim/blob/master/sim_sw/assembly/asm_v2.js)
 - [CREATOR RISC-V architecture config](https://github.com/creatorsim/creator/blob/master/architecture/RISC_V_RV32IMFD.json)
+
+
+#### 4. Sail
+https://github.com/rems-project/sail/tree/sail2
 
 
 ### Other useful links & bibliography
@@ -233,6 +241,10 @@ int x = 69;
 - [Understanding C++ Modules: Part 3: Linkage and Fragments](https://vector-of-bool.github.io/2019/10/07/modules-3.html)
 
 Couldn't get them to work :(.
+
+
+## Report
+[SRS-latex-uc3m](https://github.com/jalopezg-git/SRS-latex-uc3m)
 
 
 ## CMake
