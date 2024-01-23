@@ -4,7 +4,4 @@ target_sources (
     PUBLIC
         text.hpp
         data.hpp
-    PRIVATE
-        text.cpp
-        data.cpp
 )

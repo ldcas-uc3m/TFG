@@ -3,6 +3,4 @@ target_sources (
 
     PUBLIC
         exceptions.hpp
-    PRIVATE
-        exceptions.cpp
 )

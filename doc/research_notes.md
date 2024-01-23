@@ -126,11 +126,11 @@ https://github.com/rems-project/sail/tree/sail2
     - `friend`: As if you define the function outside the class, you must pass a parameter for the class object. It has acces to the private members of the class.
     - `[[nodiscard]]`: You have to assign to something whatever the function returns.
 - **Parameter passing convention:** Types of parameter passing.
-    - **By value `type p`:** It makes a copy.
-    - **By constant value `type const p`:** It makes a copy, but it can't be modified.
-    - **By reference `type & p`:** Passes a reference to the object.
-    - **By constant reference `type const & p`:** Passes a reference to the object, but it can't be modified.
-    - **By movement `type && p`:** Passes the ownership of the object to the function.
+    - **By value -** `type p`: It makes a copy.
+    - **By constant value -** `type const p`: It makes a copy, but it can't be modified.
+    - **By reference -** `type & p`: Passes a reference to the object.
+    - **By constant reference -** `type const & p`: Passes a reference to the object, but it can't be modified.
+    - **By movement -** `type && p`: Passes the ownership of the object to the function.
 
 ### Classes
 - **Constructor**: Get executed when the object is created. Methods, same name as the class.
@@ -224,8 +224,6 @@ int x = 69;
 
 
 ### Exceptions
-
-
 [Custom C++ Exceptions for Beginners](https://peterforgacs.github.io/2017/06/25/Custom-C-Exceptions-For-Beginners/)
 
 
@@ -234,13 +232,27 @@ int x = 69;
 - [Classes and header files](https://www.learncpp.com/cpp-tutorial/classes-and-header-files/)
 
 
+### JSON ([nlohmann/json](https://github.com/nlohmann/json))
+- [Using JSON in Modern C++](https://www.studyplan.dev/pro-cpp/json)
+
+#### Instalation
+- [Use CMake FetchContent](https://github.com/nlohmann/json?tab=readme-ov-file#embedded-fetchcontent)
+- [Install (build from source) + CMake](https://github.com/nlohmann/json/issues/1755#issuecomment-1837675544)
+- [submodules?](https://gist.github.com/gitaarik/8735255)
+
 ### Modules (C++ 20)
+Theory:
 - [C++20 Modules | A Gentle Introduction](https://www.studyplan.dev/pro-cpp/modules)
 - [Understanding C++ Modules: Part 1: Hello Modules, and Module Units](https://vector-of-bool.github.io/2019/03/10/modules-1.html)
 - [Understanding C++ Modules: Part 2: export, import, visible, and reachable](https://vector-of-bool.github.io/2019/03/31/modules-2.html)
 - [Understanding C++ Modules: Part 3: Linkage and Fragments](https://vector-of-bool.github.io/2019/10/07/modules-3.html)
 
-Couldn't get them to work :(.
+Practice:
+- [Modules in the big three compilers: a small experiment](https://www.reddit.com/r/cpp/comments/zswkp8/modules_in_the_big_three_compilers_a_small/?share_id=0m1-wcoqw7Cjx4G9OBR2V&utm_content=2&utm_medium=android_app&utm_name=androidcss&utm_source=share&utm_term=1)
+- [Simple usage of C++20 modules](https://vitaut.net/posts/2023/simple-cxx20-modules/)
+- [import CMake; the Experiment is Over!](https://www.kitware.com/import-cmake-the-experiment-is-over/)
+
+Couldn't get them to work, support is still shit.
 
 
 ## Report
@@ -248,7 +260,48 @@ Couldn't get them to work :(.
 
 
 ## CMake
-- [CMake Tutorial¶](https://cmake.org/cmake/help/latest/guide/tutorial/index.html)
+In order to structure the project with CMake, add a `CMakeLists.txt` for each source directory:
+- On the root folder, the file will contain the project and compilation configuration. Make sure to include the subdirectories (where the source files are located, e.g. `src/`) with `add_subdirectory(<subdir>)`.  
+  E.g. [`CMakeLists.txt`](../CMakeLists.txt)
+
+- For library directories (any without a target/executable file), just write a `target_sources<name>)` and specify the library name and public and private header/source files, tipically all header (`.hpp`) files are public and all source (`.cpp`) files are private (but you can keep some header files private if you only need them for that library).
+    - If you have subdirectories (tipically for private sub-libraries), you can just specify the relative path of the header/source files, there's no need to create a new `CMakeLists.txt` in the subdirectory.  
+    E.g. [`src/cpu/CMakeLists.txt`](../src/cpu/CMakeLists.txt).
+
+- For directories that require libraries (tipically those with targets/executables), you must link the libraries with `target_link_libraries(<target> [PUBLIC|PRIVATE] [<lib> ...] ...)` **after** the `add_executable(<name> <source>.cpp)`
+    - If the libraries are in a subdirectory, create the libraries with `add_library(<name> [STATIC|INTERFACE])`, include the current directory (give acess to all other libraries) in all libraries with `target_include_directories(<lib> [STATIC|INTERFACE] ${CMAKE_CURRENT_LIST_DIR})` and include the subdirectories to be built with `add_subdirectory())` (assuming you have a `CMakeLists.txt` inside the subdirectories).  
+    E.g. [`src/CMakeLists.txt`](../src/CMakeLists.txt).
+        - For libraries that don't really need a source file, set them as interfaces. E.g. [`src/exceptions/`](../src/exceptions/).
+        - Otherwise, set them as static. E.g. [`src/compiler/`](../src/compiler/).
+    - If the libraries are already built, you just have to include them and link them.  
+    E.g. [`test/CMakeLists.txt`](../test/CMakeLists.txt)
+
+### Third-party libraries
+In C++, third party libraries are shit. Not because of the code, but because of the instalation (because C++'s package management is literally non-existant).
+There are three main ways to install a library:
+- The easiest, brain-deadest way to install a library is to download it as a full header (`.hpp`) file, and just include it.
+- You can also install it (build from source or through a Unix package manager, etc.), and use `find_package(...)` to locate it, `add_library(...)`, and `target_link_libraries(...)`.
+- Since CMake 3.11, you can use `FetchContent` to download it at config time, just:
+  ``` cmake
+  include(FetchContent)
+
+  FetchContent_Declare(
+    <name>
+    URL https://github.com/<user>/<repo>/releases/download/<tag>/<file>.tar.xz
+  )
+  FetchContent_MakeAvailable(<name>)
+  target_link_libraries(...)
+  ```
+  E.g. [`src/CMakeLists.txt`](../src/CMakeLists.txt).
+
+In order to use a library as a dependency of another library, remember to `target_link_libraries(<library> [PUBLIC|PRIVATE] <dependency>)`.  
+E.g. [`src/compiler/CMakeLists.txt`](../src/compiler/CMakeLists.txt).
+
+More info:
+- [CMake Tutorial](https://cmake.org/cmake/help/latest/guide/tutorial/index.html)
+- An alternative is [GRPBuild](https://docs.adacore.com/gprbuild-docs/html/gprbuild_ug/building_with_gprbuild.html) and [GNAT Project Manager](https://docs.adacore.com/gprbuild-docs/html/gprbuild_ug/gnat_project_manager.html)
+
 
 ### Circular dependencies
+Just avoid them.
 - [Circular Dependencies in C++](https://pvigier.github.io/2018/02/09/dependency-graph.html)
