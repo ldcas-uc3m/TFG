@@ -12,7 +12,7 @@ gantt
         ALU: 20/11/23, 30/12/23
         Compiler: 16/01/24, 1m  %% WIP
     section Research
-        WASM: 29/09/23, 04/10/23
+        WASM: 29/09/23, 04/10/23, 23/01/24, 5/02/24
         RISC-V: 29/09/23, 04/10/23
         CPP: 08/10/23, 1m  %% WIP
         Parser/Interpreter: 04/10/23, 21/10/23

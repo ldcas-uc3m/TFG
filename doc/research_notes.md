@@ -90,11 +90,39 @@ https://github.com/rems-project/sail/tree/sail2
 
 
 ## C++ WASM Compilation
+
 - Compile using [Emscripten](https://emscripten.org/)
 - Allows for C++20 by using `-std=c++20` flag ([source](https://stackoverflow.com/questions/74508184/emscripten-and-c-20))
+
+<!--
+WIP
+
+Install Emscripten by:
+``` bash
+git clone --depth=1 https://github.com/emscripten-core/emsdk.git
+cd emsdk
+./emsdk install latest
+./emsdk activate latest
+source ./emsdk_env.sh
+```
+
+Run:
+```bash
+source ~/emsdk/emsdk_env.sh
+# CMAKE_TOOLCHAIN_FILE=$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
+cd build
+emcmake cmake ..
+make
+```
+-->
+
 - Guides:
     - [T. Deniffel - Pragmatic compiling of C++ to WebAssembly. A Guide.](https://medium.com/@tdeniffel/pragmatic-compiling-from-c-to-webassembly-a-guide-a496cc5954b8)
     - [MDN Web Docs - Compiling a New C/C++ Module to WebAssembly](https://developer.mozilla.org/en-US/docs/WebAssembly/C_to_wasm#emscripten_environment_setup)
+    - [Compile C++ to WebAssembly and JavaScript using Emscripten and CMake](https://gist.github.com/ericoporto/8ce679ecb862a12795156d31f3ecac49)
+    - [Emscripten with CMake](https://stunlock.gg/posts/emscripten_with_cmake/)
+- Examples:
+    - [floooh/pacman.c](https://github.com/floooh/pacman.c)
 
 
 
@@ -106,25 +134,33 @@ https://github.com/rems-project/sail/tree/sail2
 - [Online Gantt Chart Generator](https://www.onlinegantt.com/#/gantt)
 - [Mermaid Gantt Diagrams](https://mermaid.js.org/syntax/gantt.html)
 - [Mermaid Flowcharts](https://mermaid.js.org/syntax/flowchart.html?id=flowcharts-basic-syntax)
+- [SRS-latex-uc3m](https://github.com/jalopezg-git/SRS-latex-uc3m)
+
 
 
 
 ## C++
-- [C++ reference](https://en.cppreference.com)
+Why C++:
+- Modern, but old language
+- Strongly typed, safe, high-performance with zero-cost abstractions.
+- Portability to WASM, Python Modules.
+
+Useful stuff:
+- [C++ reference](https://en.cppreference.com): C++ Bible
+    - [Compiler support](https://en.cppreference.com/w/cpp/compiler_support): allows you to see which feature from each standard is implemented in which compiler. A godsend!
 - [31 nooby C++ habits you need to ditch](https://www.youtube.com/watch?v=i_wDa2AS_8w)
 
 ### Casting
 - `static_cast<target_type>(value)`
 
 
-### Member functions (methods)
+### Functions
 
 - **Specifiers:** Modify the function's properties
-    - `static`: Allow for it to be called outside the class.
-    - `const` (after parenthesis): Use it if you don't modify any class member.
-    - `noexcept`: The function doesn't lauch exception. If it does, **shit goes down**.
-    - `friend`: As if you define the function outside the class, you must pass a parameter for the class object. It has acces to the private members of the class.
-    - `[[nodiscard]]`: You have to assign to something whatever the function returns.
+    - [`noexcept`](https://en.cppreference.com/w/cpp/language/noexcept_spec): The function doesn't lauch exception. If it does, **shit goes down**.
+    - [`[[nodiscard]]`](https://en.cppreference.com/w/cpp/language/attributes/nodiscard): You have to assign to something whatever the function returns.
+    - [`inline`](https://en.cppreference.com/w/cpp/language/inline): Signals the compiler that you prefer to not deal with the overhead of a function call. Don't use with recursive functions.
+    - [`constexpr`](https://en.cppreference.com/w/cpp/language/constexpr): The function results can be evaluated at compile time. Use with simple functions, without try-catch blocks.
 - **Parameter passing convention:** Types of parameter passing.
     - **By value -** `type p`: It makes a copy.
     - **By constant value -** `type const p`: It makes a copy, but it can't be modified.
@@ -146,15 +182,21 @@ https://github.com/rems-project/sail/tree/sail2
 - **Specifiers:**
     - `final`: To prevent further inheritance.
 
+#### Member functions (methods)
+- **Specifiers:** Modify the function's properties
+    - `static`: Allow for it to be called outside the class.
+    - `const` (after parenthesis): Use it if you don't modify any class member.
+    - `friend`: As if you define the function outside the class, you must pass a parameter for the class object. It has acces to the private members of the class.
+
 ### Enums
 - Use `enum class`.
 
 
 ### Typedef
-Don't use it, use aliases: `using new_type = old_type`
+Don't use it, use aliases: `using new_type = old_type`.
 
 ### #define
-Don't use it, use `constexpr`
+Don't use it, use `constexpr`.
 
 ### Namespaces
 
@@ -253,10 +295,6 @@ Practice:
 - [import CMake; the Experiment is Over!](https://www.kitware.com/import-cmake-the-experiment-is-over/)
 
 Couldn't get them to work, support is still shit.
-
-
-## Report
-[SRS-latex-uc3m](https://github.com/jalopezg-git/SRS-latex-uc3m)
 
 
 ## CMake

@@ -11,7 +11,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # compiler config
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20")
+add_definitions(-std=c++23)
 add_compile_options(-Wall -Werror -Wextra -pedantic -pedantic-errors -fPIC)
 
 
