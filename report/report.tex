@@ -1,38 +1,89 @@
-\documentclass[12pt]{article}
+\documentclass{uc3mthesisIEEE}
 
-\addtolength{\oddsidemargin}{-.585in}
-\addtolength{\evensidemargin}{.585in}
-\addtolength{\topmargin}{-.585in}
-\addtolength{\textheight}{.760in}
-\addtolength{\textwidth}{1in}
 
-\usepackage[utf8]{inputenc}
-\usepackage[table]{xcolor}
-\usepackage{listings}
-\usepackage{float}
-\usepackage{graphicx}
-\usepackage{hyperref}
-\usepackage{markdown}
-% \usepackage{svg}
-% \usepackage[backend=biber, style=ieee, isbn=false,sortcites, maxbibnames=5, minbibnames=1]{biblatex}
+\usepackage{epigraph, etoolbox}
 
-\definecolor{azulUC3M}{RGB}{0,0,102}
+\usepackage{mymacros}  % report-specific macros
 
-% change name of table of contents
-\renewcommand*\contentsname{Table of contents}
 
-% \bibliography{bibliography}
+% setup
+\def\degree{Bachelor's degree in Computer Science and Engineering}
+\def\subject{Subject}
+\def\author{Luis Daniel Casais Mezquida}
+\def\year{2022-2023}
+\def\title{Tmp title}
+\def\tutor{Alejandro Calderón Mateos}
+\def\place{Leganés, Madrid, Spain}
+\def\date{June 2024}
+
+
+% REFERENCES
+\addbibresource{references.bib}  % bibliography file
+
+
+%	DOCUMENT
+\usepackage{import}
 
 \begin{document}
+	\pagenumbering{roman}  % roman numerals are used in the numbering of the pages preceding the body of the work
 
-\input{parts/0-cover.tex}
-% \tableofcontents
+	\maketitle
+	\blankpage
 
-% Put here all the parts to include (in order)
-% \markdownInput{parts/main.md}
+	\import{parts/}{epigraph.tex}
+	\blankpage
+
+	\import{parts/}{abstract.tex}
+	\blankpage
+
+	\import{parts/}{dedication.tex}
+	\blankpage
+
+	% TOC
+	\tableofcontents
+	\thispagestyle{fancy}
+	\blankpage
+
+	% List of figures
+	\listoffigures
+	\thispagestyle{fancy}
+	\blankpage
+
+	% List of tables
+	\listoftables
+	\thispagestyle{fancy}
+	\blankpage
 
 
-% Put here all the parts to include (in order)
-% \markdownInput{parts/main.md}
+	% THESIS
+	\clearpage
+	\pagenumbering{arabic}  % numbering with Arabic numerals for the rest of the document
+
+	\import{parts/thesis/}{1-introduction.tex}
+	\import{parts/thesis/}{2-state_of_the_art.tex}
+	\import{parts/thesis/}{3-design.tex}
+	\import{parts/thesis/}{4-evaluation.tex}
+	\import{parts/thesis/}{5-planning.tex}
+	\import{parts/thesis/}{6-future_work.tex}
+
+  \newpage
+	\import{parts/thesis/}{example.tex}
+
+
+	% Bibliography
+
+	\clearpage
+	\addcontentsline{toc}{chapter}{Bibliography}
+
+	\printbibliography
+
+
+
+	% Appendix
+
+	% If your work includes Appendix, you can uncomment the following lines
+	%\chapter* {Appendix x}
+	%\pagenumbering{gobble} % Appendix pages are not numbered
+
 
 \end{document}
