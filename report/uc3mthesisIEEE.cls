@@ -288,8 +288,6 @@
 
 
 
-
-
 %----------
 % FIGURES
 %----------
@@ -332,13 +330,16 @@
 
 \preto{\appendixpagename}{\Huge\color{azulUC3M}}
 
-\newcommand{\startappendix}{
-	\appendix
-	\addappheadtotoc
-  \appendixpage
-	\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}  % don't show appendixes on TOC
-	\pagenumbering{gobble} % Appendix pages are not numbered
-}
+\renewenvironment{appendices}
+	{  % begin definition
+		\pagestyle{fancy}
+		\appendix
+		\addappheadtotoc
+		\appendixpage
+		\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}  % don't show appendixes on TOC
+		\pagenumbering{gobble} % Appendix pages are not numbered
+	}
+	{\newpage}  % end definition
 
 
 
@@ -435,6 +436,51 @@
 }
 
 
+
+%----------
+% ABSTRACT
+%----------
+
+\renewenvironment{abstract}
+	{  % begin definition
+		\pagestyle{noheader}
+		\chapter*{\abstractname}
+	}
+	{\newpage}  % end definition
+
+\newcommand{\keywords}[1]{
+	\vfill
+	\textbf{\keywordsname:} #1.
+}
+
+
+
+%----------
+% ACKNOWLEDGEMENTS
+%----------
+
+\newenvironment{acknowledgements}
+	{  % begin definition
+		\pagestyle{noheader}
+		\chapter*{\acknowledgementsname}
+	}
+	{\newpage}  % end definition
+
+
+
+%----------
+% THESIS
+%----------
+
+\newenvironment{thesis}
+	{  % begin definition
+		\clearpage
+		\pagestyle{fancy}
+		\pagenumbering{arabic}  % numbering with Arabic numerals for the rest of the document
+	}
+	{\newpage}  % end definition
+
+
 %----------
 % MACROS
 %----------
@@ -466,7 +512,9 @@
 \renewcommand{\year}[1]{\gdef\@year{#1}}
 \newcommand{\place}[1]{\gdef\@place{#1}}
 
-\renewcommand{\maketitle} {  % requires \degree, \subject, \author, \year, \title, \tutors, \place, \date
+\newcommand{\makecover} {  % requires \degree, \subject, \author, \year, \title, \tutors, \place, \date
+	\pagenumbering{roman}  % roman numerals are used in the numbering of the pages preceding the body of the work
+
 
 	\begin{titlepage}
 		\color{azulUC3M}
