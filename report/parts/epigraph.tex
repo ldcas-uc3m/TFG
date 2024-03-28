@@ -1,19 +1,8 @@
 \thispagestyle{empty}
-
-% patch epigraph internal commands, with the etoolbox package
-\makeatletter
-\newlength\epitextskip
-\pretocmd{\@epitext}{\em}{}{}
-\apptocmd{\@epitext}{\em}{}{}
-\patchcmd{\epigraph}{\@epitext{#1}\\}{\@epitext{#1}\\[\epitextskip]}{}{}
-\makeatother
-
-\setlength\epigraphrule{0pt}
-\setlength\epitextskip{2ex}
-\setlength\epigraphwidth{.5\textwidth}
+\stepcounter{page}
 
 \vspace*{\fill}
 
-\epigraph{Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.}{\textbf{Cicero}}
+\epigraph{Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure}{Cicero, \textit{de Finibus Bonorum et Malorum}}
 
 \vspace*{\fill}

@@ -1,7 +1,6 @@
 \documentclass{uc3mthesisIEEE}
 
 
-\usepackage{epigraph, etoolbox}
 
 \usepackage{mymacros}  % report-specific macros
 
@@ -11,7 +10,7 @@
 \def\subject{Subject}
 \def\author{Luis Daniel Casais Mezquida}
 \def\year{2022-2023}
-\def\title{Tmp title}
+\def\title{Análisis, diseño e implementación de un procesador tipo RISC-V usando webassembly}
 \def\tutor{Alejandro Calderón Mateos}
 \def\place{Leganés, Madrid, Spain}
 \def\date{June 2024}
@@ -24,66 +23,59 @@
 %	DOCUMENT
 \usepackage{import}
 
+\usepackage{lipsum}  % dummy text
+
 \begin{document}
-	\pagenumbering{roman}  % roman numerals are used in the numbering of the pages preceding the body of the work
+  \pagenumbering{roman}  % roman numerals are used in the numbering of the pages preceding the body of the work
 
-	\maketitle
-	\blankpage
+  \maketitle
+  \blankpage
 
-	\import{parts/}{epigraph.tex}
-	\blankpage
+  \import{parts/}{epigraph.tex}
 
-	\import{parts/}{abstract.tex}
-	\blankpage
+  \pagestyle{noheader}
 
-	\import{parts/}{dedication.tex}
-	\blankpage
+  \import{parts/}{abstract.tex}
 
-	% TOC
-	\tableofcontents
-	\thispagestyle{fancy}
-	\blankpage
+  \import{parts/}{acknowledgements.tex}
 
-	% List of figures
-	\listoffigures
-	\thispagestyle{fancy}
-	\blankpage
+  % TOC
+  \tableofcontents
 
-	% List of tables
-	\listoftables
-	\thispagestyle{fancy}
-	\blankpage
+  % List of figures
+  \listoffigures
+
+  % List of tables
+  \listoftables
 
 
-	% THESIS
-	\clearpage
-	\pagenumbering{arabic}  % numbering with Arabic numerals for the rest of the document
+  % THESIS
+  \clearpage
+  \pagestyle{fancy}
+  \pagenumbering{arabic}  % numbering with Arabic numerals for the rest of the document
 
-	\import{parts/thesis/}{1-introduction.tex}
-	\import{parts/thesis/}{2-state_of_the_art.tex}
-	\import{parts/thesis/}{3-design.tex}
-	\import{parts/thesis/}{4-evaluation.tex}
-	\import{parts/thesis/}{5-planning.tex}
-	\import{parts/thesis/}{6-future_work.tex}
+  \import{parts/thesis/}{1-introduction.tex}
+  \import{parts/thesis/}{2-state_of_the_art.tex}
+  \import{parts/thesis/}{3-design.tex}
+  \import{parts/thesis/}{4-evaluation.tex}
+  \import{parts/thesis/}{5-planning.tex}
+  \import{parts/thesis/}{6-future_work.tex}
 
   \newpage
-	\import{parts/thesis/}{example.tex}
+  \import{parts/thesis/}{example.tex}
 
 
-	% Bibliography
-
-	\clearpage
-	\addcontentsline{toc}{chapter}{Bibliography}
-
-	\printbibliography
+  % BIBLIOGRAPHY
+  \clearpage
+  \addcontentsline{toc}{chapter}{Bibliography}
+  \printbibliography
 
 
+  % APPENDICES
+  \startappendix
 
-	% Appendix
-
-	% If your work includes Appendix, you can uncomment the following lines
-	%\chapter* {Appendix x}
-	%\pagenumbering{gobble} % Appendix pages are not numbered
+  % \chapter{My stuff}
+  % \lipsum
 
 
 \end{document}
