@@ -1,11 +1,29 @@
+% Bachelor Thesis Template of the Carlos III de Madrid University, IEEE style
+% Based on the University Library's Bachelor Thesis Template, found in https://www.overleaf.com/latex/templates/bachelor-thesis-template-uc3m-ieee-style/rtmtnzvxjnwt
+% Edited by Luis Daniel Casais Mezquida <https://github.com/ldcas-uc3m>
+
+% LICENSE: Creative Commons CC BY 4.0
+
+% WARNING: This Guide contains Library recommendations based mainly on APA and IEEE styles, but you must always follow the guidelines of your TFG Tutor and the TFG regulations for your degree.
+
+
+
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{uc3mthesisIEEE}[UC3M bachelor's thesis IEE template]
 
-% WARNING
-% This Guide contains Library recommendations based mainly on APA and IEEE styles, but you must always follow the guidelines of your TFG Tutor and the TFG regulations for your degree.
 
-% THIS TEMPLATE IS BASED ON THE IEEE STYLE
+%----------
+% PACKAGE OPTIONS
+%----------
 
+% english
+\newif\if@langen@pp\@langen@ppfalse  % check es language
+\DeclareOption{en}{\@langen@pptrue}
+% spanish
+\newif\if@langes@pp\@langes@ppfalse  % check en language
+\DeclareOption{es}{\@langes@pptrue}
+
+\ProcessOptions\relax
 
 
 %----------
@@ -14,7 +32,7 @@
 
 % Color settings for cover and code listings
 \RequirePackage[table]{xcolor}
-\definecolor{azulUC3M}{RGB}{0, 14, 120}
+\definecolor{azulUC3M}{RGB}{0, 0, 102}
 \definecolor{gray97}{gray}{.97}
 \definecolor{gray75}{gray}{.75}
 \definecolor{gray45}{gray}{.45}
@@ -40,7 +58,6 @@
 
 % In the template we include the file OUTPUT.XMPDATA. You can download that file and include the metadata that will be incorporated into the PDF file when you compile the report.tex file. Then upload it back to your project.
 \RequirePackage[a-1b]{pdfx}
-
 
 
 
@@ -84,10 +101,35 @@
 % LANGUAGE
 %----------
 
-\RequirePackage[english]{babel}
-\RequirePackage[babel, english=american]{csquotes}
-\AtBeginEnvironment{quote}{\small}
+\if@langes@pp
+	\RequirePackage[spanish, es-tabla]{babel} 
+	\RequirePackage[babel, spanish=spanish]{csquotes}
 
+	\def\acknowledgementsname{Dedicatoria}
+	\def\abstractname{Resumen}
+	\def\keywordsname{Palabras clave}
+	\def\bibliographyname{Bibliografía}
+	\def\thesisname{Trabajo Fin de Grado}
+	\def\ccstring{Esta obra se encuentra sujeta a la licencia Creative Commons \textbf{Reconocimiento - No Comercial - Sin Obra Derivada}}
+	\def\tablecaptionname{TABLA}
+	\def\pluralpostfix{es}
+\fi
+	
+\if@langen@pp
+	\RequirePackage[english]{babel}
+	\RequirePackage[babel, english=american]{csquotes}
+	
+	\def\acknowledgementsname{Acknowledgements}
+	\def\abstractname{Abstract}
+	\def\keywordsname{Keywords}
+	\def\bibliographyname{Bibliography}
+	\def\thesisname{Bachelor Thesis}
+	\def\ccstring{This work is licensed under Creative Commons \textbf{Attribution - Non Commercial - Non Derivatives}}
+	\def\tablecaptionname{TABLE}
+	\def\pluralpostfix{s}
+\fi
+
+\AtBeginEnvironment{quote}{\small}
 
 
 %----------
@@ -97,11 +139,20 @@
 \RequirePackage{fancyhdr}
 
 \preto{\headrule}{\color{azulUC3M}}  % blue headrule
-\setlength{\headheight}{15pt}  % fix headheight
+
+% fix headheight
+\if@langes@pp
+	\setlength{\headheight}{16pt}
+\else
+	\setlength{\headheight}{15pt}
+\fi
+% \renewcommand{\chaptermark}[1]{\markboth{#1}{}}  % \leftmark with just chapter names
+
 
 \fancypagestyle{fancy} {
 	\fancyhf{}
-	\lhead{\thechapter. \color{azulUC3M}\MakeUppercase{\leftmark}}  % chapter name
+	% \lhead{\thechapter. \color{azulUC3M}\MakeUppercase{\leftmark}}  % chapter name
+	\lhead{\color{azulUC3M}\MakeUppercase{\leftmark}}  % chapter name
 	\rhead{\color{azulUC3M}\thepage}  % page number
 	\renewcommand{\headrulewidth}{0.4pt}
 }
@@ -120,13 +171,9 @@
 %----------
 
 \RequirePackage{titlesec}
-\RequirePackage{titletoc}
-\RequirePackage[titles]{tocloft}
 
-\renewcommand{\chaptermark}[1]{\markboth{#1}{}}  % mark chapters for header
 
 % chapter
-
 \titleformat{\chapter}[display]
 	{\filcenter\color{azulUC3M}}  % format
 	{  % label
@@ -147,22 +194,14 @@
 		\MakeUppercase
 	}
 	[\vspace{1cm}]  % after-title
-
 \titlespacing{\chapter}{0pt}{0pt}{*3}
-
 
 % section
 \titleformat{\section}
 	{\large\bfseries\color{azulUC3M}}  % format
-	{\thesection.}  % lable
+	{\thesection.}  % label
 	{1pc}  % separator
 	{}
-\titlecontents{section}[5pt]
-	{}
-	{\contentsmargin{0pt}\thecontentslabel.\enspace}
-	{\contentsmargin{0pt}}
-	{\titlerule*[.7pc]{.}\contentspage}
-
 
 % subsection
 \titleformat{\subsection}
@@ -170,16 +209,56 @@
 	{\thesubsection.}
 	{5pt}
 	{}
-\titlecontents{subsection}[10pt]
-	{}
-	{\contentsmargin{0pt} \thecontentslabel.\enspace}
-	{\contentsmargin{0pt}}
-	{\titlerule*[.7pc]{.}\contentspage}
+
 
 
 %----------
 % TOC
 %----------
+
+\RequirePackage{titletoc}
+\RequirePackage[titles]{tocloft}
+
+\setcounter{tocdepth}{2}  % until subsection
+
+% chapters
+\titlecontents{chapter}
+	[-5pt]  % left margin
+	{\addvspace{1pc}}  % above
+	{  % before with label
+		\hypersetup{hidelinks}
+		\bfseries
+		\color{azulUC3M}
+		\chaptertitlename\ \thecontentslabel.\enspace  % label
+	}
+	{  % before without label
+		\hypersetup{hidelinks}
+		\bfseries
+		\color{azulUC3M}
+	}
+	{  % filler and page
+		\titlerule*[.7pc]{.}
+		\hypersetup{hidelinks}
+		\bfseries
+		\color{azulUC3M}
+		\contentspage
+	}
+
+	% sections
+	\titlecontents{section}
+		[5pt]  % left margin
+		{}  % above
+		{\contentsmargin{0pt}\thecontentslabel.\enspace}  % before with label
+		{\contentsmargin{0pt}}  % before without label
+		{\titlerule*[.7pc]{.}\contentspage}  % filler and page
+	
+	% subsections
+	\titlecontents{subsection}[10pt]
+		{}
+		{\contentsmargin{0pt} \thecontentslabel.\enspace}
+		{\contentsmargin{0pt}}
+		{\titlerule*[.7pc]{.}\contentspage}
+
 % blue colors for chapters
 \renewcommand{\cftchapfont}{\hypersetup{hidelinks}\bfseries\color{azulUC3M}}
 \renewcommand{\cftchappagefont}{\bfseries\color{azulUC3M}}
@@ -199,13 +278,15 @@
 % Table layout for engineering
 \captionsetup*[table]{
 	format=upper,
-	name=TABLE,
+	name=\tablecaptionname,
 	justification=centering,
 	labelsep=period,
 	width=.75\linewidth,
 	labelfont=bf,
 	font=small
 }
+
+
 
 
 
@@ -243,9 +324,13 @@
 %----------
 
 \RequirePackage{appendix}
-% \RequirePackage{appendix}
 
-\renewcommand*\appendixpagename{\Huge\color{azulUC3M}Appendices}
+\if@langes@pp
+	\renewcommand{\appendixpagename}{Apéndices}
+	\renewcommand{\appendixtocname}{Apéndices}
+\fi
+
+\preto{\appendixpagename}{\Huge\color{azulUC3M}}
 
 \newcommand{\startappendix}{
 	\appendix
@@ -254,8 +339,6 @@
 	\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}  % don't show appendixes on TOC
 	\pagenumbering{gobble} % Appendix pages are not numbered
 }
-
-
 
 
 
@@ -306,6 +389,12 @@
 
 \RequirePackage[backend=biber, style=ieee, isbn=false, sortcites, maxbibnames=6, minbibnames=1]{biblatex} % Setting for IEEE citation style, recommended for engineering. "maxbibnames" indicates that from 6 authors truncate the list in the first one (minbibnames) and add "et al." as used in the IEEE style.
 
+\newcommand{\makebibliography} {
+	\clearpage
+  \addcontentsline{toc}{chapter}{\bibliographyname}
+  \printbibliography
+}
+
 
 
 %----------
@@ -330,6 +419,22 @@
 \setlength\epigraphwidth{.5\textwidth}
 
 
+% \makeepigraph{quote}{author}{source}
+\newcommand{\makeepigraph}[3] {
+  \blankpage
+
+	\thispagestyle{empty}
+
+	\vspace*{\fill}
+	
+	\ifblank{#3}
+		{\epigraph{#1}{#2}}  % no source
+		{\epigraph{#1}{#2, \textit{#3}}}
+
+	\vspace*{\fill}
+}
+
+
 %----------
 % MACROS
 %----------
@@ -347,49 +452,67 @@
 % COVER
 %----------
 
-\renewcommand{\maketitle} {  % requires \degree, \subject, \author, \year, \title, \tutor, \place, \date
+\RequirePackage{listofitems}
+\RequirePackage{xspace}
+
+\makeatletter
+
+% setup variables
+\newcommand{\tutors}[1] {
+	\readlist*\@tutors{#1}
+}
+\newcommand{\degree}[1]{\gdef\@degree{#1}}
+\newcommand{\subject}[1]{\gdef\@subject{#1}}
+\renewcommand{\year}[1]{\gdef\@year{#1}}
+\newcommand{\place}[1]{\gdef\@place{#1}}
+
+\renewcommand{\maketitle} {  % requires \degree, \subject, \author, \year, \title, \tutors, \place, \date
+
 	\begin{titlepage}
 		\color{azulUC3M}
 		\begin{center}
 			\begin{figure}[H]  % UC3M Logo
-				\centering
 				\includesvg[width=\textwidth]{uc3m_logo.svg}
 			\end{figure}
-
+			%
 			\vspace{1.5cm}
 			\begin{Large}
-				\degree\\
-				\year\\  % Academic year
+				\@degree\\
+				\@year\\  % Academic year
 				\vspace{2cm}
-				\textsl{Bachelor Thesis}
+				\textsl{\thesisname}
 				\bigskip
 			\end{Large}
 
-			{\Huge ``\title''}\\
+			{\Huge ``\@title''}\\
 			\vspace*{0.5cm}
 			\rule{10.5cm}{0.1mm}\\
 			\vspace*{0.9cm}
-			{\LARGE \author}\\
-
+			% {\LARGE \author}\\
 			\vspace*{0.5cm}
-
+			%
 			\begin{Large}
-				Tutor:\\
-				\tutor\\
+				\if\listlen\@tutors[]1  % only one tutor
+					Tutor\\
+				\else
+					Tutor\pluralpostfix\\
+				\fi
+				\foreachitem\z\in\@tutors[]{
+					\z\\
+				}
 				\vspace*{1cm}
-				\place\\
-				\date\\
+				\@place\\
+				\@date\\
 			\end{Large}
 		\end{center}
-
+		%
 		\vfill
-
 		\color{black}
 		% IF OUR WORK IS TO BE PUBLISHED UNDER A CREATIVE COMMONS LICENSE, INCLUDE THESE LINES. IS THE RECOMMENDED OPTION.
 		\includegraphics[width=4.2cm]{creativecommons.png}\\ % Creative Commons Logo
-		This work is licensed under Creative Commons \textbf{Attribution – Non Commercial – Non Derivatives}
-
+			\ccstring
 	\end{titlepage}
 
-	\setcounter{page}{1}
 }
+
+\makeatother

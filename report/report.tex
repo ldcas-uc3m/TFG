@@ -1,19 +1,8 @@
-\documentclass{uc3mthesisIEEE}
+\documentclass[en]{uc3mthesisIEEE}
 
 
 
 \usepackage{mymacros}  % report-specific macros
-
-
-% setup
-\def\degree{Bachelor's degree in Computer Science and Engineering}
-\def\subject{Subject}
-\def\author{Luis Daniel Casais Mezquida}
-\def\year{2022-2023}
-\def\title{Análisis, diseño e implementación de un procesador tipo RISC-V usando webassembly}
-\def\tutor{Alejandro Calderón Mateos}
-\def\place{Leganés, Madrid, Spain}
-\def\date{June 2024}
 
 
 % REFERENCES
@@ -26,26 +15,37 @@
 \usepackage{lipsum}  % dummy text
 
 \begin{document}
+  % setup
+  \degree{Bachelor's degree in Computer Science and Engineering}
+  \subject{Subject}
+  \author{Luis Daniel Casais Mezquida}
+  \year{2023-2024}
+  \title{Análisis, diseño e implementación de un procesador tipo RISC-V usando webassembly}
+  \tutors{
+    Alejandro Calderón Mateos
+  }
+  \place{Leganés, Madrid, Spain}
+  \date{June 2024}
+
+
   \pagenumbering{roman}  % roman numerals are used in the numbering of the pages preceding the body of the work
 
   \maketitle
-  \blankpage
-
-  \import{parts/}{epigraph.tex}
 
   \pagestyle{noheader}
 
-  \import{parts/}{abstract.tex}
+  \makeepigraph
+    {Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure}  % quote
+    {Cicero}  % author
+    {de Finibus Bonorum et Malorum}  % source
 
+
+  \import{parts/}{abstract.tex}
   \import{parts/}{acknowledgements.tex}
 
   % TOC
   \tableofcontents
-
-  % List of figures
   \listoffigures
-
-  % List of tables
   \listoftables
 
 
@@ -54,28 +54,26 @@
   \pagestyle{fancy}
   \pagenumbering{arabic}  % numbering with Arabic numerals for the rest of the document
 
-  \import{parts/thesis/}{1-introduction.tex}
-  \import{parts/thesis/}{2-state_of_the_art.tex}
-  \import{parts/thesis/}{3-design.tex}
-  \import{parts/thesis/}{4-evaluation.tex}
-  \import{parts/thesis/}{5-planning.tex}
-  \import{parts/thesis/}{6-future_work.tex}
+  \includefrom{parts/thesis/}{1-introduction.tex}
+  \includefrom{parts/thesis/}{2-state_of_the_art.tex}
+  \includefrom{parts/thesis/}{3-design.tex}
+  \includefrom{parts/thesis/}{4-evaluation.tex}
+  \includefrom{parts/thesis/}{5-planning.tex}
+  \includefrom{parts/thesis/}{6-future_work.tex}
 
   \newpage
-  \import{parts/thesis/}{example.tex}
+  \includefrom{parts/thesis/}{example.tex}
 
 
   % BIBLIOGRAPHY
-  \clearpage
-  \addcontentsline{toc}{chapter}{Bibliography}
-  \printbibliography
+  \makebibliography
 
 
   % APPENDICES
   \startappendix
 
-  % \chapter{My stuff}
-  % \lipsum
+  \chapter{My stuff}
+  \lipsum
 
 
 \end{document}
