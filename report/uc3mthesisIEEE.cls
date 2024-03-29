@@ -513,8 +513,8 @@
 \newcommand{\place}[1]{\gdef\@place{#1}}
 
 \newcommand{\makecover} {  % requires \degree, \subject, \author, \year, \title, \tutors, \place, \date
-	\pagenumbering{roman}  % roman numerals are used in the numbering of the pages preceding the body of the work
 
+	\pagenumbering{roman}  % roman numerals are used in the numbering of the pages preceding the body of the work
 
 	\begin{titlepage}
 		\color{azulUC3M}
@@ -536,14 +536,14 @@
 			\vspace*{0.5cm}
 			\rule{10.5cm}{0.1mm}\\
 			\vspace*{0.9cm}
-			% {\LARGE \author}\\
+			{\LARGE \@author}\\
 			\vspace*{0.5cm}
 			%
 			\begin{Large}
 				\if\listlen\@tutors[]1  % only one tutor
-					Tutor\\
+					\textit{Tutor}\\
 				\else
-					Tutor\pluralpostfix\\
+					\textit{Tutor\pluralpostfix}\\
 				\fi
 				\foreachitem\z\in\@tutors[]{
 					\z\\
