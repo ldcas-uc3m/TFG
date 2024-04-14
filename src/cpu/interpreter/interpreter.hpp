@@ -5,6 +5,7 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 
 #include "register_file.hpp"
@@ -21,12 +22,26 @@
 class Interpreter final {
 
     public:
-        /* constructor */
+        /* constructors */
+        // TODO: single constructor that accepts init list and map
         Interpreter(
             RegisterFile & rf,
             Memory::text & mem_t,
             Memory::data & mem_d,
             std::initializer_list<std::pair<const std::string, std::string>> calls
+        )
+        :
+            _rf {rf},
+            _mem_t {mem_t},
+            _mem_d {mem_d},
+            _alu {calls, rf, mem_t, mem_d}
+        { }
+
+        Interpreter(
+            RegisterFile & rf,
+            Memory::text & mem_t,
+            Memory::data & mem_d,
+            std::unordered_map<std::string, std::string> calls
         )
         :
             _rf {rf},

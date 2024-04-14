@@ -12,7 +12,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # compiler config
 add_definitions(-std=c++23)
-add_compile_options(-Wall -Werror -Wextra -pedantic -pedantic-errors -fPIC)
+add_compile_options(-Wall -Wextra -pedantic -pedantic-errors -fPIC)
 
 
 # include targets

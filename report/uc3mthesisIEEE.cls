@@ -87,13 +87,13 @@
 
 
 %----------
-% ENCODING
+% ENCODING & FONTS
 %----------
 
 \RequirePackage{txfonts}
 \RequirePackage[T1]{fontenc}
 \RequirePackage[utf8]{inputenc}
-\RequirePackage{mathptmx}
+\RequirePackage{mathptmx}  % times new roman
 
 
 
@@ -262,6 +262,7 @@
 % blue colors for chapters
 \renewcommand{\cftchapfont}{\hypersetup{hidelinks}\bfseries\color{azulUC3M}}
 \renewcommand{\cftchappagefont}{\bfseries\color{azulUC3M}}
+
 
 
 %----------
@@ -479,6 +480,7 @@
 		\pagenumbering{arabic}  % numbering with Arabic numerals for the rest of the document
 	}
 	{\newpage}  % end definition
+
 
 
 %----------

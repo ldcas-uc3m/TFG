@@ -1,0 +1,26 @@
+{
+    "name": "RISC-V",
+    "memory": {
+        "text": {
+            "start_addr": "0x00000000"
+        },
+        "data": {
+            "start_addr": "0x00000100",
+            "end_addr": "0xFFFFFFFF"
+        }
+    },
+    "registers": ["t0", "t1", "t2", "t3", "t4", "t5"],
+    "syscalls": {
+        "0": "print_int",
+        "1": "print_char",
+        "2": "read_int",
+        "3": "read_char",
+        "4": "exit"
+    },
+    "instruction_set": {
+        "addi": {
+            "args": [ "$ra", "$rb", "$x" ],
+            "def": "(reg! $ra (+ (reg $rb) $x))"
+        }
+    }
+}

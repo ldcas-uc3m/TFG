@@ -29,10 +29,25 @@ class RegisterFile {
 
     public:
 
-        /* constructor */
+        /* constructors */
+        // TODO: single constructor that accepts init list and map
+
         RegisterFile(
             std::uint32_t pc_start_addr,
             std::initializer_list<std::string> l
+        ) : pc {pc_start_addr}, _reg_names{l} {
+
+            // fill up register map
+            for (std::size_t i = 0; i < _reg_names.size(); ++i) {
+                _reg_map.insert({_reg_names[i], i});
+            }
+
+            _rf.resize(_reg_names.size());
+        }
+
+        RegisterFile(
+            std::uint32_t pc_start_addr,
+            std::vector<std::string> l
         ) : pc {pc_start_addr}, _reg_names{l} {
 
             // fill up register map

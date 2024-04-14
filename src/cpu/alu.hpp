@@ -22,9 +22,35 @@ using lisp_function = std::function<const Token (const std::vector<Token> &)>;
 class ALU final {
 
     public:
-        /* constructor */
+        /* constructors */
+        // TODO: single constructor that accepts init list and map
         ALU(
             std::initializer_list<std::pair<const std::string, std::string>> calls,
+            RegisterFile & rf,
+            Memory::text & mem_t,
+            Memory::data & mem_d
+        )
+        :
+            call_opcodes {calls},
+            _rf {rf},
+            _mem_t {mem_t},
+            _mem_d {mem_d}
+        {
+
+            // check calls
+            if (calls.size() != call_env.size())
+                throw LUISPDAException("Invalid system calls list");
+
+            for (const auto & [opcode, call_name] : call_opcodes) {
+                if (!call_env.contains(call_name)) {
+                    // FIXME: throwing this exception breaks things
+                    throw LUISPDAException("Invalid system calls list");
+                }
+            }
+        }
+
+        ALU(
+            std::unordered_map<std::string, std::string> calls,
             RegisterFile & rf,
             Memory::text & mem_t,
             Memory::data & mem_d

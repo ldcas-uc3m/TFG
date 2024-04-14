@@ -3,19 +3,26 @@
 
 
 #include <string>
-#include <vector>
-#include <algorithm>
-#include <regex>
+#include <cstdint>
 
 
-static bool is_number(const std::string & s) {
-    /*
-    Evaluates if a string is a number
-    */
-    // return !s.empty() && std::find_if(s.begin(), s.end(), [](unsigned char c) { return !std::isdigit(c); }) == s.end();
-    return std::regex_match(s, std::regex("-?[0-9]+"));
-}
+bool is_number(const std::string & s);
 
+
+std::uint32_t from_hex(const std::string & s);
+
+
+// trim from start (in place)
+void ltrim(std::string &s);
+
+// trim from end (in place)
+void rtrim(std::string &s);
+
+// trim from both ends (in place)
+void trim(std::string &s);
+
+
+void replaceAll(std::string & s, const std::string & search, const std::string & replace);
 
 
 #endif

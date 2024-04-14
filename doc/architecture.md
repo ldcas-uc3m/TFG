@@ -23,7 +23,24 @@ graph LR;
 
 
 ### Architecture definition file
-<!-- TODO -->
+The architecture is defined in a JSON file, with the following format:
+- `name`: Name of the architecture.
+- `memory`: Memory configuration.
+    - `text`: Text memory configuration.
+        - `start_addr`: Memory start address (`string` - HEX).
+    - `data`: Data memory configuration.
+        - `start_addr`: Memory start address (`string` - HEX).
+        - `end_addr`: Memory end address (`string` - HEX).
+- `registers`: Register names (`array[string]`).
+- `syscalls`: System call map (`object[string, string]`).
+    - `<id>: <call>`
+- `instruction_set`: Set of architecture instructions.  
+  Each instruction is a JSON object with the following format:
+  - `<instruction_name>`
+    - `args`: Function arguments. They must all start by `$`. (`array[string]`)
+    - `def`: LUISP-DA definition (`string`).
+
+You can see example architectures in the [`architectures/`](../architectures/) folder.
 
 
 ## LUISP-DA

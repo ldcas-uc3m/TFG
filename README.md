@@ -10,10 +10,18 @@ Universidad Carlos III de Madrid
 ## Installation and execution
 
 Compile
-```bash
-cd build/
-make
-```
+- Linux:
+    ```bash
+    cd build/
+    cmake ..
+    make
+    ```
+- Windows (PowerShell)
+    ```powershell
+    cd build/
+    cmake -G Ninja ..
+    cmake --build .
+    ```
 
 Run
 ```bash

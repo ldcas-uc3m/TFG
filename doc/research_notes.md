@@ -201,6 +201,33 @@ Don't use it, use `constexpr`.
 ### Namespaces
 
 
+### Templates and concepts
+This is C++'s implementation of generic programming, which allows you to use the same function for different parameter types/classes. This is **not** overloading, because that requires two function definitions.
+
+You declare a template through `template <NAME>`, and that `NAME` will represent any type defined in the template. A template only applies to the next function definition.
+
+In order to constraint the number of types, you can use concepts, which are specified before the template type name. If no concept is specified, _all_ types will be valid.  
+C++20 comes with some predefined concepts in the `<concepts>` header.
+
+E.g. the following function allows to check if any integer number is even, allowing for all integer types (`int`, `long`, etc.).
+```cpp
+#include <concepts>
+
+template <std::integral INT_T>
+bool is_even(INT_T n) {
+    return n % 2 == 0;
+}
+
+int two = 2;
+long two_long = 2;
+
+is_even(two);
+is_even(two_long);
+```
+
+### Concepts
+
+
 
 ### Data structures
 - `std::array<type, size>`: Classic arrays
@@ -275,7 +302,7 @@ int x = 69;
 
 
 ### JSON ([nlohmann/json](https://github.com/nlohmann/json))
-- [Using JSON in Modern C++](https://www.studyplan.dev/pro-cpp/json)
+- [Official Documentation](https://json.nlohmann.me/)
 
 #### Instalation
 - [Use CMake FetchContent](https://github.com/nlohmann/json?tab=readme-ov-file#embedded-fetchcontent)

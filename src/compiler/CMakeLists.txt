@@ -1,4 +1,9 @@
-target_link_libraries(Compiler PRIVATE nlohmann_json)  # dependency
+target_link_libraries(
+    Compiler
+
+    PRIVATE
+        nlohmann_json
+    )
 
 
 target_sources (
@@ -8,6 +13,4 @@ target_sources (
         compiler.hpp
     PRIVATE
         compiler.cpp
-        parser/parser.hpp
-        parser/parser.cpp
 )
