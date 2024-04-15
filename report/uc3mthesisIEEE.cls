@@ -193,7 +193,7 @@
 		\Huge
 		\MakeUppercase
 	}
-	[\vspace{1cm}]  % after-title
+	[\vspace{0.5cm}]  % after-title
 \titlespacing{\chapter}{0pt}{0pt}{*3}
 
 % section
