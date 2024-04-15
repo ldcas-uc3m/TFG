@@ -151,7 +151,7 @@ Useful stuff:
 - [31 nooby C++ habits you need to ditch](https://www.youtube.com/watch?v=i_wDa2AS_8w)
 
 ### Casting
-- `static_cast<target_type>(value)`
+- [`static_cast<target_type>(value)`](https://en.cppreference.com/w/cpp/language/static_cast)
 
 
 ### Functions
@@ -184,7 +184,7 @@ Useful stuff:
 
 #### Member functions (methods)
 - **Specifiers:** Modify the function's properties
-    - `static`: Allow for it to be called outside the class.
+    - [`static`](https://en.cppreference.com/w/cpp/language/static): Allow for it to be called outside the class.
     - `const` (after parenthesis): Use it if you don't modify any class member.
     - `friend`: As if you define the function outside the class, you must pass a parameter for the class object. It has acces to the private members of the class.
 
@@ -196,7 +196,7 @@ Useful stuff:
 Don't use it, use aliases: `using new_type = old_type`.
 
 ### #define
-Don't use it, use `constexpr`.
+Don't use it, use [`constexpr`](https://en.cppreference.com/w/cpp/language/static).
 
 ### Namespaces
 
@@ -229,19 +229,41 @@ is_even(two_long);
 
 
 
-### Data structures
-- `std::array<type, size>`: Classic arrays
-- `std::vector<type>`: A non-fixed size array
+### Containers (data structures)
+- [`std::array<type, size>`](https://en.cppreference.com/w/cpp/container/array) (`<array>`): Classic arrays, but better
+- [`std::vector<type>`](https://en.cppreference.com/w/cpp/container/vector) (`<vector>`): A non-fixed size array
     - Constructor: `{ value0, ... }`
     - To append a value, use `.push_back(value)`
-- `std::map<keyType, valueType>`: Ordered key-value pairs. Keys must be constant.
+- [`std::map<keyType, valueType>`](https://en.cppreference.com/w/cpp/container/vector) (`<map>`): Ordered key-value pairs. Keys must be constant.
     - Constructor: `{ {key0, value0}, ... }`
-    - `[]` operator will create the element if it doesn't exist. Use `.at()` to access the element.
-    - `.contains(key)` checks if a key exists in the map
-- `std::unordered_map<keyType, valueType>`: Unordered `std::map`.
+    - [`[]`](https://en.cppreference.com/w/cpp/container/map/operator_at) operator will create the element if it doesn't exist. Use [`.at()`](https://en.cppreference.com/w/cpp/container/map/at) to access the element.
+    - [`.contains(key)`](https://en.cppreference.com/w/cpp/container/map/contains) checks if a key exists in the map
+- [`std::unordered_map<keyType, valueType>`](https://en.cppreference.com/w/cpp/container/unordered_map) (`<unordered_map>`): Unordered [`std::map`](https://en.cppreference.com/w/cpp/container/map).
+- [`std::set<type>`](https://en.cppreference.com/w/cpp/container/set) (`<set>`): A collection of homogeneous values.
+    - [`.insert(element)`](https://en.cppreference.com/w/cpp/container/set/insert) inserts an element.
+    - [`.contains(element)`](https://en.cppreference.com/w/cpp/container/set/contains) checks if an element is inside the set.
+    - [`.extract(element)`](https://en.cppreference.com/w/cpp/container/set/extract) deletes an element and returns it.
+  
+Most of these structures share the following methods:
+- `.clear()` clears the structure.
+- `.size()` returns the number of elements.
 
 
-### Ranged loops
+### Other structures
+- [`std::tuple<type0, ...>`](https://en.cppreference.com/w/cpp/utility/tuple) (`<tuple>`): A fixed-size collection of heterogeneous (multiple type) values.
+    - Use [`std::make_tuple(value0, ...)`](https://en.cppreference.com/w/cpp/utility/tuple/make_tuple), or `{value0, ...}` to create one.
+    - Extremely usefull to return several data from a function, as it can be unpacked:
+        ```cpp
+        std::tuple<int, std::string> foo() {
+            return {69, "nice"};
+        }
+
+        [n, msg] = foo();
+        ```
+- [`std::initializer_list<type>`](https://en.cppreference.com/w/cpp/utility/initializer_list) (`<initializer_list>`)
+
+
+### [Ranged for loops](https://en.cppreference.com/w/cpp/language/range-for)
 
 `for (type elem : iterable) {}`
 - Remember you can use `auto` for the type (you still need to put your `const` and `&` if needed).
@@ -258,7 +280,7 @@ is_even(two_long);
   }
   ```
 
-### Lambdas
+### [Lambda expressions](https://en.cppreference.com/w/cpp/language/lambda)
 Nameless functions: `[captured_variable0, ...] (param_type param0, ...) -> return_type { <body> }`
 - The return type is optional
 - Captured variables are variables from the local scope to be passed to the lambda function
