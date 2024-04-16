@@ -4,7 +4,7 @@
 ## RISC-V architecture
 
 ### Instruction set
-- RV32I has 38 instructions and is an minimal implementation of RISC-V (see [The RISC-V Instruction Set Manual](https://riscv.org/wp-content/uploads/2017/05/riscv-spec-v2.2.pdf), Ch.02).
+- RV32I has 38 instructions and is a minimal implementation of RISC-V (see [The RISC-V Instruction Set Manual](https://riscv.org/wp-content/uploads/2017/05/riscv-spec-v2.2.pdf), Ch.02).
 - You can even do a instruction set of 6: [PDP-5](https://gordonbell.azurewebsites.net/Digital/PDP%205%20Manual%201964.pdf).
 
 
@@ -209,7 +209,7 @@ You declare a template through `template <NAME>`, and that `NAME` will represent
 In order to constraint the number of types, you can use concepts, which are specified before the template type name. If no concept is specified, _all_ types will be valid.  
 C++20 comes with some predefined concepts in the `<concepts>` header.
 
-E.g. the following function allows to check if any integer number is even, allowing for all integer types (`int`, `long`, etc.).
+E.g. the following function allows checking if any integer number is even, allowing for all integer types (`int`, `long`, etc.).
 ```cpp
 #include <concepts>
 
@@ -252,7 +252,7 @@ Most of these structures share the following methods:
 ### Other structures
 - [`std::tuple<type0, ...>`](https://en.cppreference.com/w/cpp/utility/tuple) (`<tuple>`): A fixed-size collection of heterogeneous (multiple type) values.
     - Use [`std::make_tuple(value0, ...)`](https://en.cppreference.com/w/cpp/utility/tuple/make_tuple), or `{value0, ...}` to create one.
-    - Extremely usefull to return several data from a function, as it can be unpacked:
+    - Extremely useful to return several data from a function, as it can be unpacked:
         ```cpp
         std::tuple<int, std::string> foo() {
             return {69, "nice"};
@@ -260,7 +260,39 @@ Most of these structures share the following methods:
 
         [n, msg] = foo();
         ```
-- [`std::initializer_list<type>`](https://en.cppreference.com/w/cpp/utility/initializer_list) (`<initializer_list>`)
+- [`std::initializer_list<type>`](https://en.cppreference.com/w/cpp/utility/initializer_list) (`<initializer_list>`): Allows for a cleaner syntax for class constructors, with arbitrarily sized lists.  
+  E.g.:
+  ```cpp
+  class Add {
+    public:
+        Add(std::initializer_list<int> l): count{}, numbers {l} {
+            count = 0;
+            for (auto & i : l) { count += i; }
+        }
+
+        int get() { return count; }
+
+    private:
+        int count;
+        std::vector<int> numbers;
+  };
+
+  Add a {1, 2, 3, 4};
+  a.get();  // 10
+  ```
+- [`std::function<rtype(arg0_type, ...)>`](https://en.cppreference.com/w/cpp/utility/functional/function) (`<functional>`): Wrapper for a function that can be passed as an argument. If it's a member function, the first argument must be the object: `std::function<rtype(Obj &, arg0_type, ...)>`, and it must be called with.  
+    E.g.:
+    ```cpp
+    class Foo {
+        Foo(int num) : num_(num) {}
+        void print_add(int i) const { std::cout << num_ + i << '\n'; }
+        int num_;
+    };
+
+    std::function<void(const Foo&, int)> f_add_display = &Foo::print_add;
+    const Foo foo(69);
+    f_add_display(foo, 1);
+    ```
 
 
 ### [Ranged for loops](https://en.cppreference.com/w/cpp/language/range-for)
@@ -268,7 +300,7 @@ Most of these structures share the following methods:
 `for (type elem : iterable) {}`
 - Remember you can use `auto` for the type (you still need to put your `const` and `&` if needed).
 - You can use structured bindings in order to make your life easier: `for (type [memberA, memberB, ...] : iterable) {}`.  
-  Specially usefull with maps. E.g.:
+  Specially useful with maps. E.g.:
   ``` cpp
   std::unordered_map<std::string, std::array<int>> my_map { 
       {"A", [0, 1, 2]},
@@ -319,7 +351,56 @@ int x = 69;
 
 
 
-### Header files
+### Libraries (Header / source files)
+You can have header-only libraries, by simply having functions defined there, but it greatly increases compilation times and forces to recompile every time the code changes without the interface changing.
+
+- Declare functions in header file (`.hpp`), and define them in the source files (`.cpp`).  
+  If you want a function to be defined only in the header, it has to be `inline`. You can also have source file ("private") inline functions.  
+- For non-constant variables, declare them using `extern` in the header and assign their values in the source file.
+- Classes and its constructors are defined in the header, but the methods are only declared and must be defined in the source file, adding the class namespace (`type MyClass::my_method() {...}`). Attributes can be either declared or defined in the header.
+- Macros have to be defined in the header.
+
+For any type of library, use [guards](https://www.learncpp.com/cpp-tutorial/header-guards/) on the header files (`#ifndef LIB_HPP`, `#define LIB_HPP`) to prevent double declaration.
+
+E.g:
+```cpp
+// lib.hpp
+
+#ifndef LIB_HPP
+#define LIB_HPP
+
+inline say_hello() { std::cout << "hello\n"; }
+int foo(int bar);
+
+const baz = 69;
+extern int myVar;
+
+class MyClass() {
+    public:
+        MyClass(float y): _y {y} { }
+
+        int get();
+
+    private:
+        int _x = 0;
+        float _y;
+};
+
+#endif
+```
+
+```cpp
+// lib.cpp
+
+int foo(int bar) {
+    return bar + myVar;
+}
+
+int myVar = 0;
+
+MyClass::get() { return _x + _y; }
+```
+
 - [Classes and header files](https://www.learncpp.com/cpp-tutorial/classes-and-header-files/)
 
 
