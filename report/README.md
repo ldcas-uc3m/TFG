@@ -16,8 +16,10 @@ As we'll use SVG files, you'll need to install [Inkscape](https://inkscape.org/)
 
 ## Compilation
 
-To compile the report, use the command:
+To compile the report, use the following commands:
 ```
+latexmk -cd -shell-escape -pdf report.tex
+makeglossaries report
 latexmk -cd -shell-escape -pdf report.tex
 ```
 

@@ -32,7 +32,7 @@
 
 % Color settings for cover and code listings
 \RequirePackage[table]{xcolor}
-\definecolor{azulUC3M}{RGB}{0, 0, 102}
+\definecolor{azulUC3M}{HTML}{000e78}
 \definecolor{gray97}{gray}{.97}
 \definecolor{gray75}{gray}{.75}
 \definecolor{gray45}{gray}{.45}
@@ -59,6 +59,8 @@
 % In the template we include the file OUTPUT.XMPDATA. You can download that file and include the metadata that will be incorporated into the PDF file when you compile the report.tex file. Then upload it back to your project.
 \RequirePackage[a-1b]{pdfx}
 
+% TODO: automate PDF/A generation (output.xmpdata): https://webpages.tuni.fi/latex/pdfa-guide.pdf
+
 
 
 %----------
@@ -69,6 +71,7 @@
 \hypersetup{
 	colorlinks=true,
 	linkcolor=black,  % links to parts of the document (e.g. index) in black
+	citecolor=black,  % citations
 	urlcolor=blue  % links to resources outside the document in blue
 }
 
@@ -108,7 +111,6 @@
 	\def\acknowledgementsname{Dedicatoria}
 	\def\abstractname{Resumen}
 	\def\keywordsname{Palabras clave}
-	\def\bibliographyname{Bibliografía}
 	\def\thesisname{Trabajo Fin de Grado}
 	\def\ccstring{Esta obra se encuentra sujeta a la licencia Creative Commons \textbf{Reconocimiento - No Comercial - Sin Obra Derivada}}
 	\def\tablecaptionname{TABLA}
@@ -122,7 +124,6 @@
 	\def\acknowledgementsname{Acknowledgements}
 	\def\abstractname{Abstract}
 	\def\keywordsname{Keywords}
-	\def\bibliographyname{Bibliography}
 	\def\thesisname{Bachelor Thesis}
 	\def\ccstring{This work is licensed under Creative Commons \textbf{Attribution - Non Commercial - Non Derivatives}}
 	\def\tablecaptionname{TABLE}
@@ -189,12 +190,13 @@
 	{  % before-title
 		\thispagestyle{noheader}
 		\titlerule[2pt]
-		\vspace{1pc}
-		\Huge
-		\MakeUppercase
+		\Huge\MakeUppercase
 	}
-	[\vspace{0.5cm}]  % after-title
-\titlespacing{\chapter}{0pt}{0pt}{*3}
+	[]  % after-title
+\titlespacing*{\chapter}  % * for no indent
+	{0pt}  % left margin
+	{0pt}  % vspace above
+	{2cm}  % vspace below
 
 % section
 \titleformat{\section}
@@ -318,31 +320,6 @@
 \counterwithout{footnote}{chapter}
 
 
-%----------
-% APPENDIXES
-%----------
-
-\RequirePackage{appendix}
-
-\if@langes@pp
-	\renewcommand{\appendixpagename}{Apéndices}
-	\renewcommand{\appendixtocname}{Apéndices}
-\fi
-
-\preto{\appendixpagename}{\Huge\color{azulUC3M}}
-
-\renewenvironment{appendices}
-	{  % begin definition
-		\pagestyle{fancy}
-		\appendix
-		\addappheadtotoc
-		\appendixpage
-		\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}  % don't show appendixes on TOC
-		\pagenumbering{gobble} % Appendix pages are not numbered
-	}
-	{\newpage}  % end definition
-
-
 
 %----------
 % CODE LISTINGS
@@ -386,16 +363,75 @@
 
 
 %----------
-% REFERENCES
+% COVER
 %----------
 
-\RequirePackage[backend=biber, style=ieee, isbn=false, sortcites, maxbibnames=6, minbibnames=1]{biblatex} % Setting for IEEE citation style, recommended for engineering. "maxbibnames" indicates that from 6 authors truncate the list in the first one (minbibnames) and add "et al." as used in the IEEE style.
+\RequirePackage{listofitems}
+\RequirePackage{xspace}
 
-\newcommand{\makebibliography} {
-	\clearpage
-  \addcontentsline{toc}{chapter}{\bibliographyname}
-  \printbibliography
+\makeatletter
+
+% setup variables
+\newcommand{\tutors}[1] {
+	\readlist*\@tutors{#1}
 }
+\newcommand{\degree}[1]{\gdef\@degree{#1}}
+\newcommand{\subject}[1]{\gdef\@subject{#1}}
+\newcommand{\course}[1]{\gdef\@course{#1}}
+\newcommand{\place}[1]{\gdef\@place{#1}}
+
+\newcommand{\makecover} {  % requires \degree, \subject, \author, \course, \title, \tutors, \place, \date
+
+	\pagenumbering{roman}  % roman numerals are used in the numbering of the pages preceding the body of the work
+
+	\begin{titlepage}
+		\color{azulUC3M}
+		\begin{center}
+			\begin{figure}[H]  % UC3M Logo
+				\includesvg[width=\textwidth]{uc3m_logo.svg}
+			\end{figure}
+			%
+			\vspace{1.5cm}
+			\begin{Large}
+				\@degree\\
+				\@course\\  % Academic year
+				\vspace{2cm}
+				\textsl{\thesisname}
+				\bigskip
+			\end{Large}
+
+			{\Huge ``\@title''}\\
+			\vspace*{0.5cm}
+			\rule{10.5cm}{0.1mm}\\
+			\vspace*{0.9cm}
+			{\LARGE \@author}\\
+			\vspace*{0.5cm}
+			%
+			\begin{Large}
+				\if\listlen\@tutors[]1  % only one tutor
+					\textit{Tutor}\\
+				\else
+					\textit{Tutor\pluralpostfix}\\
+				\fi
+				\foreachitem\z\in\@tutors[]{
+					\z\\
+				}
+				\vspace*{1cm}
+				\@place\\
+				\@date\\
+			\end{Large}
+		\end{center}
+		%
+		\vfill
+		\color{black}
+		% IF OUR WORK IS TO BE PUBLISHED UNDER A CREATIVE COMMONS LICENSE, INCLUDE THESE LINES. IS THE RECOMMENDED OPTION.
+		\includegraphics[width=4.2cm]{creativecommons.png}\\ % Creative Commons Logo
+			\ccstring
+	\end{titlepage}
+
+}
+
+\makeatother
 
 
 
@@ -439,6 +475,19 @@
 
 
 %----------
+% ACKNOWLEDGEMENTS
+%----------
+
+\newenvironment{acknowledgements}
+	{  % begin definition
+		\pagestyle{noheader}
+		\chapter*{\acknowledgementsname}
+	}
+	{\newpage}  % end definition
+
+
+
+%----------
 % ABSTRACT
 %----------
 
@@ -450,22 +499,10 @@
 	{\newpage}  % end definition
 
 \newcommand{\keywords}[1]{
+	% TODO: make command only work inside abstract enviroment
 	\vfill
-	\textbf{\keywordsname:} #1.
+	\textbf{\keywordsname:} #1.%
 }
-
-
-
-%----------
-% ACKNOWLEDGEMENTS
-%----------
-
-\newenvironment{acknowledgements}
-	{  % begin definition
-		\pagestyle{noheader}
-		\chapter*{\acknowledgementsname}
-	}
-	{\newpage}  % end definition
 
 
 
@@ -484,6 +521,48 @@
 
 
 %----------
+% GLOSSARY
+%----------
+\RequirePackage[acronym,toc,style=altlistgroup]{glossaries}
+\renewcommand*{\glsnamefont}[1]{\color{azulUC3M}#1}  % blue entry names
+\renewcommand*{\glslistgroupheaderfmt}[1]{\color{azulUC3M}#1}  % blue letter index
+
+
+%----------
+% BIBLIOGRAPHY
+%----------
+
+\RequirePackage[backend=biber, style=ieee, isbn=false, sortcites, maxbibnames=6, minbibnames=1]{biblatex} % Setting for IEEE citation style, recommended for engineering. "maxbibnames" indicates that from 6 authors truncate the list in the first one (minbibnames) and add "et al." as used in the IEEE style.
+
+
+
+%----------
+% APPENDIXES
+%----------
+
+\RequirePackage{appendix}
+
+\if@langes@pp
+	\renewcommand{\appendixpagename}{Apéndices}
+	\renewcommand{\appendixtocname}{Apéndices}
+\fi
+
+\preto{\appendixpagename}{\Huge\color{azulUC3M}}
+
+\renewenvironment{appendices}
+	{  % begin definition
+		\pagestyle{fancy}
+		\appendix
+		\addappheadtotoc
+		\appendixpage
+		% \addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}  % don't show appendixes on TOC
+		\pagenumbering{gobble} % Appendix pages are not numbered
+	}
+	{\newpage}  % end definition
+
+
+
+%----------
 % MACROS
 %----------
 
@@ -495,74 +574,3 @@
 }
 
 
-
-%----------
-% COVER
-%----------
-
-\RequirePackage{listofitems}
-\RequirePackage{xspace}
-
-\makeatletter
-
-% setup variables
-\newcommand{\tutors}[1] {
-	\readlist*\@tutors{#1}
-}
-\newcommand{\degree}[1]{\gdef\@degree{#1}}
-\newcommand{\subject}[1]{\gdef\@subject{#1}}
-\renewcommand{\year}[1]{\gdef\@year{#1}}
-\newcommand{\place}[1]{\gdef\@place{#1}}
-
-\newcommand{\makecover} {  % requires \degree, \subject, \author, \year, \title, \tutors, \place, \date
-
-	\pagenumbering{roman}  % roman numerals are used in the numbering of the pages preceding the body of the work
-
-	\begin{titlepage}
-		\color{azulUC3M}
-		\begin{center}
-			\begin{figure}[H]  % UC3M Logo
-				\includesvg[width=\textwidth]{uc3m_logo.svg}
-			\end{figure}
-			%
-			\vspace{1.5cm}
-			\begin{Large}
-				\@degree\\
-				\@year\\  % Academic year
-				\vspace{2cm}
-				\textsl{\thesisname}
-				\bigskip
-			\end{Large}
-
-			{\Huge ``\@title''}\\
-			\vspace*{0.5cm}
-			\rule{10.5cm}{0.1mm}\\
-			\vspace*{0.9cm}
-			{\LARGE \@author}\\
-			\vspace*{0.5cm}
-			%
-			\begin{Large}
-				\if\listlen\@tutors[]1  % only one tutor
-					\textit{Tutor}\\
-				\else
-					\textit{Tutor\pluralpostfix}\\
-				\fi
-				\foreachitem\z\in\@tutors[]{
-					\z\\
-				}
-				\vspace*{1cm}
-				\@place\\
-				\@date\\
-			\end{Large}
-		\end{center}
-		%
-		\vfill
-		\color{black}
-		% IF OUR WORK IS TO BE PUBLISHED UNDER A CREATIVE COMMONS LICENSE, INCLUDE THESE LINES. IS THE RECOMMENDED OPTION.
-		\includegraphics[width=4.2cm]{creativecommons.png}\\ % Creative Commons Logo
-			\ccstring
-	\end{titlepage}
-
-}
-
-\makeatother

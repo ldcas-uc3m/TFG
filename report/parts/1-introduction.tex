@@ -1,8 +1,31 @@
 \chapter{Introduction}
-This first chapter briefly presents the project: why it came to be (\sectionref{sec:motivation}) and the objectives it strives to fulfill (\sectionref{sec:goals}). It also includes a description of the overall document structure (\sectionref{sec:structure}) and a list of all the relevant terminology used throughout the document (\sectionref{sec:terminology}).
+This first chapter briefly presents the project: why it came to be (\sectionref{sec:motivation}), the objectives it strives to fulfill (\sectionref{sec:goals}), and a description of the overall document structure (\sectionref{sec:structure}).
 
 
 \section{Motivation}\label{sec:motivation}
+% why assembly?
+
+\Gls{programming} is the process of expressing abstract ideas and models within a language. These languages can be either \glspl{high-level language}, with more abstractions, or \glspl{low-level language}, with few abstractions, but for any language to work for a specific \gls{processor}, that \gls{processor} must be able to interpret and execute it. \Glspl{low-level language} are built on a set of instructions, each one executing a single `atomic' function on several or none defined data, providing the `benefit' of having no context, which simplifies the electronics. This also makes them more flexible and robust, which is why \glspl{high-level language} are built upon these \glspl{low-level language}, by being compiled\glsadd{compilation} (translated) from high-level to low-level.
+
+Specifically, we call  the languages that processors interpret `\glspl{assembly}' and, in order to get the maximum performance from a \gls{processor}, using them effectively is essential, as they give the \gls{programmer} the maximum control over the hardware. As, as stated before, \glspl{high-level language} are built on top of \glspl{assembly}, understanding the latter is also necessary for not only creating the former, but also for effectively utilizing them, as different abstractions might affect what the \gls{processor} will actually do.
+
+For all these reasons, among others \supercite{jorgensen2019x86}, learning \glspl{assembly} is required for any \gls{computer science} student, or any \gls{software engineer}, as it not only gives that person a better understanding of the underlying architecture, therefore enabling them to more efficiently use that architecture, but also enabling them to better express those abstract ideas in terms that the \gls{processor} will understand.
+
+
+% why generic/LISP?
+Moreover, it is not worth learning one specific \gls{assembly} for one specific architecture, not only because architectures change with time and the principles and concepts behind those specific languages don't, but because understanding those principles allows a person to abstract from the specific details of the implementation, transferring knowledge `horizontaly' to another \glspl{assembly} and `vertically' to the \glspl{high-level language}. As a professor from the University of Iowa put it almost forty years ago, \textcquote{DeckerWilliamF.1985Amat}{[a] student who learns to compare and contrast machines based on a generic model and who understands the relationship of higher level ideas to the generic machine will be better prepared to function for a longer period of time}.
+
+
+% why a simulator?
+Unfortunately, the act of learning \glspl{assembly} has been proven difficult, as the low-level abstractions make it difficult for the abstract human brain to adapt to. There have been several approaches used in order to enhance the learning, such as self-explaining and the use of architecture diagrams \supercite{HungY.-C2012CSWC}, but I propose the `simulator' approach: allowing the user to execute instructions step by step and to see state of the different subcomponents of the virtual computer `in real time'. This, added to the more `generic' approach to understanding the language and its instructions, should allow the user to perfectly understand the current state of the processor (\textit{what's happening}), and the effects (how that state changes) of each instruction (\textit{what happens next}). This is similar to some \gls{debugging} techniques used in some \glspl{high-level language}, which have been proven to improve programming skills\supercite{KLAHR1988362}.
+
+
+% why foss?
+Lastly, we are firm believers in \gls{FOSS}, due to the fact that anyone can see the source code, modify it, learn from it, and contribute in order to improve it.
+
+
+% conclussion
+In this thesis, we present an open-source generic \gls{assembly} simulator focused on helping the user learn and understand \glspl{assembly} and the basics of computer architecture. In particular, the simulator will be able to execute any assembly-like\glsadd{assembly} language program that can be defined through a simple basic LISP-like\glsadd{lisp} language, in order for the user to perfectly understand what each instruction does.
 
 
 
@@ -12,4 +35,3 @@ This first chapter briefly presents the project: why it came to be (\sectionref{
 \section{Document Structure}\label{sec:structure}
 
 
-\section{Definitions, Acronyms and Abbreviations}\label{sec:terminology}

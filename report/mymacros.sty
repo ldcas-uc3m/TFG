@@ -32,3 +32,24 @@
     \label{fig:#2}
   \end{figure}
 }
+
+
+% Command to create a glossary entry with correspondent acronym.
+% \newglossaryentrywithacronym{acronym/name}{long name}{description}
+\newcommand{\newglossaryentrywithacronym}[3]{
+    %%% The glossary entry the acronym links to   
+    \newglossaryentry{#1_gls}{
+        name={#1},
+        long={#2},
+        description={#3}
+    }
+
+    % Acronym pointing to glossary
+    \newglossaryentry{#1}{
+        type=\acronymtype,
+        name={#1},
+        description={#2},
+        first={#2 (#1)\glsadd{#1_gls}},
+        see=[Glossary:]{#1_gls}
+    }
+}

@@ -17,6 +17,14 @@
 *.lua
 *.xdv
 *.*-SAVE-ERROR
+*.glo
+*.glsdefs
+*.ist
+*.acn
+*.acr
+*.alg
+*.glg
+*.gls
 
 svg-inkscape/
 _markdown_report

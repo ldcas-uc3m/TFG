@@ -1,31 +1,29 @@
 \documentclass[en]{uc3mthesisIEEE}
 
 
+\usepackage{import}
+\usepackage{lipsum}  % dummy text
 
 \usepackage{mymacros}  % report-specific macros
 
 
 % REFERENCES
 \addbibresource{references.bib}  % bibliography file
+\import{parts/}{glossary.tex}  % glossary file
 
 
 %	DOCUMENT
-\usepackage{import}
 
-\usepackage{lipsum}  % dummy text
+% setup
+\degree{Bachelor's degree in Computer Science and Engineering}
+\course{2023-2024}
+\title{Analysis, design, and implementation of a didactic generic Assembly Language simulator}
+\author{Luis Daniel Casais Mezquida}
+\tutors{Alejandro Calderón Mateos}
+\place{Leganés, Madrid, Spain}
+\date{June 2024}
 
 \begin{document}
-  % setup
-  \degree{Bachelor's degree in Computer Science and Engineering}
-  \year{2023-2024}
-  \title{Análisis, diseño e implementación de un procesador tipo RISC-V usando webassembly}
-  \author{Luis Daniel Casais Mezquida}
-  \tutors{
-    Alejandro Calderón Mateos
-  }
-  \place{Leganés, Madrid, Spain}
-  \date{June 2024}
-
 
   % COVER
   \makecover
@@ -40,7 +38,7 @@
   % ABSTRACT
   \begin{abstract}
     \lipsum[1-3]
-    \keywords{caca, pedo, culo, pis}
+    \keywords{Caca, culo, pedo, pis}
   \end{abstract}
 
 
@@ -68,9 +66,14 @@
     \import{parts/}{example.tex}
   \end{thesis}
 
-
   % BIBLIOGRAPHY
-  \makebibliography
+  \cleardoublepage
+  \printbibliography[heading=bibintoc]
+
+  % GLOSSARY
+  \cleardoublepage
+	\printglossaries
+	% \printnoidxglossaries[type=\acronymtype]  % slower, but no need to do $ makeglossaries report
 
 
   % APPENDICES
