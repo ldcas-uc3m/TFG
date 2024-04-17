@@ -555,7 +555,8 @@
 		\appendix
 		\addappheadtotoc
 		\appendixpage
-		% \addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}  % don't show appendixes on TOC
+		\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}  % don't show appendixes on TOC
+		% TODO: show appendixes on TOC...
 		\pagenumbering{gobble} % Appendix pages are not numbered
 	}
 	{\newpage}  % end definition
