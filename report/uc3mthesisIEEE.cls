@@ -551,6 +551,7 @@
 
 \renewenvironment{appendices}
 	{  % begin definition
+		\cleardoublepage
 		\pagestyle{fancy}
 		\appendix
 		\addappheadtotoc

@@ -9,7 +9,7 @@
 
 % REFERENCES
 \addbibresource{references.bib}  % bibliography file
-\import{parts/}{glossary.tex}  % glossary file
+\import{}{glossary.tex}  % glossary file
 
 
 %	DOCUMENT
@@ -56,22 +56,26 @@
 
   % THESIS
   \begin{thesis}
-    \includefrom{parts/}{1-introduction.tex}
-    \includefrom{parts/}{2-state_of_the_art.tex}
-    \includefrom{parts/}{3-design.tex}
-    \includefrom{parts/}{4-evaluation.tex}
-    \includefrom{parts/}{5-planning.tex}
-    \includefrom{parts/}{6-future_work.tex}
+    \includefrom{parts/}{introduction.tex}
+    \includefrom{parts/}{state_of_the_art.tex}
+    \includefrom{parts/}{analysis.tex}
+    \includefrom{parts/}{design.tex}
+    \includefrom{parts/}{implementation.tex}
+    \includefrom{parts/}{evaluation.tex}
+    \includefrom{parts/}{planning.tex}
+    \includefrom{parts/}{conclusions.tex}
     \newpage
     \import{parts/}{example.tex}
   \end{thesis}
 
   % BIBLIOGRAPHY
   \cleardoublepage
+  \label{bibliography}
   \printbibliography[heading=bibintoc]
 
   % GLOSSARY
   \cleardoublepage
+  \label{glossary}
 	\printglossaries
 	% \printnoidxglossaries[type=\acronymtype]  % slower, but no need to do $ makeglossaries report
 
