@@ -63,7 +63,7 @@ int main() {
 
     // load file
     std::ifstream file {ARCH_FILE};
-    json arch(json::parse(file));
+    json arch(json::parse(file, nullptr, true, true));
 
     // get data
     std::uint32_t start_addr_t = from_hex(arch.at("memory").at("text").at("start_addr").get<std::string>());
@@ -73,6 +73,8 @@ int main() {
     auto registers = arch.at("registers").get<std::vector<std::string>>();
     auto syscalls = arch.at("syscalls").get<std::unordered_map<std::string, std::string>>();
     json inst_set = arch.at("instruction_set");
+    json data_types = arch.at("data_types");
+    char comment_char = *arch.at("comment_char").get<std::string>().begin();
 
     // initialize simulator
     RegisterFile reg_file {start_addr_t, registers};
@@ -80,7 +82,7 @@ int main() {
     Memory::text mem_t {start_addr_t};
 
     Interpreter interp {reg_file, mem_t, mem_d, syscalls};
-    Compiler comp {inst_set, mem_d, mem_t};
+    Compiler comp {inst_set, data_types, mem_d, mem_t, comment_char};
 
 
     try {
@@ -90,10 +92,10 @@ int main() {
         comp.compile_file(asm_file);
         std::cout << ".text" << '\n' << mem_t << std::endl;
 
-        interp.next();
-        std::cout << reg_file << '\n';
-        interp.next();
-        std::cout << reg_file << '\n';
+        // return 0;
+        while(interp.next()) {
+            std::cout << reg_file << '\n';
+        }
 
 
     }

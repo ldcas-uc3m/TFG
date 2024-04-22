@@ -1,7 +1,7 @@
 # Project architecture
 
 
-## Parser
+## Compiler
 
 General functionality:
 1. Translate from ASM to Lisp dialect (LUISP-DA) instructions using the architecture definition file (LUISP-DA instructions already codified in config file)
@@ -12,8 +12,8 @@ graph LR;
     asm[fa:fa-file-code Assembly file] & json["
             fa:fa-file-alt Architecture config file
             (JSON)
-        "] --> parser(fa:fa-industry Parser);
-    parser -.-> lisp["
+        "] --> compiler(fa:fa-industry Parser);
+    compiler -.-> lisp["
                     fa:fa-align-justify LUISP-DA instructions
                     (.text)
                 "]
@@ -39,6 +39,11 @@ The architecture is defined in a JSON file, with the following format:
   - `<instruction_name>`
     - `args`: Function arguments. They must all start by `$`. (`array[string]`)
     - `def`: LUISP-DA definition (`string`).
+- `data_types`: Map of memory data types and their mappings.  
+    Supported data types are:
+    - `str`: zero-terminated strings
+    - `word`: 32-bit words
+    - `none`: no type
 
 You can see example architectures in the [`architectures/`](../architectures/) folder.
 
@@ -162,6 +167,7 @@ stateDiagram-v2
 
     state EVAL {
         eval_token --> eval_ast
+        eval_ast --> eval_token
         eval_ast --> eval
     }
 

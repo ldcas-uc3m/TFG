@@ -60,6 +60,7 @@ namespace Memory {
                 return out;
             }
 
+            // TODO: stack & stack pointer (initialize to _end_addr)
 
         private:
             Address _start_addr;  // start address of the memory segment

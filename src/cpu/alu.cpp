@@ -323,7 +323,7 @@ const Token ALU::read_char(const std::vector<Token> & v) {
 }
 
 const Token ALU::exit(const std::vector<Token> & v) {
-    // TODO
+    // TODO: exit functionality
     for (auto [val, _] : v)
         std::cout << val << ' ';
 

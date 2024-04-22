@@ -19,14 +19,18 @@ class Compiler final {
     public:
         Compiler(
             json inst_set,
+            json data_types,
             Memory::data & mem_d,
-            Memory::text & mem_t
+            Memory::text & mem_t,
+            char comment_char
         ):
             _mem_t {mem_t},
             _mem_d {mem_d},
+            _comment_char {comment_char},
             _tags {}
         {
             _inst_set = inst_set;  // json needs to be initialized like this
+            _data_types = data_types;
         }
 
 
@@ -34,8 +38,11 @@ class Compiler final {
 
     private:
         json _inst_set;
+        json _data_types;
         Memory::text & _mem_t;
         Memory::data & _mem_d;
+        char _comment_char;
+
         std::unordered_map<std::string, std::uint32_t> _tags;
 
 
