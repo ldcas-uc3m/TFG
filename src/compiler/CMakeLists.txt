@@ -3,7 +3,7 @@ target_link_libraries(
 
     PRIVATE
         nlohmann_json
-    )
+)
 
 
 target_sources (
