@@ -1,32 +1,17 @@
-% Include here your reference list.
-
-% Use BIBTEX format for reference entries:
-
-% @documenttype{id-referencia,
-%   title={Document title},
-%   author={Surname1, Name1 and Surname2, Name2 and Surname3, Name3},
-%   year={AAAA},
-%   publisher={Publisher},
-%}
-
-% For example:
-
 @article{DeckerWilliamF.1985Amat,
     issn = {0097-8418},
-    abstract = {Given technological trends toward high level programming tools, abstract data mechanisms, logical systems organization, knowledge engineering, and human interfaces, greater emphasis must today be placed on understanding how a machine and its architecture support more abstract concepts and models. The historical approach to teaching computer organization and related machine language issues has been to train students to be proficient with some particular hardware. Indeed, many such courses attempt to prepare students for careers involving particular types of computers. Our philosophy is quite different for two basic reasons. First, fewer individuals are required to be proficient machine or assembly language programmers; instead, ability to think abstractly and to employ more powerful (more conceptual) tools is demanded. Second, the rapidity with which new machine types are introduced suggests that learning any specific machine will necessarily miss the mark; instead, students must become familiar with the generic machine, that is, the conceptual machine common to almost all computer hardware designs. (Even the so-called non-Von Neuman machines are usually comprised of systems of sequential machines.) We advocate that these undergraduate courses be oriented to teaching from the framework of abstraction and concept and that the machine vehicle for the course be chosen to support this framework.},
     journal = {SIGCSE bulletin},
     pages = {38--44},
     volume = {17},
     number = {4},
     year = {1985},
     title = {A modern approach to teaching computer organization and assembly language programming},
-    language = {eng},
+    % language = {eng},
     author = {Decker, William F.}
 }
 
 @article{HungY.-C2012CSWC,
     issn = {0018-9359},
-    abstract = {This paper investigates the impact of combining self explaining (SE) with computer architecture diagrams to help novice students learn assembly language programming. Pre- and post-test scores for the experimental and control groups were compared and subjected to covariance (ANCOVA) statistical analysis. Results indicate that the SE-plus-diagram approach had a significant effect on student achievement and improved novice students' learning experience by increasing their interest and participation in the course and helping them to develop assembly programming skills.},
     journal = {IEEE transactions on education},
     pages = {546--551},
     volume = {55},
@@ -34,18 +19,18 @@
     number = {4},
     year = {2012},
     title = {Combining Self-Explaining With Computer Architecture Diagrams to Enhance the Learning of Assembly Language Programming},
-    language = {eng},
-    author = {Hung, Y.-C},
-    keywords = {Assembly ; Assembly language programming ; College Instruction ; College Students ; Comparative Analysis ; Computer architecture ; Computer Assisted Instruction ; Computer Science Education ; Computer Software ; Computer System Design ; Control Groups ; diagrams method ; Engineering Education ; Experimental Groups ; Foreign Countries ; Instructional Design ; Instructional Effectiveness ; Learning Processes ; Materials ; Microprocessors ; Multimedia Instruction ; Multimedia Materials ; Novices ; Pretests Posttests ; Problem-solving ; Programming ; Programming Languages ; Programming profession ; Scores ; self-explaining (SE) ; Statistical Analysis ; Taiwan ; Teaching Methods ; Visual Aids ; Web Sites}
+    % language = {eng},
+    author = {Hung, Y.-C}
 }
 
 
 @inbook{jorgensen2019x86,
-  title={x86-64 Assembly Language Programming with Ubuntu},
-  author={Jorgensen, Ed},
-  year={2019},
-  chapter={1.3: Why Learn Assembly Language},
-  publisher={Ed Jorgensen}
+    title = {x86-64 Assembly Language Programming with Ubuntu},
+    author = {Jorgensen, Ed},
+    year = {2019},
+    chapter = {1.3: Why Learn Assembly Language},
+    publisher = {Ed Jorgensen},
+    url = {http://www.egr.unlv.edu/~ed/assembly64.pdf}
 }
 
 
@@ -58,10 +43,81 @@
     year = {1988},
     issn = {0010-0285},
     doi = {https://doi.org/10.1016/0010-0285(88)90004-7},
-    url = {https://www.sciencedirect.com/science/article/pii/0010028588900047},
-    author = {David Klahr and Sharon McCoy Carver},
-    abstract = {In this paper we report two studies in which elementary-school children learned a complex computer-programming skill—how to debug LOGO graphics and list-processing programs—and then transferred the high-level goal structure of that skill to nonprogramming domains. Instruction, its assessment, and the transfer tasks were all derived from an explicit model of the debugging process, cast as a computer simulation. Debugging skills were acquired over a period of several months as part of a LOGO programming course; the transfer tasks involved correcting written instructions in a variety of domains, including arranging items, allocating resources, and following map routes. Students showed clear improvement in the transfer tasks following instruction in debugging programs, and in the second study, amount of transfer was correlated with the degree of debugging skill acquisition. Our results contrast with many earlier studies that found little transfer of problem-solving skills in general and of high-level programming skills in particular. We suggest that the key to the success of our procedure is the fact that we used an extremely precise computer simulation model of the skills required to debug LOGO graphics and list-processing programs as a concrete manifestation of the notion of “cognitive objectives”.}
+    % url = {https://www.sciencedirect.com/science/article/pii/0010028588900047},
+    author = {Klahr, David and McCoy Carver, Sharon}
 }
 
+
+@online{i8080emulator,
+    author = {Tramm, Stefan},
+    title = {Intel 8080 CPU Emulator},
+    year = {2010},
+    url = {https://st.sdf-eu.org/i8080/index.html},
+    urldate = {2024-04-22},
+}
+
+@article{QtARMSim,
+    title = {Utilizando ARMSim y QtARMSim para la docencia de Arquitectura de Computadores},
+    journal = {ReVisión},
+    volume = {8},
+    number = {3},
+    pages = {17-35},
+    year = {2015},
+    issn = {1989-1199},
+    url = {https://aenui.org/revision/pdf.php?f=2015_8_3_156.pdf},
+    author = {Barrachina Mir, Sergio and Fabregat Llueca, Germán and Fernández Fernández, Juan Carlos and León Navarro, Germán}
+}
+
+
+@misc{song_kite2019,
+    author       = {W. Song},
+    title        = {{Kite: An Architecture Simulator for RISC-V Instruction Set}},
+    howpublished = {Yonsei University},
+    month        = {5},
+    year         = {2019},
+    note         = {[Online]. Available: \url{https://casl.yonsei.ac.kr/kite}}
+}
+
+@article{VollmarKenneth2006MaeM,
+    issn = {0097-8418},
+    journal = {SIGCSE bulletin},
+    pages = {239--243},
+    volume = {38},
+    number = {1},
+    year = {2006},
+    title = {MARS: an education-oriented MIPS assembly language simulator},
+    % language = {eng},
+    author = {Vollmar, Kenneth and Sanderson, Pete}
+}
+
+
+@book{PattersonDavidA.2018Coad,
+    series = {Issn Series},
+    isbn = {0-12-812276-5},
+    year = {2018},
+    title = {Computer organization and design: the hardware/software interface (RISC-V edition)},
+    edition = {[First edition].},
+    % language = {eng},
+    author = {Patterson, David Andrew and Hennessy, John Leroy},
+}
+
+@book{PawsonRichard.2020Ass,
+    series = {Computer Science from the Metal Up},
+    year = {2020},
+    title = {Assembly Language Programming},
+    publisher = {Metal Up},
+    edition = {V1.0.0},
+    % language = {eng},
+    author = {Pawson, Richard and Higginson, Peter},
+    url = {https://metalup.org/al/description.html}
+}
+
+@online{ARMLite,
+    author = {Higginson, Peter},
+    title = {ARMLite Simulator},
+    year = {2020},
+    url = {https://peterhigginson.co.uk/ARMlite/index.php},
+    urldate = {2024-04-24},
+}
 
 % IMPORTANT: Latex special characters are: # $ % & \ ^ _ { } ~. To avoid mistakes when compiling the reference list try writing \ before. For: \ use \textbackslash ; for ^ \textasciitilde and ~ \textasciicircum.

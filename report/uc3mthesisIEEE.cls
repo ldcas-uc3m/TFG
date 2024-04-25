@@ -150,13 +150,17 @@
 % \renewcommand{\chaptermark}[1]{\markboth{#1}{}}  % \leftmark with just chapter names
 
 
+\makeatletter
+
 \fancypagestyle{fancy} {
 	\fancyhf{}
-	% \lhead{\thechapter. \color{azulUC3M}\MakeUppercase{\leftmark}}  % chapter name
-	\lhead{\color{azulUC3M}\MakeUppercase{\leftmark}}  % chapter name
-	\rhead{\color{azulUC3M}\thepage}  % page number
+	\fancyhead[LE]{\color{azulUC3M}\MakeUppercase{\leftmark}}  % chapter name
+	\fancyhead[RO]{\color{azulUC3M}\@title}  % title
+	\fancyhead[RE,LO]{\color{azulUC3M}\thepage}  % page number
 	\renewcommand{\headrulewidth}{0.4pt}
 }
+
+\makeatother
 
 
 \fancypagestyle{noheader} {
@@ -194,8 +198,8 @@
 	}
 	[]  % after-title
 \titlespacing*{\chapter}  % * for no indent
-	{0pt}  % left margin
-	{0pt}  % vspace above
+	{0em}  % left margin
+	{0em}  % vspace above
 	{2cm}  % vspace below
 
 % section
@@ -204,6 +208,10 @@
 	{\thesection.}  % label
 	{1pc}  % separator
 	{}
+\titlespacing*{\section}
+	{0pt}  % left margin
+	{2em}  % vspace above
+	{1em}  % vspace below
 
 % subsection
 \titleformat{\subsection}
@@ -211,6 +219,21 @@
 	{\thesubsection.}
 	{5pt}
 	{}
+\titlespacing*{\subsection}
+	{0pt}  % left margin
+	{1.5em}  % vspace above
+	{0.5em}  % vspace below
+
+% subsubsection
+\titleformat{\subsubsection}
+	{\normalsize\bfseries\color{azulUC3M}}
+	{\thesubsubsection.}
+	{}
+	{}
+\titlespacing*{\subsubsection}
+	{0em}  % left margin
+	{1em}  % vspace above
+	{0em}  % vspace below
 
 
 
@@ -274,19 +297,21 @@
 \RequirePackage{multirow}  % combine cells
 \RequirePackage{caption}  % customize the title of tables and figures
 \RequirePackage{floatrow}  % we use this package and its \ttabbox and \ffigbox macros to align the table and figure names according to the defined style.
+\RequirePackage{tablefootnote}  % for table footnotes (\tablefootnote)
 \RequirePackage{array}  % with this package we can define in the following line a new type of column for tables: custom width and centered content
 \newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
-\DeclareCaptionFormat{upper}{#1#2\uppercase{#3}\par}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+
 
 % Table layout for engineering
 \captionsetup*[table]{
-	format=upper,
-	name=\tablecaptionname,
+	format=hang,
 	justification=centering,
-	labelsep=period,
+	labelsep=colon,
 	width=.75\linewidth,
-	labelfont=bf,
-	font=small
+	font=small,
+	labelfont={bf,color=azulUC3M},
+	textfont=it
 }
 
 
@@ -304,10 +329,13 @@
 \captionsetup[figure]{
 	format=hang,
 	name=Fig.,
+	justification=centering,
 	singlelinecheck=off,
-	labelsep=period,
-	labelfont=bf,
-	font=small
+	labelsep=colon,
+	width=.75\linewidth,
+	font=small,
+	labelfont={bf,color=azulUC3M},
+	textfont=it
 }
 
 
@@ -516,7 +544,7 @@
 		\pagestyle{fancy}
 		\pagenumbering{arabic}  % numbering with Arabic numerals for the rest of the document
 	}
-	{\newpage}  % end definition
+	{}  % end definition
 
 
 
