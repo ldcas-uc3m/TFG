@@ -288,6 +288,9 @@
 \renewcommand{\cftchapfont}{\hypersetup{hidelinks}\bfseries\color{azulUC3M}}
 \renewcommand{\cftchappagefont}{\bfseries\color{azulUC3M}}
 
+% blue footnote line
+\preto{\footnoterule}{\color{azulUC3M}}
+\appto{\footnoterule}{\color{black}}
 
 
 %----------
@@ -544,7 +547,7 @@
 		\pagestyle{fancy}
 		\pagenumbering{arabic}  % numbering with Arabic numerals for the rest of the document
 	}
-	{}  % end definition
+	{\pagestyle{noheader}}  % end definition
 
 
 
@@ -554,13 +557,14 @@
 \RequirePackage[acronym,toc,style=altlistgroup]{glossaries}
 \renewcommand*{\glsnamefont}[1]{\color{azulUC3M}#1}  % blue entry names
 \renewcommand*{\glslistgroupheaderfmt}[1]{\color{azulUC3M}#1}  % blue letter index
-
+\preto{\printglossaries}{\pagestyle{noheader}}
 
 %----------
 % BIBLIOGRAPHY
 %----------
 
 \RequirePackage[backend=biber, style=ieee, isbn=false, sortcites, maxbibnames=6, minbibnames=1]{biblatex} % Setting for IEEE citation style, recommended for engineering. "maxbibnames" indicates that from 6 authors truncate the list in the first one (minbibnames) and add "et al." as used in the IEEE style.
+\preto{\printbibliography}{\pagestyle{noheader}}
 
 
 
