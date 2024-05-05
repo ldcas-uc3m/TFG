@@ -1,0 +1,273 @@
+% == SRS.sty - Simple LaTeX2e support for software engineering tasks
+%              THIS PACKAGE REQUIRES LUALATEX.
+%
+% Copyright 2014, 2019 Javier L. Gómez, University Carlos III of Madrid
+%
+% This work is licensed under a Creative Commons Attribution-ShareAlike 4.0
+% International License (https://creativecommons.org/licenses/by-sa/4.0/).
+
+\ProvidesPackage{SRS}
+\RequirePackage{pgffor}
+\RequirePackage{graphicx}
+\RequirePackage{array}
+\RequirePackage{calc}
+
+% --8<---- Template texts (spanish). You can redefine these as follows:
+% \makeatletter
+% \def\@req@valueof@pc@l{Text}
+% \makeatother
+
+\def\NA{n/a}
+\def\@req@description{Descripci\'on:}
+\def\@req@priocus{Necesidad:}
+\def\@req@priodev{Prioridad:}
+\def\@req@sta{Estabilidad:}
+\def\@req@verif{Verificabilidad:}
+\def\@req@origin{Origen:}
+\def\@req@valueof@pc@h{Esencial}
+\def\@req@valueof@pc@m{Conveniente}
+\def\@req@valueof@pc@l{Opcional}
+\def\@req@valueof@pd@h{Alta}
+\def\@req@valueof@pd@m{Media}
+\def\@req@valueof@pd@l{Baja}
+\def\@req@valueof@s@nc{No cambia}
+\def\@req@valueof@s@c{Cambiante}
+\def\@req@valueof@s@vi{Muy inestable}
+\def\@req@valueof@v@h{Alta}
+\def\@req@valueof@v@m{Media}
+\def\@req@valueof@v@l{Baja}
+\def\@uc@name{Nombre:}
+\def\@uc@actors{Actores:}
+\def\@uc@shortdescription{Objetivo:}
+\def\@uc@description{Descripción:}
+\def\@uc@precond{Pre-condición:}
+\def\@uc@postcond{Post-condición:}
+\def\@component@role{Rol:}
+\def\@component@deps{Dependencias:}
+\def\@component@description{Descripción:}
+\def\@component@data{Datos:}
+\def\@component@resources{Recursos:}
+\def\@component@origin{Origen:}
+\def\@component@types{Tipos:}
+\def\@component@members{Funciones/variables:}
+\def\@test@description{Descripción:}
+\def\@test@input{Entrada:}
+\def\@test@output{Salida:}
+\def\@test@env{Entorno:}
+\def\@test@origin{Origen:}
+
+% \@req@parseArgs - Parses string of the form `pc=h,pd=l,s=nc,v=m' and
+%                   sets \@@req@XX accordingly
+\def\@req@parseArgs pc=#1,pd=#2,s=#3,v=#4;{
+  \xdef\@@req@pc{\csname @req@valueof@pc@#1\endcsname}
+  \xdef\@@req@pd{\csname @req@valueof@pd@#2\endcsname}
+  \xdef\@@req@s{\csname @req@valueof@s@#3\endcsname}
+  \xdef\@@req@v{\csname @req@valueof@v@#4\endcsname}
+}
+
+% \itemizecsv - Typesets an itemize list using comma-separated values
+\def\@itemizecsv@empty{\NA}
+\def\@itemizecsv@style{}
+\newcommand{\itemizecsv}[1]
+           {\if\relax\detokenize{#1}\relax \@itemizecsv@empty%
+             \else\begin{itemize}\foreach \i in {#1}%
+                        {\item {\@itemizecsv@style\i}}\end{itemize} \fi}
+
+% --8<---- TRACEABILITY (REQUIRES LUALATEX) ----
+\def\@traceability@registerOrigin#1{}
+\def\@traceability@addOrigins#1#2{}
+
+\DeclareOption{enableTraceability}{
+  \directlua{
+    __registered_origin = {}
+    __is_origin_of = {}
+
+    function __register_origin(i)
+        __registered_origin[i] = true
+    end
+
+    function __add_origins(i, origin_csv)
+        __is_origin_of[i] = {}
+        for j in string.gmatch(origin_csv, '[^, ]+') do
+            __is_origin_of[i][j] = true end
+    end
+
+    function __filter_keys(tab, patterns)
+        local ret = {}
+        local lua_pats = string.explode(patterns, ',')
+
+        for key,_ in pairs(tab) do
+            for _,pat in ipairs(lua_pats) do
+                if string.match(key, pat) then table.insert(ret, key) end
+            end
+        end
+        table.sort(ret)
+        return ret
+    end
+
+    function __print_matrix(item_luapat, origin_luapat, opts)
+        local items = __filter_keys(__is_origin_of, item_luapat)
+        local origins = __filter_keys(__registered_origin, origin_luapat)
+
+        local i_offset, o_offset = opts.i_offset or 0,
+                                  opts.o_offset or 0
+        local i_count, o_count = opts.i_count or (\string#items - i_offset),
+                                opts.o_count or (\string#origins - o_offset)
+
+        \unexpanded{
+        tex.print([[\begin{traceabilityMatrix}{l|*{]] .. o_count .. [[}{c|}}]])
+        for i = 1+o_offset, o_offset+o_count do
+            tex.print([[&\traceabilityMatrixHeader{]] .. origins[i] .. [[}]])
+        end
+        tex.print([[\\ \hline]])
+
+        for i = 1+i_offset, i_offset+i_count do
+            tex.print(items[i])
+            for j = 1+o_offset, o_offset+o_count do
+                tex.print([[&]])
+                if __is_origin_of[items[i]][origins[j]] then
+                    tex.print([[\traceabilityMatrixChar]]) end
+            end
+            tex.print([[\\ \hline]])
+        end
+        tex.print([[\end{traceabilityMatrix}]])
+        }
+    end
+  }
+
+  \gdef\traceability@registerOrigin#1{\directlua{__register_origin('#1')}}
+  \gdef\traceability@addOrigins#1#2{\directlua{__add_origins('#1', '#2')}}
+
+  % \traceabilityPrintMatrix - Generate a traceability matrix (items in rows;
+  %                            their origins in colums)
+  %
+  % Usage: \traceabilityPrintMatrix{<ITEM_LUA_PATTERN>[,...]}
+  %                                {<ORIGIN_LUA_PATTERN>[,...]}{<OPTIONS>}
+  % <OPTIONS> may include values for [io]_offset=N (skip N items/origins),
+  % and [io]_count=N (number of items/origins to typeset).
+  %
+  % e.g.: `\traceabilityPrintMatrix{^F\37-SR}{^CA\37-UR}{i_offset=0,i_count=24}'
+  %
+  %       Generates a matrix that correlates items that have prefix 'F-SR' to
+  %       those that start with 'CA-UR'.
+  %
+  \gdef\traceabilityPrintMatrix#1#2#3{%
+    \directlua{__print_matrix('\unexpanded{#1}', '\unexpanded{#2}',
+                              \string{#3\string})}}
+  
+  % redefine these macros to change table style
+  \newenvironment{traceabilityMatrix}[1]
+                 {\footnotesize\renewcommand{\arraystretch}{1.5}
+                   \begin{tabular}{#1}}
+                 {\end{tabular}}
+  \newcommand{\traceabilityMatrixHeader}[1]
+             {\multicolumn{1}{c}{\rlap{\rotatebox{45}{#1}}\rule{\widthof{\traceabilityMatrixChar}}{0pt}}}
+  \gdef\traceabilityMatrixChar{\bullet}
+}
+
+% --8<---- TEMPLATE DEFINITIONS ----
+\newenvironment{SRStabular}[1]
+               {\renewcommand{\arraystretch}{1.5}
+                 \setlength{\arrayrulewidth}{2pt}
+                 \noindent\begin{tabular}{@{}p{64pt}@{}p{\columnwidth-64pt}@{}}
+                 \multicolumn{2}{@{}l}{\bfseries#1}\\ \hline}
+               {\end{tabular}\bigskip}
+
+\newenvironment{baseReq}[2]  % extender is responsible for adding \endSRStabular
+               {\traceability@registerOrigin{#1} \@req@parseArgs #2;
+                 \SRStabular{#1}
+                 \@req@description & }
+               {\\
+                 \@req@priocus & \@@req@pc \\
+                 \@req@priodev & \@@req@pd \\
+                 \@req@sta     & \@@req@s \\
+                 \@req@verif   & \@@req@v \\}
+
+% Usage: \begin{userReq}{<ID>}{pc=X,pd=Y,s=Z,v=A}
+%        ...
+%        \end{userReq}
+%
+% <X>, <Y> and <A> may be one of 'h', 'm', 'l'; high, medium, low
+%               (respectively); <Z> may be 'nc', 'c', 'vi'
+\newenvironment{userReq}[2]
+               {\baseReq{#1}{#2}}
+               {\endbaseReq\endSRStabular}
+
+% Usage: \begin{softwareReq}{<ID>}{pc=X,pd=Y,s=Z,v=A}{<ORIGIN LIST>}
+%        ...
+%        \end{softwareReq}
+%
+% <X>, <Y> and <A> may be one of 'h', 'm', 'l'; high, medium, low
+%               (respectively); <Z> may be 'nc', 'c', 'vi'
+\newenvironment{softwareReq}[3]
+               {\traceability@addOrigins{#1}{#3}\def\@@req@origin{#3}
+                 \baseReq{#1}{#2}}
+               {\endbaseReq
+                 \@req@origin & \@@req@origin \\ \endSRStabular}
+
+% Usage: \begin{useCase}{<ID>}{<NAME>}{<ACTORS>}{<SHORT_DESCRIPTION>}
+%                       {<PRE_COND>}{<POST_COND>}
+%        ...
+%        \end{useCase}
+\newenvironment{useCase}[6]
+               {\def\@@uc@precond{#5}\def\@@uc@postcond{#6}
+                 \SRStabular{#1}
+                 \@uc@name             & #2 \\
+                 \@uc@actors           & #3 \\
+                 \@uc@shortdescription & #4 \\
+                 \@uc@description      & }
+               {\\
+                 \@uc@precond  & \@@uc@precond \\
+                 \@uc@postcond & \@@uc@postcond \\
+                 \endSRStabular}
+
+\newenvironment{baseComponent}[3]
+               {\SRStabular{#1}
+                 \@component@role & #2 \\
+                 \@component@deps & #3 \\}
+               {\endSRStabular}
+
+% Usage: \begin{component}{<ID>}{<ROLE>}{<DEPS>}{<DATA>}{<RESOURCES>}{<ORIGIN>}
+%        ...
+%        \end{component}
+\newenvironment{component}[6]
+               {\traceability@addOrigins{#1}{#6}
+                 \def\@@component@data{#4}\def\@@component@resources{#5}
+                 \def\@@component@origin{#6}
+                 \begin{baseComponent}{#1}{#2}{#3}
+                   \@component@description & }
+               {\\
+                 \@component@data
+                 & \expandafter\itemizecsv\expandafter{\@@component@data} \\
+                 \@component@resources
+                 & \expandafter\itemizecsv\expandafter{\@@component@resources}\\
+                 \@component@origin
+                 & \@@component@origin \\
+                 \end{baseComponent}}
+
+\newenvironment{subComponent}[4]
+               {\begin{baseComponent}{#1}{#2}{#3}
+                   \@component@types
+                   & \def\@itemizecsv@style{\ttfamily}\itemizecsv{#4} \\
+                   \@component@members & \hangindent=10pt\hangafter=1\ttfamily}
+               {\\
+               \end{baseComponent}}
+
+% Usage: \begin{testCase}{<ID>}{<INPUT>}{<OUTPUT>}{<ENV>}{<ORIGIN>}
+%        ...
+%        \end{testCase}
+\newenvironment{testCase}[5]
+               {\def\@@test@input{#2}\def\@@test@output{#3}\def\@@test@env{#4}
+                 \traceability@addOrigins{#1}{#5}\def\@@test@origin{#5}
+                 \SRStabular{#1}
+                 \@test@description & }
+               {\\
+                 \@test@input  & \@@test@input \\
+                 \@test@output & \@@test@output \\
+                 \@test@origin & \@@test@origin \\
+                 \@test@env
+                 & \expandafter\itemizecsv\expandafter{\@@test@env} \\
+                 \endSRStabular}
+
+\ProcessOptions\relax
+\endinput

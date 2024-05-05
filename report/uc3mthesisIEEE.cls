@@ -300,8 +300,12 @@
 \RequirePackage{multirow}  % combine cells
 \RequirePackage{caption}  % customize the title of tables and figures
 \RequirePackage{floatrow}  % we use this package and its \ttabbox and \ffigbox macros to align the table and figure names according to the defined style.
-\RequirePackage{tablefootnote}  % for table footnotes (\tablefootnote)
-\RequirePackage{array}  % with this package we can define in the following line a new type of column for tables: custom width and centered content
+\RequirePackage{tablefootnote}  % allow footnotes from text in tables (\tablefootnote)
+\RequirePackage{threeparttable}  % fancier tables (with tablenotes)
+\RequirePackage{booktabs}  % \toprule, \bottomrule
+\RequirePackage{array}
+
+% new type of column for tables: custom width and centered content
 \newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
 \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
 
@@ -310,6 +314,7 @@
 \captionsetup*[table]{
 	format=hang,
 	justification=centering,
+	singlelinecheck=off,
 	labelsep=colon,
 	width=.75\linewidth,
 	font=small,
@@ -324,6 +329,7 @@
 %----------
 
 \RequirePackage{graphicx}
+\RequirePackage{adjustbox}  % a better \resizebox: \begin{adjustbox}{max width=\textwidth} \end{adjustbox}
 \RequirePackage{svg}
 
 \graphicspath{{img/}}  % Images folder
