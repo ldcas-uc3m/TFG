@@ -17,12 +17,13 @@
 %----------
 
 % english
-\newif\if@langen@pp\@langen@ppfalse  % check es language
+\newif\if@langen@pp\@langen@ppfalse  % check en language
 \DeclareOption{en}{\@langen@pptrue}
 % spanish
-\newif\if@langes@pp\@langes@ppfalse  % check en language
+\newif\if@langes@pp\@langes@ppfalse  % check es language
 \DeclareOption{es}{\@langes@pptrue}
 
+\ExecuteOptions{en}  % defaults
 \ProcessOptions\relax
 
 
@@ -154,9 +155,9 @@
 
 \fancypagestyle{fancy} {
 	\fancyhf{}
-	\fancyhead[LE]{\color{azulUC3M}\MakeUppercase{\leftmark}}  % chapter name
-	\fancyhead[RO]{\color{azulUC3M}\@title}  % title
-	\fancyhead[RE,LO]{\color{azulUC3M}\thepage}  % page number
+	\fancyhead[LO]{\color{azulUC3M}\MakeUppercase{\leftmark}}  % chapter name
+	\fancyhead[RE]{\color{azulUC3M}\@title}  % title
+	\fancyhead[LE,RO]{\color{azulUC3M}\thepage}  % page number
 	\renewcommand{\headrulewidth}{0.4pt}
 }
 
@@ -612,5 +613,4 @@
 	\mbox{}
 	\newpage
 }
-
 

@@ -1,9 +1,12 @@
+%!TEX program = lualatex
 \documentclass[en]{uc3mthesisIEEE}
 
 
 \usepackage{import}
+\usepackage{enumitem}  % control item separation -> \setlist{nosep} \begin{itemize}[noitemsep]
 \usepackage{lipsum}  % dummy text
 
+\usepackage[en,enableTraceability]{SRS}  % requirements
 \usepackage{mymacros}  % report-specific macros
 
 
@@ -68,6 +71,7 @@
     \includefrom{parts/}{implementation.tex}
     \includefrom{parts/}{evaluation.tex}
     \includefrom{parts/}{planning.tex}
+    \includefrom{parts/}{regulation.tex}
     \includefrom{parts/}{conclusions.tex}
     % \newpage
     % \import{parts/}{example.tex}

@@ -15,12 +15,13 @@ First you must install [LaTeX](https://www.latex-project.org/).
 As we'll use SVG files, you'll need to install [Inkscape](https://inkscape.org/). If you're in Windows, make sure to add the executable to your PATH (typically located in `C:\Program Files\Inkscape\bin\`).
 
 ## Compilation
+This requires LuaTeX.
 
 To compile the report, use the following commands:
 ```
-latexmk -cd -shell-escape -pdf report.tex
+latexmk -cd -shell-escape -pdflua report.tex
 makeglossaries report
-latexmk -cd -shell-escape -pdf report.tex
+latexmk -cd -shell-escape -pdflua report.tex
 ```
 
 ## VS Code

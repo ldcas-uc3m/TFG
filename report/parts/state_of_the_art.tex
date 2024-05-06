@@ -1,6 +1,6 @@
 \chapter{State of the Art}\label{chap:state-of-the-art}
-This chapter presents the current stage of the technologies related to our application, specifically the different kinds of simulators that are currently present in the market (\sectionref{sec:assembly-simulators}), both specific to one architecture (\subsectionref{subsec:specific-assembly-simulators}) and architecture-agnostic simulators (\subsectionref{subsec:generic-assembly-simulators}).\\
-Finally, it includes a comparison between all the mentioned simulators and our proposed application (\sectionref{sec:comparison}).
+This chapter presents the current stage of the technologies related to our application, specifically the different kinds of simulators that are currently present in the market (\sectionref{assembly-simulators}), both specific to one architecture (\subsectionref{specific-assembly-simulators}) and architecture-agnostic simulators (\subsectionref{generic-assembly-simulators}).\\
+Finally, it includes a comparison between all the mentioned simulators and our proposed application (\sectionref{comparison}).
 
 
 
@@ -25,7 +25,7 @@ It incorporates advanced features derived from a \gls{pipeline} architecture, su
 The simulator consists of an executable with a \gls{CLI} that takes three input files: the program's code, the register's state, and the data \gls{memory}'s state. It loads the state of registers and data \gls{memory}, executes the program's code and saves the state to the specified files, after the execution, printing some statistics (Figure \ref{fig:kite}). It also implements a \gls{debug} mode that prints the state of each instruction on the \gls{pipeline}, each \gls{clock cycle}.
 
 \begin{figure}[h]
-  \caption{Kite simulator \gls{CLI}.}
+  \caption[Kite simulator's CLI]{Kite simulator's \gls{CLI}}
   \includegraphics[width=0.7\textwidth]{kite.png}
   \label{fig:kite}
 \end{figure}
@@ -39,7 +39,7 @@ ARMLite\supercite{ARMLite} is a web-based simulator for a 32-bit `\glsdisp{ARM}{
 The simulator offers a \gls{GUI} (Figure \ref{fig:armlite}) that shows the current state of the \glspl{register} and the data \gls{memory}, as well as the current instruction and the status bits. It also adds \gls{I/O} support (a text box and a display), and options to start, stop, pause, resume, and slow or speed up execution, as well as step-by-step execution. It allows for users to load, save, and edit their programs, as well as a box to output system information (errors, last action performed, etc.).
 
 \begin{figure}[h]
-  \caption{ARMLite executing Conway's Game of Life\normalfont\supercite{Gardner1970fantastic}.}
+  \caption[ARMLite executing Conway's Game of Life]{ARMLite executing Conway's Game of Life\normalfont\supercite{Gardner1970fantastic}}
   \includegraphics[width=0.7\textwidth]{ARMLite.png}
   \label{fig:armlite}
 \end{figure}
@@ -69,7 +69,7 @@ Furthermore, it allows the user to view, edit, and create the architecture in us
 
 
 \begin{figure}[h]
-  \caption{CREATOR's main \gls{GUI}.}
+  \caption[CREATOR's main GUI]{CREATOR's main \gls{GUI}}
   \includegraphics[width=0.7\textwidth]{creator.png}
   \label{fig:creator}
 \end{figure}
@@ -86,7 +86,7 @@ As we've justified before, we want a \textit{generic} simulator, and from the tw
 In Table \ref{tab:comparison}, we show a comparison of the different features of the current assembly simulators and our proposal.
 
 \begin{table}[h]
-  \caption{Feature comparison of current assembly simulators.}
+  \caption{Feature comparison of current assembly simulators}
   \label{tab:comparison}
   \begin{adjustbox}{max width=\textwidth}  % fit to textwidth
     \begin{threeparttable}[h]
