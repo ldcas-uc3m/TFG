@@ -156,7 +156,9 @@
 \fancypagestyle{fancy} {
 	\fancyhf{}
 	\fancyhead[LO]{\color{azulUC3M}\MakeUppercase{\leftmark}}  % chapter name
-	\fancyhead[RE]{\color{azulUC3M}\@title}  % title
+	\ifdef{\@shorttitle}  % title
+		{\fancyhead[RE]{\color{azulUC3M}\@shorttitle}}
+		{\fancyhead[RE]{\color{azulUC3M}\@title}}
 	\fancyhead[LE,RO]{\color{azulUC3M}\thepage}  % page number
 	\renewcommand{\headrulewidth}{0.4pt}
 }
@@ -298,13 +300,15 @@
 % TABLES
 %----------
 
+\RequirePackage{array}
 \RequirePackage{multirow}  % combine cells
 \RequirePackage{caption}  % customize the title of tables and figures
 \RequirePackage{floatrow}  % we use this package and its \ttabbox and \ffigbox macros to align the table and figure names according to the defined style.
 \RequirePackage{tablefootnote}  % allow footnotes from text in tables (\tablefootnote)
 \RequirePackage{threeparttable}  % fancier tables (with tablenotes)
 \RequirePackage{booktabs}  % \toprule, \bottomrule
-\RequirePackage{array}
+\RequirePackage{adjustbox}  % a better \resizebox: \begin{adjustbox}{max width=\textwidth} \end{adjustbox}
+
 
 % new type of column for tables: custom width and centered content
 \newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
@@ -330,7 +334,6 @@
 %----------
 
 \RequirePackage{graphicx}
-\RequirePackage{adjustbox}  % a better \resizebox: \begin{adjustbox}{max width=\textwidth} \end{adjustbox}
 \RequirePackage{svg}
 
 \graphicspath{{img/}}  % Images folder
@@ -406,6 +409,7 @@
 
 \RequirePackage{listofitems}
 \RequirePackage{xspace}
+\RequirePackage{xifthen}  % \isempty
 
 \makeatletter
 
@@ -417,6 +421,13 @@
 \newcommand{\subject}[1]{\gdef\@subject{#1}}
 \newcommand{\course}[1]{\gdef\@course{#1}}
 \newcommand{\place}[1]{\gdef\@place{#1}}
+\newcommand{\shorttitle}[1]{\gdef\@shorttitle{#1}}
+% \renewcommand{\title}[2][]{
+% 	\ifthenelse{\isempty{#1}}
+% 		{\gdef{\@shorttitle{#1}}}
+% 		{\gdef{\@shorttitle{#2}}}
+% 	\gdef\@title{#2}
+% }
 
 \newcommand{\makecover} {  % requires \degree, \subject, \author, \course, \title, \tutors, \place, \date
 
@@ -442,6 +453,7 @@
 			\vspace*{0.5cm}
 			\rule{10.5cm}{0.1mm}\\
 			\vspace*{0.9cm}
+			\Large\textit{Author}
 			{\LARGE \@author}\\
 			\vspace*{0.5cm}
 			%

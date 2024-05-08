@@ -83,7 +83,7 @@ As we've justified before, we want a \textit{generic} simulator, and from the tw
 
 % Specific simulators...  % TODO
 
-In Table \ref{tab:comparison}, we show a comparison of the different features of the current assembly simulators and our proposal.
+In Table \ref{tab:comparison}, we show a comparison of the different features of the current assembly simulators and our proposal.  % TODO: explain characteristics
 
 \begin{table}[h]
   \caption{Feature comparison of current assembly simulators}
@@ -109,14 +109,15 @@ In Table \ref{tab:comparison}, we show a comparison of the different features of
                       & \checkmark &            & \checkmark &            & \checkmark\\
           In-browser  &            & \checkmark &            & \checkmark & \checkmark\tnote{*}\\
           \gls{GUI}   &            & \checkmark &            & \checkmark & \checkmark\tnote{*}\\
-          Breakpoints &            & \checkmark &            & \checkmark & \checkmark\tnote{*}\\
-          Architecture validation
-                      &            &            & \checkmark &            & \checkmark\tnote{*}\\
+          Error checking
+                      &            & \checkmark &            & \checkmark & \checkmark\\
+          Architecture validation support
+                      &            &            & \checkmark &            & \checkmark\\
           \bottomrule
       \end{tabular}
       \begin{tablenotes}
         \item [*] Future work.
-        \item [a] Simulator needs to be \glsdisp{compilation}{recompiled} for any new architecture.
+        % \item [a] Simulator needs to be \glsdisp{compilation}{recompiled} for any new architecture.
       \end{tablenotes}
     \end{threeparttable}
   \end{adjustbox}
