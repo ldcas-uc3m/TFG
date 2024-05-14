@@ -13,6 +13,7 @@
 \RequirePackage{array}
 \RequirePackage{calc}
 \RequirePackage{xparse}
+\RequirePackage{float}
 % \usepackage{xifthen}  % \isempty
 \RequirePackage{booktabs}  % \toprule, \bottomrule
 
@@ -307,21 +308,21 @@
 
 
 % --8<---- TEMPLATE DEFINITIONS ----
-% \begin{SRStabular}[caption][label]{id}
-\NewDocumentEnvironment{SRStabular}{oom}{%
-    \begin{table}[h]
+% \begin{SRStabular}[caption][label][position]{id}
+\NewDocumentEnvironment{SRStabular}{o o O{h} m}{%
+    \begin{table}[#3]
       \IfNoValueTF{#1}%
         {}
         {\caption{#1}}  % add caption
       \IfNoValueTF{#2}%
-        {\label{req:#3}}  % default label
+        {\label{req:#4}}  % default label
         {\label{#2}}  % custom label
       \renewcommand{\arraystretch}{1.5}
       \noindent
       \begin{tabular}{@{}p{83pt}@{}p{.8\columnwidth-83pt}@{}}
         %
         \toprule
-        \multicolumn{2}{@{}l}{\bfseries#3}\\
+        \multicolumn{2}{@{}l}{\bfseries#4}\\
         \hline
    }
    {
@@ -410,7 +411,7 @@
   {
     \def\@@uc@precond{#5}\def\@@uc@postcond{#6}
     \if@captions@pp
-      \SRStabular[\@uc #1]{#1}
+      \SRStabular[\@uc~#1]{#1}
     \else
       \SRStabular{#1}
     \fi

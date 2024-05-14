@@ -55,5 +55,12 @@
 }
 
 
-% \reqref{name}
+% \reqref{id}
 \newcommand{\reqref}[1]{\hyperref[req:#1]{#1}}
+
+
+% prints a counter with a padding of two
+% \padtwo{counter}
+\newcommand\padtwo[1]{%
+  \ifnum\value{#1}<10 0\fi\arabic{#1}%
+}

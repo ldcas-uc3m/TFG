@@ -11,6 +11,8 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{uc3mthesisIEEE}[UC3M bachelor's thesis IEE template]
 
+\RequirePackage{etoolbox}
+
 
 %----------
 % PACKAGE OPTIONS
@@ -53,6 +55,10 @@
 % Paragraph Spacing and Line Spacing: Narrow (6 pt / 1.15 spacing) or Moderate (6 pt / 1.5 spacing)
 \renewcommand{\baselinestretch}{1.15}
 \parskip=6pt
+
+% blue footnote line
+\preto{\footnoterule}{\color{azulUC3M}}
+\appto{\footnoterule}{\color{black}}
 
 
 % PDF/A -- Important for its inclusion in e-Archive. PDF/A is the optimal format for preservation and for the generation of metadata: http://uc3m.libguides.com/ld.php?content_id=31389625.
@@ -109,26 +115,30 @@
 	\RequirePackage[spanish, es-tabla]{babel} 
 	\RequirePackage[babel, spanish=spanish]{csquotes}
 
-	\def\acknowledgementsname{Dedicatoria}
-	\def\abstractname{Resumen}
-	\def\keywordsname{Palabras clave}
-	\def\thesisname{Trabajo Fin de Grado}
-	\def\ccstring{Esta obra se encuentra sujeta a la licencia Creative Commons \textbf{Reconocimiento - No Comercial - Sin Obra Derivada}}
-	\def\tablecaptionname{TABLA}
-	\def\pluralpostfix{es}
+	\def\@acknowledgements@text{Dedicatoria}
+	\def\@abstract@text{Resumen}
+	\def\@keywords@text{Palabras clave}
+	\def\@thesis@text{Trabajo Fin de Grado}
+	\def\@author@text{Autor}
+	\def\@tutor@text{Tutor}
+	\def\@ccstring{Esta obra se encuentra sujeta a la licencia Creative Commons \textbf{Reconocimiento - No Comercial - Sin Obra Derivada}}
+	\def\@table@caption{TABLA}
+	\def\@pluralpostfix{es}
 \fi
 	
 \if@langen@pp
 	\RequirePackage[english]{babel}
 	\RequirePackage[babel, english=american]{csquotes}
 	
-	\def\acknowledgementsname{Acknowledgements}
-	\def\abstractname{Abstract}
-	\def\keywordsname{Keywords}
-	\def\thesisname{Bachelor Thesis}
-	\def\ccstring{This work is licensed under Creative Commons \textbf{Attribution - Non Commercial - Non Derivatives}}
-	\def\tablecaptionname{TABLE}
-	\def\pluralpostfix{s}
+	\def\@acknowledgements@text{Acknowledgements}
+	\def\@abstract@text{Abstract}
+	\def\@keywords@text{Keywords}
+	\def\@thesis@text{Bachelor Thesis}
+	\def\@author@text{Author}
+	\def\@tutor@text{Tutor}
+	\def\@ccstring{This work is licensed under Creative Commons \textbf{Attribution - Non Commercial - Non Derivatives}}
+	\def\@table@caption{TABLE}
+	\def\@pluralpostfix{s}
 \fi
 
 \AtBeginEnvironment{quote}{\small}
@@ -291,10 +301,6 @@
 \renewcommand{\cftchapfont}{\hypersetup{hidelinks}\bfseries\color{azulUC3M}}
 \renewcommand{\cftchappagefont}{\bfseries\color{azulUC3M}}
 
-% blue footnote line
-\preto{\footnoterule}{\color{azulUC3M}}
-\appto{\footnoterule}{\color{black}}
-
 
 %----------
 % TABLES
@@ -445,28 +451,32 @@
 				\@degree\\
 				\@course\\  % Academic year
 				\vspace{2cm}
-				\textsl{\thesisname}
+				\textsl{\@thesis@text}
 				\bigskip
 			\end{Large}
 
 			{\Huge ``\@title''}\\
-			\vspace*{0.5cm}
+			% \vspace*{0.5cm}
+			\medskip
 			\rule{10.5cm}{0.1mm}\\
-			\vspace*{0.9cm}
-			\Large\textit{Author}
+			% \vspace*{0.3cm}
+			\medskip
+			\Large\textit{\@author@text}\\
 			{\LARGE \@author}\\
-			\vspace*{0.5cm}
+			% \vspace*{0.3cm}
+			\medskip
 			%
 			\begin{Large}
 				\if\listlen\@tutors[]1  % only one tutor
-					\textit{Tutor}\\
+					\textit{\@tutor@text}\\
 				\else
-					\textit{Tutor\pluralpostfix}\\
+					\textit{\@tutor@text\@pluralpostfix}\\
 				\fi
 				\foreachitem\z\in\@tutors[]{
 					\z\\
 				}
-				\vspace*{1cm}
+				% \vspace*{1cm}
+				\bigskip
 				\@place\\
 				\@date\\
 			\end{Large}
@@ -476,7 +486,7 @@
 		\color{black}
 		% IF OUR WORK IS TO BE PUBLISHED UNDER A CREATIVE COMMONS LICENSE, INCLUDE THESE LINES. IS THE RECOMMENDED OPTION.
 		\includegraphics[width=4.2cm]{creativecommons.png}\\ % Creative Commons Logo
-			\ccstring
+			\@ccstring
 	\end{titlepage}
 
 }
@@ -490,7 +500,6 @@
 %----------
 
 \RequirePackage{epigraph}
-\RequirePackage{etoolbox}
 
 % patch epigraph internal commands, with the etoolbox package
 \makeatletter
@@ -528,31 +537,34 @@
 % ACKNOWLEDGEMENTS
 %----------
 
+\makeatletter
 \newenvironment{acknowledgements}
 	{  % begin definition
 		\pagestyle{noheader}
-		\chapter*{\acknowledgementsname}
+		\chapter*{\@acknowledgements@text}
 	}
-	{\newpage}  % end definition
-
+	{\cleardoublepage}  % end definition
+\makeatother
 
 
 %----------
 % ABSTRACT
 %----------
 
+\makeatletter
 \renewenvironment{abstract}
 	{  % begin definition
 		\pagestyle{noheader}
-		\chapter*{\abstractname}
+		\chapter*{\@abstract@text}
 	}
-	{\newpage}  % end definition
+	{\cleardoublepage}  % end definition
 
 \newcommand{\keywords}[1]{
 	% TODO: make command only work inside abstract enviroment
 	\vfill
-	\textbf{\keywordsname:} #1.%
+	\textbf{\@keywords@text:} #1.%
 }
+\makeatother
 
 
 
