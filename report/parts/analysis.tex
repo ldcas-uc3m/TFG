@@ -5,7 +5,7 @@ This chapter describes the proposed solution by briefly recapping the project (\
 
 \section{Project overview}\label{sec:project-description}
 % pequeño resumen del projecto
-The main objective of this project is to create an application that is capable of simulating an \gls{ISA} defined by the user, in order to help the user learn \gls{assembly} by incentivizing experimentation and, in turn, giving the user a deeper understanding of \gls{assembly} programming.
+The main objective of this project is to create an application that is capable of simulating an \gls{ISA} defined by the user, with educational purposes. This will help the user learn \gls{assembly} programming by incentivizing experimentation and, in turn, giving the user a deeper understanding of \gls{assembly} programming. Moreover, the instructions should be defined using a simple language that supports some form of validation of the instruction set, in order to facilitate ensuring that the \gls{ISA} is correct even before executing any program.
 
 As stated in \chapterref{state-of-the-art}, current simulators either don't offer this possibility, or offer an overwhelming amount of options and configurations, which focus on the hardware and architecture aspects of the simulation instead on the \gls{assembly} itself.
 
@@ -62,17 +62,7 @@ Each user requirement is uniquely identified by an ID, which follows the format 
 \stepcounter{i}
 
 \begin{userReq}{UR-CA-\padtwo{i}}{pc=h,pd=h,s=nc,v=h}
-  The system shall allow the user to configure the generic computer architecture.
-\end{userReq}
-\stepcounter{i}
-
-\begin{userReq}{UR-CA-\padtwo{i}}{pc=h,pd=h,s=nc,v=h}
-  The system shall allow the user to define its own set of \gls{assembly} instructions using a simple language.
-\end{userReq}
-\stepcounter{i}
-
-\begin{userReq}{UR-CA-\padtwo{i}}{pc=h,pd=h,s=nc,v=m}
-  The system shall display information about all system components.
+  The system shall allow the user to define its own \gls{ISA} using a simple and validatable language.
 \end{userReq}
 \stepcounter{i}
 
@@ -96,12 +86,12 @@ Each user requirement is uniquely identified by an ID, which follows the format 
 \end{userReq}
 \stepcounter{i}
 
-\begin{userReq}{UR-RE-\padtwo{i}}{pc=m,pd=m,s=nc,v=m}
+\begin{userReq}{UR-RE-\padtwo{i}}{pc=m,pd=m,s=nc,v=l}
   The system shall be intuitive and easy to use.
 \end{userReq}
 \stepcounter{i}
 
-\begin{userReq}{UR-RE-\padtwo{i}}{pc=m,pd=m,s=nc,v=m}
+\begin{userReq}{UR-RE-\padtwo{i}}{pc=l,pd=l,s=nc,v=h}
   The system shall have a \gls{CLI}.
 \end{userReq}
 \stepcounter{i}
@@ -125,9 +115,11 @@ Each user requirement is uniquely identified by an ID, which follows the format 
 
 
 % functional
+\setcounter{i}{1}
 
 
 % non-functional
+\setcounter{i}{1}
 
 
 \FloatBarrier
