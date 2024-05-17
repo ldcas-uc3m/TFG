@@ -17,7 +17,22 @@
 
 
 \section{System architecture}\label{sec:architecture}
+
+\subsection{Components}
+
 \printcomptemplate{Identifier}
+
+\begin{component}{a}
+  {}  % role
+  {}  % dependencias
+  {}  % Descripción
+  {in: ,out: }  % data
+  {}  % origen
+  % descripción
+\end{component}
+
+\FloatBarrier  % prevent floats from passing this point
+
 
 % UI (diagrama de flujo??)
 
@@ -28,4 +43,13 @@
 % definición lenguaje LUISP-DA (backus-naur form)
 
 
-\section{Traceability}\label{sec:comp-traceability}
+\subsection{Traceability}\label{subsec:comp-traceability}
+% Note that the `-` is a special character in Lua patterns and should be escaped, using \37.
+
+% SR-NC - UR-RE
+\begin{figure}[h]
+  \label{tab:traceability-comp-fc}
+  \centering
+  \traceabilityPrintMatrix{^[^US][^R][^-]}{^SR\37-FC}{}
+  \caption{Traceability between functional requirements and components}
+\end{figure}

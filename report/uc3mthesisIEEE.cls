@@ -341,6 +341,7 @@
 
 \RequirePackage{graphicx}
 \RequirePackage{svg}
+\RequirePackage{subcaption}  % \begin{subfigure}, etc.
 
 \graphicspath{{img/}}  % Images folder
 

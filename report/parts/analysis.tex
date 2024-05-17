@@ -1,5 +1,5 @@
 \chapter{Analysis}\label{chap:analysis}
-This chapter describes the proposed solution by briefly recapping the project (\sectionref{project-description}), specifying the system's requirements (\sectionref{requirements}), and specifying the possible use cases of the system (\sectionref{use-cases}). Finally, we verify our specifications through the use of traceability matrices (\sectionref{req-traceability}).
+This chapter describes the proposed solution by briefly recapping the project (\sectionref{project-description}), specifying the system's requirements (\sectionref{requirements}), and specifying the different use cases for the system (\sectionref{use-cases}).
 
 
 
@@ -71,18 +71,22 @@ Each user requirement is uniquely identified by an ID, which follows the format 
 \end{userReq}
 \stepcounter{i}
 
+\begin{userReq}{UR-CA-\padtwo{i}}{pc=m,pd=m,s=nc,v=h}
+  The system shall have a \gls{CLI}.
+\end{userReq}
+\stepcounter{i}
 
 
 % restrictions
 \setcounter{i}{1}
 
-\begin{userReq}{UR-RE-\padtwo{i}}{pc=m,pd=h,s=nc,v=h}
+\begin{userReq}{UR-RE-\padtwo{i}}{pc=m,pd=h,s=c,v=m}
   The system shall be able to be executed natively, and support multiple platforms.
 \end{userReq}
 \stepcounter{i}
 
 \begin{userReq}{UR-RE-\padtwo{i}}{pc=m,pd=m,s=nc,v=h}
-  The system's source code shall be publicly available.
+  The system shall be \gls{FOSS}.
 \end{userReq}
 \stepcounter{i}
 
@@ -91,8 +95,8 @@ Each user requirement is uniquely identified by an ID, which follows the format 
 \end{userReq}
 \stepcounter{i}
 
-\begin{userReq}{UR-RE-\padtwo{i}}{pc=l,pd=l,s=nc,v=h}
-  The system shall have a \gls{CLI}.
+\begin{userReq}{UR-RE-\padtwo{i}}{pc=h,pd=m,s=nc,v=h}
+  The system shall provide a comprehensive user manual.
 \end{userReq}
 \stepcounter{i}
 
@@ -117,12 +121,134 @@ Each user requirement is uniquely identified by an ID, which follows the format 
 % functional
 \setcounter{i}{1}
 
+\begin{softwareReq}{SR-FC-\padtwo{i}}{pc=h,pd=h,s=nc,v=h}
+  {UR-CA-01}
+  The system shall simulate the basic components of a computer: \gls{data memory}, \gls{text memory}, \glspl{register}, \gls{ALU} and \gls{I/O}.
+\end{softwareReq}
+\stepcounter{i}
+
+\begin{softwareReq}{SR-FC-\padtwo{i}}{pc=h,pd=h,s=c,v=m}
+  {UR-CA-01, UR-CA-03}
+  The system shall simulate all basic computer operations: \glspl{arithmetic operation}, \glspl{logical operation}, \glsdisp{branch}{branching}, \gls{memory} manipulation, and \gls{I/O}.
+\end{softwareReq}
+\stepcounter{i}
+
+\begin{softwareReq}{SR-FC-\padtwo{i}}{pc=h,pd=h,s=nc,v=h}
+  {UR-CA-02}
+  The system shall display the contents and state of the components of the current \gls{ISA} at each step of the simulation.
+\end{softwareReq}
+\stepcounter{i}
+
+\begin{softwareReq}{SR-FC-\padtwo{i}}{pc=h,pd=h,s=nc,v=h}
+  {UR-CA-01, UR-CA-03}
+  The user shall be able to configure the different components of the simulator.
+\end{softwareReq}
+\stepcounter{i}
+
+\begin{softwareReq}{SR-FC-\padtwo{i}}{pc=h,pd=h,s=nc,v=h}
+  {UR-CA-03}
+  The system shall be able to interpret instructions defined in a simple language.
+\end{softwareReq}
+\stepcounter{i}
+
+\begin{softwareReq}{SR-FC-\padtwo{i}}{pc=m,pd=l,s=c,v=m}
+  {UR-CA-03}
+  The language used to define the \gls{ISA} shall be validatable.
+\end{softwareReq}
+\stepcounter{i}
+
+\begin{softwareReq}{SR-FC-\padtwo{i}}{pc=h,pd=h,s=nc,v=h}
+  {UR-CA-04}
+  The system shall be able to transform \glsdisp{assembly}-like instructions  defined in the \gls{ISA} into instructions in a simple language that the system can interpret.
+\end{softwareReq}
+\stepcounter{i}
+
+\begin{softwareReq}{SR-FC-\padtwo{i}}{pc=h,pd=h,s=nc,v=h}
+  {UR-CA-04}
+  The system shall be able to execute programs instruction by instruction.
+\end{softwareReq}
+\stepcounter{i}
+
+\begin{softwareReq}{SR-FC-\padtwo{i}}{pc=h,pd=h,s=nc,v=h}
+  {UR-CA-04}
+  The user shall be able to load programs and \gls{ISA} definitions in the simulator.
+\end{softwareReq}
+\stepcounter{i}
+
+\begin{softwareReq}{SR-FC-\padtwo{i}}{pc=h,pd=h,s=nc,v=h}
+  {UR-CA-05}
+  The user shall be able to interact with the system through a \gls{CLI}.
+\end{softwareReq}
+\stepcounter{i}
+
 
 % non-functional
 \setcounter{i}{1}
 
+\begin{softwareReq}{SR-NF-\padtwo{i}}{pc=m,pd=h,s=nc,v=h}
+  {UR-RE-01}
+  The system shall be executed natively.
+\end{softwareReq}
+\stepcounter{i}
+
+\begin{softwareReq}{SR-NF-\padtwo{i}}{pc=m,pd=h,s=nc,v=h}
+  {UR-RE-01}
+  The system shall support multiple platforms.
+\end{softwareReq}
+\stepcounter{i}
+
+\begin{softwareReq}{SR-NF-\padtwo{i}}{pc=m,pd=m,s=nc,v=h}
+  {UR-RE-02}
+  The system shall be licensed under a \gls{FOSS} license.
+\end{softwareReq}
+\stepcounter{i}
+
+\begin{softwareReq}{SR-NF-\padtwo{i}}{pc=m,pd=l,s=nc,v=h}
+  {UR-RE-02}
+  The system's source code shall be publicly available.
+\end{softwareReq}
+\stepcounter{i}
+
+\begin{softwareReq}{SR-NF-\padtwo{i}}{pc=m,pd=m,s=nc,v=l}
+  {UR-RE-03}
+  The system shall have an intuitive \gls{UI}.
+\end{softwareReq}
+\stepcounter{i}
+
+\begin{softwareReq}{SR-NF-\padtwo{i}}{pc=m,pd=m,s=nc,v=l}
+  {UR-RE-04}
+  The system shall provide a comprehensive user manual.
+\end{softwareReq}
+\stepcounter{i}
 
 \FloatBarrier
+
+
+\subsection{Traceability}\label{subsec:req-traceability}
+The traceability matrix (Figure \ref{fig:req-traceability}) verifies that the software requirements cover all user requirements. Functional requirements covering capabilities (Figure \ref{subfig:ca-fc-traceability}) and non-functional requirements covering restrictions (Figure \ref{subfig:re-nf-traceability}), proving the analysis was correct.
+
+\begin{figure}[h]
+  \centering
+  % SR-FC - UR-CA
+  \begin{subfigure}{.45\textwidth}
+    \centering
+    \traceabilityPrintMatrix{^SR\37-FC}{^UR\37-CA}{}
+    \caption{Capacities -- functional requirements}
+    \label{subfig:ca-fc-traceability}
+  \end{subfigure}
+  % SR-Nf - UR-RE
+  \begin{subfigure}{.45\textwidth}
+    \centering
+    \traceabilityPrintMatrix{^SR\37-NF}{^UR\37-RE}{}
+    \caption{Restrictions -- non-functional requirements}
+    \label{subfig:re-nf-traceability}
+  \end{subfigure}
+  \caption{Traceability between user and software requirements}
+  \label{fig:req-traceability}
+\end{figure}
+% Note that the `-` is a special character in Lua patterns and should be escaped, using \37
+
+
 
 \section{Use cases}\label{sec:use-cases}
 
@@ -133,4 +259,4 @@ Each user requirement is uniquely identified by an ID, which follows the format 
 
 
 
-\section{Traceability}\label{sec:req-traceability}
+
