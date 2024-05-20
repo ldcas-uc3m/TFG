@@ -41,7 +41,9 @@ The user requirements are divided into two distinct types:
   \item \textbf{Restrictions:} Impose constraints or conditions that the system must fulfill.
 \end{itemize}
 
-Each user requirement is uniquely identified by an ID, which follows the format \textit{UR-YY-XX}, where \textit{YY} identifies the type of the requirement, either a capacity (\textit{CA}) or a restriction (\textit{RE}); and \textit{XX} identifies the sequential number of the requirement within that type, starting at \textit{01}. Table \ref{tab:ur-template} provides the template used for the specification of the requirements, including the description of each attribute.
+Each user requirement is uniquely identified by an ID, which follows the format \textit{UR-YY-XX}, where \textit{YY} identifies the type of the requirement, either a capacity (\textit{CA}) or a restriction (\textit{RE}); and \textit{XX} identifies the sequential number of the requirement within that type, starting at \textit{01}.
+
+Table \ref{tab:ur-template} provides the template used for the specification of the requirements, including the description of each attribute.
 
 \printureqtemplate{UR-YY-XX}
 
@@ -71,8 +73,23 @@ Each user requirement is uniquely identified by an ID, which follows the format 
 \end{userReq}
 \stepcounter{i}
 
-\begin{userReq}{UR-CA-\padtwo{i}}{pc=m,pd=m,s=nc,v=h}
+\begin{userReq}{UR-CA-\padtwo{i}}{pc=m,pd=m,s=c,v=h}
   The system shall have a \gls{CLI}.
+\end{userReq}
+\stepcounter{i}
+
+\begin{userReq}{UR-CA-\padtwo{i}}{pc=h,pd=h,s=nc,v=h}
+  The system shall notify the user of syntax errors in the program.
+\end{userReq}
+\stepcounter{i}
+
+\begin{userReq}{UR-CA-\padtwo{i}}{pc=l,pd=l,s=nc,v=h}
+  The data on the components must be represented in various formats: signed integer, unsigned integer, and hexadecimal.
+\end{userReq}
+\stepcounter{i}
+
+\begin{userReq}{UR-CA-\padtwo{i}}{pc=m,pd=m,s=nc,v=h}
+  The system shall be able to fully execute, pause, resume, and stop the execution of any program.
 \end{userReq}
 \stepcounter{i}
 
@@ -113,7 +130,9 @@ The user requirements are divided into two distinct types:
   \item \textbf{Non-functional requirements:} Specify other non-functional characteristics of the software.
 \end{itemize}
 
-Each user requirement is uniquely identified by an ID, which follows the format \textit{SR-YY-XX}, where \textit{YY} identifies the type of the requirement, either functional (\textit{FC}) or non-functional (\textit{NF}); and \textit{XX} identifies the sequential number of the requirement within that type, starting at \textit{01}. Table \ref{tab:sr-template} provides the template used for the specification of the requirements, including the description of each attribute.
+Each user requirement is uniquely identified by an ID, which follows the format \textit{SR-YY-XX}, where \textit{YY} identifies the type of the requirement, either functional (\textit{FC}) or non-functional (\textit{NF}); and \textit{XX} identifies the sequential number of the requirement within that type, starting at \textit{01}.
+
+Table \ref{tab:sr-template} provides the template used for the specification of the requirements, including the description of each attribute.
 
 \printsreqtemplate{SR-YY-XX}
 
@@ -159,7 +178,7 @@ Each user requirement is uniquely identified by an ID, which follows the format 
 
 \begin{softwareReq}{SR-FC-\padtwo{i}}{pc=h,pd=h,s=nc,v=h}
   {UR-CA-04}
-  The system shall be able to transform \glsdisp{assembly}-like instructions  defined in the \gls{ISA} into instructions in a simple language that the system can interpret.
+  The system shall be able to transform \glsdisp{assembly}-like instructions, defined in the \gls{ISA}, into instructions in a simple language that the system can interpret.
 \end{softwareReq}
 \stepcounter{i}
 
@@ -178,6 +197,24 @@ Each user requirement is uniquely identified by an ID, which follows the format 
 \begin{softwareReq}{SR-FC-\padtwo{i}}{pc=h,pd=h,s=nc,v=h}
   {UR-CA-05}
   The user shall be able to interact with the system through a \gls{CLI}.
+\end{softwareReq}
+\stepcounter{i}
+
+\begin{softwareReq}{SR-FC-\padtwo{i}}{pc=h,pd=h,s=nc,v=h}
+  {UR-CA-06}
+  The system shall detect syntactical errors on the executed program.
+\end{softwareReq}
+\stepcounter{i}
+
+\begin{softwareReq}{SR-FC-\padtwo{i}}{pc=h,pd=h,s=nc,v=h}
+  {UR-CA-07}
+  The user shall be able to change the representation of the data on the components: either signed integer, unsigned integer, or hexadecimal.
+\end{softwareReq}
+\stepcounter{i}
+
+\begin{softwareReq}{SR-FC-\padtwo{i}}{pc=m,pd=m,s=c,v=h}
+  {UR-CA-08}
+  The user shall allow the user to start a full execution, pause, resume, and stop the execution of a program.
 \end{softwareReq}
 \stepcounter{i}
 
@@ -225,38 +262,124 @@ Each user requirement is uniquely identified by an ID, which follows the format 
 
 
 \subsection{Traceability}\label{subsec:req-traceability}
-The traceability matrix (Figure \ref{fig:req-traceability}) verifies that the software requirements cover all user requirements. Functional requirements covering capabilities (Figure \ref{subfig:ca-fc-traceability}) and non-functional requirements covering restrictions (Figure \ref{subfig:re-nf-traceability}), proving the analysis was correct.
+A traceability matrix verifies if software requirements cover all user requirements. All functional requirements cover the capabilities (Figure \ref{fig:ca-fc-traceability}) and all non-functional requirements cover the restrictions (Figure \ref{fig:re-nf-traceability}), proving the analysis was correct.
 
+% SR-FC - UR-CA
 \begin{figure}[h]
   \centering
-  % SR-FC - UR-CA
-  \begin{subfigure}{.45\textwidth}
-    \centering
-    \traceabilityPrintMatrix{^SR\37-FC}{^UR\37-CA}{}
-    \caption{Capacities -- functional requirements}
-    \label{subfig:ca-fc-traceability}
-  \end{subfigure}
-  % SR-Nf - UR-RE
-  \begin{subfigure}{.45\textwidth}
-    \centering
-    \traceabilityPrintMatrix{^SR\37-NF}{^UR\37-RE}{}
-    \caption{Restrictions -- non-functional requirements}
-    \label{subfig:re-nf-traceability}
-  \end{subfigure}
-  \caption{Traceability between user and software requirements}
-  \label{fig:req-traceability}
+  \traceabilityPrintMatrix{^SR\37-FC}{^UR\37-CA}{}
+  \caption{Traceability between capacities and functional requirements}
+  \label{fig:ca-fc-traceability}
 \end{figure}
-% Note that the `-` is a special character in Lua patterns and should be escaped, using \37
 
-
-
-\section{Use cases}\label{sec:use-cases}
-
-\printuctemplate{UC-XX}
-
+% SR-Nf - UR-RE
+\begin{figure}[h]
+  \centering
+  \traceabilityPrintMatrix{^SR\37-NF}{^UR\37-RE}{}
+  \caption{Traceability between restrictions and non-functional requirements}
+  \label{fig:re-nf-traceability}
+\end{figure}
+% Note that `-` is a special character in Lua patterns and should be escaped, using \37
 
 \FloatBarrier
 
 
+\section{Use cases}\label{sec:use-cases}
+The use case model (Figure \ref{fig:use_case_model}) represents the typical usage of the system, allowing developer to visualize the different interactions between the user and the functionalities the system offers. The use case model includes all the different use cases for the system.
 
+\drawiosvgfigure[.9]{use_case_model}{Use case model}
+
+Each use case represents the process an external agent (actor) should follow in order to execute a specific functionality, and is uniquely identified by an ID. The ID follows the format \textit{UC-XX}, where \textit{XX} identifies the sequential number of the use case, starting at \textit{01}.
+
+Table \ref{tab:uc-template} provides the template used for the specification of the use case, including the description of each attribute.
+
+\printuctemplate{UC-XX}
+
+
+\setcounter{i}{1}
+
+\begin{useCase}{UC-\padtwo{i}}
+  {Load \gls{ISA}.}  % name
+  {User.}  % actors
+  {Loading the \gls{ISA} on the simulator from a file specified by the user.}  % objetive
+  {None.}  % pre-cond
+  {The \gls{ISA} is loaded in the simulator, and the main \gls{CLI} starts.}  % post-cond
+  \begin{enumerate}[nosep]  % description
+    \item User provides the route to the \gls{ISA} file through an executable argument.
+  \end{enumerate}
+\end{useCase}
+\stepcounter{i}
+
+\begin{useCase}{UC-\padtwo{i}}
+  {Load program.}  % name
+  {User.}  % actors
+  {Loading a program on the simulator from a file specified by the user.}  % objetive
+  {The \gls{ISA} is loaded in the simulator.}  % pre-cond
+  {The program is loaded in the simulator.}  % post-cond
+  \begin{enumerate}[nosep]  % description
+    \item User selects the `load program' option in the \gls{CLI}.
+    \item User specifies the route to the program file.
+  \end{enumerate}
+\end{useCase}
+\stepcounter{i}
+
+\begin{useCase}{UC-\padtwo{i}}
+  {Execute instruction.}  % name
+  {User.}  % actors
+  {Executing the next instruction of the program on the simulator.}  % objetive
+  {The \gls{ISA} and program are loaded in the simulator.}  % pre-cond
+  {The simulator executes one instruction of the program.}  % post-cond
+  \begin{enumerate}[nosep]  % description
+    \item User selects the `next instruction' option in the \gls{CLI}.
+  \end{enumerate}
+\end{useCase}
+\stepcounter{i}
+
+\begin{useCase}{UC-\padtwo{i}}
+  {Start full program execution.}  % name
+  {User.}  % actors
+  {Fully executing the current program.}  % objetive
+  {The \gls{ISA} and program are loaded in the simulator.}  % pre-cond
+  {The simulator starts executing the whole program. If the program is paused, it resumes the execution.}  % post-cond
+  \begin{enumerate}[nosep]  % description
+    \item User selects the `start execution' option in the \gls{CLI}.
+  \end{enumerate}
+\end{useCase}
+\stepcounter{i}
+
+\begin{useCase}{UC-\padtwo{i}}
+  {Stop full program execution.}  % name
+  {User.}  % actors
+  {Stopping the current program execution.}  % objetive
+  {The \gls{ISA} and program are loaded in the simulator, and the program is executing.}  % pre-cond
+  {The simulator stops executing the program.}  % post-cond
+  \begin{enumerate}[nosep]  % description
+    \item User selects the `stop execution' option in the \gls{CLI}.
+  \end{enumerate}
+\end{useCase}
+\stepcounter{i}
+
+\begin{useCase}{UC-\padtwo{i}}
+  {Pause full program execution.}  % name
+  {User.}  % actors
+  {Pausing the current program execution.}  % objetive
+  {The \gls{ISA} and program are loaded in the simulator, and the program is executing.}  % pre-cond
+  {The simulator pauses the execution of the program.}  % post-cond
+  \begin{enumerate}[nosep]  % description
+    \item User selects the `pause execution' option in the \gls{CLI}.
+  \end{enumerate}
+\end{useCase}
+\stepcounter{i}
+
+\begin{useCase}{UC-\padtwo{i}}
+  {Execute instruction.}  % name
+  {User.}  % actors
+  {Executing the next instruction of the program on the simulator.}  % objetive
+  {The \gls{ISA} and program are loaded in the simulator.}  % pre-cond
+  {The simulator executes one instruction of the program.}  % post-cond
+  \begin{enumerate}[nosep]  % description
+    \item User selects the `next instruction' option in the \gls{CLI}.
+  \end{enumerate}
+\end{useCase}
+\stepcounter{i}
 
