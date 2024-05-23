@@ -1,26 +1,55 @@
 \chapter{Design}\label{chap:design}
+This chapter  % TODO
 
 
+\section{Study of the solution}\label{sec:study}  % STATE OF THE ART II
+After the elicitation of the requirements (Section \ref{sec:requirements}) and use cases (Section \ref{sec:use-cases}) of the system, we must discuss the different tools at our disposition to build the application, as our design will depend on them.
 
-\section{Study of the solution}\label{sec:study}
-% study of tools (LISP, CPP, JSON) (STATE OF THE ART II)
-% - tables comparing tools
 
-% language: cpp (ISO), rust, python, JS
+\subsection{Instruction definition language}
+\reqref[Requirement]{SR-FC-05} calls for the creation of a language to encode the functionality of the different instructions on the \gls{ISA}. This language is the one that the simulator will actually execute. This language, as per \reqref[requirement]{SR-NF-09}, should be simple and easy to understand.
 
-% interpreter: flex/bison, ANTLR, custom (MAL)
+One approach is to use a generic assembly language, such as the one described in the IEEE Standard for Microprocessor Assembly Language \parencite{IEEE-694-1985}. This is a set of common set of instructions for all microprocessors, and \textit{should} cover all \gls{ISA} possibilities. The main problem with this solution is that it wouldn't solve our main problem, to teach the user \gls{assembly} programming, as the instructions would be encoded in yet another \gls{assembly}. Therefore, we must use some other type of simple and generic language that's easier to understand.
 
-% arch languages: lua, lisp/forth, sub-asm (IEEE 694-1985), custom
+There are scripting languages with good integration with other programming languages, such as Lua \parencite{lua}. Being an embeddable language, it can function as a simple language to interact with an application. Lua is currently used in several projects, such as Neovim \parencite{nvim-lua} and Lua\TeX~\parencite{luatex}. The problem with this approach is \reqref[requirement]{SR-NF-08}; Lua is not easily validatable due to the complexity of the language. 
 
-% build system: none/make, cmake, conan, crpbuild/gnat
+The final approach is to create our own language. This language should be simple, but able to execute any computation, and abstract enough to be easy to understand. The solution is to implement a language in the LISP family. LISP \parencite{mccarthy1960recursive} is a simple recursive language whose operations are based on symbolic expressions. Expressions are lists of elements, where the first element is the operator and the rest of elements the operand. Elements can be atomic (numbers, operators, etc.), or other lists, which will be synthesized into atomic elements by the recursive pattern. By implementing in the language the basic operations described in \reqref[requirement]{SR-FC-02}, we fulfill all our goals for a simple language that supports any possible \gls{ISA}. 
 
-% arch definition: JSON, YAML, custom
+
+\subsection{Interpreter}
+\reqref[Requirement]{SR-FC-06} states that the system must be able to execute the instruction definition language, and \reqref[requirement]{SR-FC-07} states it should be able to do it instruction by instruction. Therefore, the best approach is to create an \gls{interpreter} for our LISP-like language.
+
+To implement an \gls{interpreter} for any language, there are two main steps involved: processing the input into an \gls{AST} (\textit{parsing}), and executing it with the help of the \gls{AST} (\textit{interpreting}) \parencite{mogensen2009basics}.
+
+Nowadays, there are tools that, given a language definition as an input, generate parsers for those languages, simplifying the process of creating an \gls{interpreter}. Such is the case of Lex and yacc \parencite{LevineJohnR1992Ly} (and its modern counterpart Flex and bison \parencite{LevineJohnR2009Fb}), and ANTLR \parencite{ParrTerenceTerenceJohn2010Lip}%, the three of them being the `state of the art' options \parencite{OrtinFrancisco2022Aeeo}
+. These parser generator tools generate libraries that parse the inputs into \glspl{AST} that are later used in the execution. The main problem with this approach is that you need to recompile the parser each time you modify the language, which gives less flexibility to add new features (floating point operations, etc.).
+
+Another approach is to build the \gls{interpreter} from scratch. Being a LISP-like language comes with the advantage of simplifying the \gls{interpreter} design. Make-A-Lisp \parencite{mal} is a guide for implementing a generic LISP \gls{interpreter}, and outlines the basic functionalities and architecture.
+
+
+\subsection{ISA definition format}
+\reqref[Requirement]{SR-NF-07} specifies that the format used to define and store the \gls{ISA} must be simple and easy to modify. The best approach is to use a text-based format, as they are human-readable and can be modified by any basic text editor, without the need for any specific tools. Furthermore, it allows us to encode with text  both the defined \glspl{assembly} and instruction definition language, simplifying the system's implementation.
+
+The best approach is to use a structured data format. There are many formats, but the most widely used are those who store data in attribute-value pairs and arrays, as is the case of the \gls{json} \parencite{ISO21778} and the \gls{yaml} \parencite{yamlspec} formats. While both formats offer libraries for parsing and validating files in many programming languages, the \gls{json} format is a `friendlier' format for \gls{HTTP} due to the fact that it ignores whitespace, unlike \gls{yaml}. Using \gls{json} over \gls{yaml} offers many possibilities for the use of the system in other environments, such as \glspl{web service}.
+
+
+\subsection{Programming language}
+As per \reqref[requirements]{SR-NF-01}, the programming language must allow the system to be executed natively and on multiple platforms. Native execution has the advantage of producing more performant code, as there is no overhead derived from virtual machines or \glspl{interpreter}. Popular natively compiled languages include C \parencite{KernighanBrianW1988TCpl}, C++ \parencite{StroustrupBjarne2013TCpl}, Rust \parencite{KlabnikSteve2023TRpl}, and Go \parencite{DonovanAlan2015TGPL} \parencite{statista2023langstats}.
+
+Furthermore, \reqref[requirement]{SR-NF-02} states that the system shall also support multiple platforms, including browsers. Through the use of WebAssembly \parencite{HaasAndreas2017Btwu}, most programming languages can be compiled and executed `natively' in the browser, including all previously mentioned languages.
+
+From the mentioned languages, C++ (specifically ISO C++20) was chosen for several reasons:
+\begin{itemize}[nosep]
+  \item It's a mature language, with support for modern features and multiple \glspl{programming paradigm}.
+  \item It's strongly typed, memory safe, and high-performant, with zero-cost abstractions.
+  \item It's an ISO standard language \parencite{ISOcpp20}.
+\end{itemize}
 
 
 
 \section{System architecture}\label{sec:architecture}
 
-\subsection{Components}
+\subsection{Overview}
 
 \printcomptemplate{Identifier}
 
@@ -33,19 +62,9 @@
   % descripción
 \end{component}
 
-\FloatBarrier  % prevent floats from passing this point
+\FloatBarrier
 
-
-% UI (diagrama de flujo??)
-
-% logica -> sequence diagram (interprete)
-
-% JSON -> diagrama entidad-relación
-
-% definición lenguaje LUISP-DA (backus-naur form)
-
-
-\subsection{Traceability}\label{subsec:comp-traceability}
+\subsubsection{Traceability}\label{subsec:comp-traceability}
 % Note that the `-` is a special character in Lua patterns and should be escaped, using \37.
 
 % SR-NC - UR-RE
@@ -55,3 +74,26 @@
   \traceabilityPrintMatrix{^[^US][^R][^-]}{^SR\37-FC}{}
   \caption{Traceability between functional requirements and components}
 \end{figure}
+
+\FloatBarrier
+
+
+\subsection{Instruction definition language}
+% LUISP-DA backus-naur form
+
+
+
+\subsection{Interpreter}
+% sequence diagram
+
+
+
+\subsection{ISA definition}
+% JSON -> diagrama entidad-relación?
+
+
+
+\subsection{User interface}
+% CLI -> diagrama de flujo??
+
+

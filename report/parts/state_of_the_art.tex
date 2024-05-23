@@ -83,7 +83,7 @@ As we've justified before, we want a \textit{generic} simulator, and from the tw
 
 % Specific simulators...  % TODO?
 
-In Table \ref{tab:comparison}, we show a comparison of the different features of the current assembly simulators and our proposal.
+In Table \ref{tab:sim-comparison}, we show a comparison of the different features of the current assembly simulators and our proposal.
 
 The evaluated features are the following:
 \begin{itemize}
@@ -100,14 +100,14 @@ The evaluated features are the following:
 
 \begin{table}[h]
   \caption{Feature comparison of current assembly simulators}
-  \label{tab:comparison}
+  \label{tab:sim-comparison}
   \begin{adjustbox}{max width=\textwidth}  % fit to textwidth
     \begin{threeparttable}[h]
       \begin{tabular}{>{\bfseries}lccccc}
           \toprule
           Simulator   & Kite       & ARMLite    & Sail       & CREATOR    & Proposal\\
           \hline
-          Language    & C/C++      & JavaScript & OCaml      & JavaScript & C++23\\
+          Language    & C/C++      & JavaScript & OCaml      & JavaScript & ISO C++20\\
           License     &BSD-3-Clause& None       &BSD-2-Clause& LGPLv2.1   & GPLv3\\
           % Architecture definition
           %             &            &            & \checkmark\tnote{a}

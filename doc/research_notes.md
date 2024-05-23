@@ -51,6 +51,7 @@ Why not:
 3. Hacerlo de esta forma permite definir tus propias arquitecturas, al final acaba siendo un intérprete más genérico, y se parece más a CREATOR, lo cual implica que os puede ser más útil a vosotros. 4. No hay que recompilar para cambiar la arquitectura (ésto le hace mucha ilusión a Jose Antonio). ANTLR no está pensado para implementar esta arquitectura con archivos de configuración como los descritos, y ésta arquitectura implica un parser muy simple (básicamente buscar en un diccionario) y un intérprete más parecido a como funciona una CPU: tienes un set de instrucciones en memoria y las vas ejecutando. Ni árboles ni leches.
 
 #### 2. Use lex ([GNU flex](https://github.com/westes/flex)) and yacc ([GNU bison](https://www.gnu.org/software/bison/))
+- J. Levine. flex & bison, 1st Edition. O'Reilly, 2009
 - J. Levine, D. Brown, T. Mason. lex & yacc, 2nd Edition. O'Reilly, 1992
 
 #### 3. ASM to lisp-like interpreter (LUISP-DA)

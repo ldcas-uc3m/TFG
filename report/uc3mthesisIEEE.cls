@@ -121,7 +121,7 @@
 	\def\@thesis@text{Trabajo Fin de Grado}
 	\def\@author@text{Autor}
 	\def\@tutor@text{Tutor}
-	\def\@ccstring{Esta obra se encuentra sujeta a la licencia Creative Commons \textbf{Reconocimiento - No Comercial - Sin Obra Derivada}}
+	\def\@ccstring{Esta obra se encuentra sujeta a la licencia Creative Commons\\\textbf{Reconocimiento - No Comercial - Sin Obra Derivada}}
 	\def\@table@caption{TABLA}
 	\def\@pluralpostfix{es}
 \fi
@@ -136,7 +136,7 @@
 	\def\@thesis@text{Bachelor Thesis}
 	\def\@author@text{Author}
 	\def\@tutor@text{Tutor}
-	\def\@ccstring{This work is licensed under Creative Commons \textbf{Attribution - Non Commercial - Non Derivatives}}
+	\def\@ccstring{This work is licensed under Creative Commons\\\textbf{Attribution - Non Commercial - Non Derivatives}}
 	\def\@table@caption{TABLE}
 	\def\@pluralpostfix{s}
 \fi
@@ -487,7 +487,8 @@
 		\color{black}
 		% IF OUR WORK IS TO BE PUBLISHED UNDER A CREATIVE COMMONS LICENSE, INCLUDE THESE LINES. IS THE RECOMMENDED OPTION.
 		\includegraphics[width=4.2cm]{creativecommons.png}\\ % Creative Commons Logo
-			\@ccstring
+		\smallskip
+		\small\@ccstring
 	\end{titlepage}
 
 }

@@ -64,7 +64,7 @@ Table \ref{tab:ur-template} provides the template used for the specification of 
 \stepcounter{i}
 
 \begin{userReq}{UR-CA-\padtwo{i}}{pc=h,pd=h,s=nc,v=h}
-  The system shall allow the user to define its own \gls{ISA} using a simple and validatable language.
+  The system shall allow the user to define its own \gls{ISA}.
 \end{userReq}
 \stepcounter{i}
 
@@ -84,12 +84,12 @@ Table \ref{tab:ur-template} provides the template used for the specification of 
 \stepcounter{i}
 
 \begin{userReq}{UR-CA-\padtwo{i}}{pc=l,pd=l,s=nc,v=h}
-  The data on the components must be represented in various formats: signed integer, unsigned integer, and hexadecimal.
+  The data on the components shall be represented in various formats: signed integer, unsigned integer, and hexadecimal.
 \end{userReq}
 \stepcounter{i}
 
 \begin{userReq}{UR-CA-\padtwo{i}}{pc=m,pd=m,s=nc,v=h}
-  The system shall be able to fully execute, pause, resume, and stop the execution of any program.
+  The system shall be able to fully execute and stop the execution of any program.
 \end{userReq}
 \stepcounter{i}
 
@@ -114,6 +114,16 @@ Table \ref{tab:ur-template} provides the template used for the specification of 
 
 \begin{userReq}{UR-RE-\padtwo{i}}{pc=h,pd=m,s=nc,v=h}
   The system shall provide a comprehensive user manual.
+\end{userReq}
+\stepcounter{i}
+
+\begin{userReq}{UR-RE-\padtwo{i}}{pc=m,pd=m,s=nc,v=m}
+  The \gls{ISA} definition format shall be simple and easily modifiable.
+\end{userReq}
+\stepcounter{i}
+
+\begin{userReq}{UR-RE-\padtwo{i}}{pc=m,pd=m,s=nc,v=l}
+  The instruction definition language shall be simple, easy to understand, and  validatable by an external tool.
 \end{userReq}
 \stepcounter{i}
 
@@ -170,15 +180,9 @@ Table \ref{tab:sr-template} provides the template used for the specification of 
 \end{softwareReq}
 \stepcounter{i}
 
-\begin{softwareReq}{SR-FC-\padtwo{i}}{pc=m,pd=l,s=c,v=m}
-  {UR-CA-03}
-  The language used to define the \gls{ISA} shall be validatable.
-\end{softwareReq}
-\stepcounter{i}
-
 \begin{softwareReq}{SR-FC-\padtwo{i}}{pc=h,pd=h,s=nc,v=h}
   {UR-CA-04}
-  The system shall be able to transform \glsdisp{assembly}-like instructions, defined in the \gls{ISA}, into instructions in a simple language that the system can interpret.
+  The system shall be able to transform \glsdisp{assembly}{assembly}-like instructions, defined in the \gls{ISA}, into instructions in a simple language that the system can interpret.
 \end{softwareReq}
 \stepcounter{i}
 
@@ -214,7 +218,7 @@ Table \ref{tab:sr-template} provides the template used for the specification of 
 
 \begin{softwareReq}{SR-FC-\padtwo{i}}{pc=m,pd=m,s=c,v=h}
   {UR-CA-08}
-  The user shall allow the user to start a full execution, pause, resume, and stop the execution of a program.
+  The user shall allow the user to start executing the rest of the program automatically, and stop the execution of a current program.
 \end{softwareReq}
 \stepcounter{i}
 
@@ -224,7 +228,7 @@ Table \ref{tab:sr-template} provides the template used for the specification of 
 
 \begin{softwareReq}{SR-NF-\padtwo{i}}{pc=m,pd=h,s=nc,v=h}
   {UR-RE-01}
-  The system shall be executed natively.
+  The system shall be able to be executed natively.
 \end{softwareReq}
 \stepcounter{i}
 
@@ -240,7 +244,7 @@ Table \ref{tab:sr-template} provides the template used for the specification of 
 \end{softwareReq}
 \stepcounter{i}
 
-\begin{softwareReq}{SR-NF-\padtwo{i}}{pc=m,pd=l,s=nc,v=h}
+\begin{softwareReq}{SR-NF-\padtwo{i}}{pc=l,pd=l,s=nc,v=h}
   {UR-RE-02}
   The system's source code shall be publicly available.
 \end{softwareReq}
@@ -255,6 +259,24 @@ Table \ref{tab:sr-template} provides the template used for the specification of 
 \begin{softwareReq}{SR-NF-\padtwo{i}}{pc=m,pd=m,s=nc,v=l}
   {UR-RE-04}
   The system shall provide a comprehensive user manual.
+\end{softwareReq}
+\stepcounter{i}
+
+\begin{softwareReq}{SR-NF-\padtwo{i}}{pc=m,pd=l,s=c,v=m}
+  {UR-RE-05}
+  The format used to define the \gls{ISA} shall be simple and easily modifiable.
+\end{softwareReq}
+\stepcounter{i}
+
+\begin{softwareReq}{SR-NF-\padtwo{i}}{pc=m,pd=l,s=c,v=m}
+  {UR-RE-06}
+  The language used to define the instructions shall be easily validatable by and external tool.
+\end{softwareReq}
+\stepcounter{i}
+
+\begin{softwareReq}{SR-NF-\padtwo{i}}{pc=m,pd=m,s=c,v=l}
+  {UR-RE-06}
+  The language used to shall be simple and easy for the user to use and understand.
 \end{softwareReq}
 \stepcounter{i}
 
@@ -285,9 +307,9 @@ A traceability matrix verifies if software requirements cover all user requireme
 
 
 \section{Use cases}\label{sec:use-cases}
-The use case model (Figure \ref{fig:use_case_model}) represents the typical usage of the system, allowing developer to visualize the different interactions between the user and the functionalities the system offers. The use case model includes all the different use cases for the system.
+The use case model (Figure \ref{fig:use_case_model}) represents the typical usage of the system, allowing developer to visualize the different interactions between the user and the functionalities the system offers. The use case model includes all the different use cases for the system.  % TODO: find reference for UML use case model
 
-\drawiosvgfigure[.9]{use_case_model}{Use case model}
+\drawiosvgfigure[.8]{use_case_model}{Use case model}
 
 Each use case represents the process an external agent (actor) should follow in order to execute a specific functionality, and is uniquely identified by an ID. The ID follows the format \textit{UC-XX}, where \textit{XX} identifies the sequential number of the use case, starting at \textit{01}.
 
@@ -299,8 +321,8 @@ Table \ref{tab:uc-template} provides the template used for the specification of 
 \setcounter{i}{1}
 
 \begin{useCase}{UC-\padtwo{i}}
-  {Load \gls{ISA}.}  % name
-  {User.}  % actors
+  {Load \gls{ISA}}  % name
+  {User}  % actors
   {Loading the \gls{ISA} on the simulator from a file specified by the user.}  % objetive
   {None.}  % pre-cond
   {The \gls{ISA} is loaded in the simulator, and the main \gls{CLI} starts.}  % post-cond
@@ -311,8 +333,8 @@ Table \ref{tab:uc-template} provides the template used for the specification of 
 \stepcounter{i}
 
 \begin{useCase}{UC-\padtwo{i}}
-  {Load program.}  % name
-  {User.}  % actors
+  {Load program}  % name
+  {User}  % actors
   {Loading a program on the simulator from a file specified by the user.}  % objetive
   {The \gls{ISA} is loaded in the simulator.}  % pre-cond
   {The program is loaded in the simulator.}  % post-cond
@@ -324,8 +346,8 @@ Table \ref{tab:uc-template} provides the template used for the specification of 
 \stepcounter{i}
 
 \begin{useCase}{UC-\padtwo{i}}
-  {Execute instruction.}  % name
-  {User.}  % actors
+  {Execute instruction}  % name
+  {User}  % actors
   {Executing the next instruction of the program on the simulator.}  % objetive
   {The \gls{ISA} and program are loaded in the simulator.}  % pre-cond
   {The simulator executes one instruction of the program.}  % post-cond
@@ -336,20 +358,20 @@ Table \ref{tab:uc-template} provides the template used for the specification of 
 \stepcounter{i}
 
 \begin{useCase}{UC-\padtwo{i}}
-  {Start full program execution.}  % name
-  {User.}  % actors
+  {Full program execution}  % name
+  {User}  % actors
   {Fully executing the current program.}  % objetive
   {The \gls{ISA} and program are loaded in the simulator.}  % pre-cond
-  {The simulator starts executing the whole program. If the program is paused, it resumes the execution.}  % post-cond
+  {The simulator starts/continues executing the program automatically.}  % post-cond
   \begin{enumerate}[nosep]  % description
-    \item User selects the `start execution' option in the \gls{CLI}.
+    \item User selects the `full execution' option in the \gls{CLI}.
   \end{enumerate}
 \end{useCase}
 \stepcounter{i}
 
 \begin{useCase}{UC-\padtwo{i}}
-  {Stop full program execution.}  % name
-  {User.}  % actors
+  {Stop program execution}  % name
+  {User}  % actors
   {Stopping the current program execution.}  % objetive
   {The \gls{ISA} and program are loaded in the simulator, and the program is executing.}  % pre-cond
   {The simulator stops executing the program.}  % post-cond
@@ -360,20 +382,8 @@ Table \ref{tab:uc-template} provides the template used for the specification of 
 \stepcounter{i}
 
 \begin{useCase}{UC-\padtwo{i}}
-  {Pause full program execution.}  % name
-  {User.}  % actors
-  {Pausing the current program execution.}  % objetive
-  {The \gls{ISA} and program are loaded in the simulator, and the program is executing.}  % pre-cond
-  {The simulator pauses the execution of the program.}  % post-cond
-  \begin{enumerate}[nosep]  % description
-    \item User selects the `pause execution' option in the \gls{CLI}.
-  \end{enumerate}
-\end{useCase}
-\stepcounter{i}
-
-\begin{useCase}{UC-\padtwo{i}}
-  {Execute instruction.}  % name
-  {User.}  % actors
+  {Execute instruction}  % name
+  {User}  % actors
   {Executing the next instruction of the program on the simulator.}  % objetive
   {The \gls{ISA} and program are loaded in the simulator.}  % pre-cond
   {The simulator executes one instruction of the program.}  % post-cond
