@@ -48,13 +48,12 @@
 
 \LoadClass[12pt, twoside, openright]{report}  % font: 12pt
 
-% margins: 2.5 cm top and bottom; 3 cm left and right
 \RequirePackage[a4paper, vmargin=2.5cm, hmargin=3cm]{geometry}
 \RequirePackage{emptypage}  % removes headers/footers from empty pages
 
-% Paragraph Spacing and Line Spacing: Narrow (6 pt / 1.15 spacing) or Moderate (6 pt / 1.5 spacing)
-\renewcommand{\baselinestretch}{1.15}
-\parskip=6pt
+% narrow spacing
+\renewcommand{\baselinestretch}{1.15}  % line spacing
+\parskip=6pt  % paragraph spacing
 
 % blue footnote line
 \preto{\footnoterule}{\color{azulUC3M}}
@@ -596,8 +595,13 @@
 % BIBLIOGRAPHY
 %----------
 
-\RequirePackage[backend=biber, style=ieee, isbn=false, sortcites, maxbibnames=6, minbibnames=1]{biblatex} % Setting for IEEE citation style, recommended for engineering. "maxbibnames" indicates that from 6 authors truncate the list in the first one (minbibnames) and add "et al." as used in the IEEE style.
+\RequirePackage[backend=biber, style=ieee, isbn=false, sortcites, maxbibnames=6, minbibnames=1]{biblatex} % IEEE citation style
 \preto{\printbibliography}{\pagestyle{noheader}}
+
+% force break of lines when necessary
+\setcounter{biburlnumpenalty}{9000}
+\setcounter{biburlucpenalty}{9000}
+\setcounter{biburllcpenalty}{9000}
 
 
 

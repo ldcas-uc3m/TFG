@@ -1,5 +1,5 @@
 \chapter{Analysis}\label{chap:analysis}
-This chapter describes the proposed solution by briefly recapping the project (\sectionref{project-description}), specifying the system's requirements (\sectionref{requirements}), and specifying the different use cases for the system (\sectionref{use-cases}).
+This chapter describes the proposed solution by briefly recapping the project (\secref{project-description}), specifying the system's requirements (\secref{requirements}), and specifying the different use cases for the system (\secref{use-cases}).
 
 
 
@@ -7,7 +7,7 @@ This chapter describes the proposed solution by briefly recapping the project (\
 % pequeño resumen del projecto
 The main objective of this project is to create an application that is capable of simulating an \gls{ISA} defined by the user, with educational purposes. This will help the user learn \gls{assembly} programming by incentivizing experimentation and, in turn, giving the user a deeper understanding of \gls{assembly} programming. Moreover, the instructions should be defined using a simple language that supports some form of validation of the instruction set, in order to facilitate ensuring that the \gls{ISA} is correct even before executing any program.
 
-As stated in \chapterref{state-of-the-art}, current simulators either don't offer this possibility, or offer an overwhelming amount of options and configurations, which focus on the hardware and architecture aspects of the simulation instead on the \gls{assembly} itself.
+As stated in \chapref{state-of-the-art}, current simulators either don't offer this possibility, or offer an overwhelming amount of options and configurations, which focus on the hardware and architecture aspects of the simulation instead on the \gls{assembly} itself.
 
 Our aim is to provide the user with a more \textit{logical} approach to understanding \gls{assembly} programming, by abstracting the hardware details and providing a simple and generic architecture.
 
@@ -28,7 +28,7 @@ Moreover, the requirement specification must be:
   \item \textbf{Verifiable:} every requirement must be verifiable, that is, there exists some process to verify that the software complies with every single requirement.
 \end{enumerate}
 
-Starting from the user requirements (\subsectionref{user-requirements}), which constitute an informal reference to the product the client expects, we derived the software requirements (\subsectionref{soft-requirements}) that guided the design process with specific information on the functionality of the system, as well as any and other related characteristics.
+Starting from the user requirements (\subsecref{user-requirements}), which constitute an informal reference to the product the client expects, we derived the software requirements (\subsecref{soft-requirements}) that guided the design process with specific information on the functionality of the system, as well as any and other related characteristics.
 
 
 
@@ -307,7 +307,7 @@ A traceability matrix verifies if software requirements cover all user requireme
 
 
 \section{Use cases}\label{sec:use-cases}
-The use case model (Figure \ref{fig:use_case_model}) represents the typical usage of the system, allowing developer to visualize the different interactions between the user and the functionalities the system offers. The use case model includes all the different use cases for the system.  % TODO: find reference for UML use case model
+The UML use case model \parencite{Cook2017} (Figure \ref{fig:use_case_model}) represents the typical usage of the system, allowing developer to visualize the different interactions between the user and the functionalities the system offers. The use case model includes all the different use cases for the system.
 
 \drawiosvgfigure[.8]{use_case_model}{Use case model}
 
@@ -326,7 +326,7 @@ Table \ref{tab:uc-template} provides the template used for the specification of 
   {Loading the \gls{ISA} on the simulator from a file specified by the user.}  % objetive
   {None.}  % pre-cond
   {The \gls{ISA} is loaded in the simulator, and the main \gls{CLI} starts.}  % post-cond
-  \begin{enumerate}[nosep]  % description
+  \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % description
     \item User provides the route to the \gls{ISA} file through an executable argument.
   \end{enumerate}
 \end{useCase}
@@ -338,7 +338,7 @@ Table \ref{tab:uc-template} provides the template used for the specification of 
   {Loading a program on the simulator from a file specified by the user.}  % objetive
   {The \gls{ISA} is loaded in the simulator.}  % pre-cond
   {The program is loaded in the simulator.}  % post-cond
-  \begin{enumerate}[nosep]  % description
+  \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % description
     \item User selects the `load program' option in the \gls{CLI}.
     \item User specifies the route to the program file.
   \end{enumerate}
@@ -351,7 +351,7 @@ Table \ref{tab:uc-template} provides the template used for the specification of 
   {Executing the next instruction of the program on the simulator.}  % objetive
   {The \gls{ISA} and program are loaded in the simulator.}  % pre-cond
   {The simulator executes one instruction of the program.}  % post-cond
-  \begin{enumerate}[nosep]  % description
+  \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % description
     \item User selects the `next instruction' option in the \gls{CLI}.
   \end{enumerate}
 \end{useCase}
@@ -363,7 +363,7 @@ Table \ref{tab:uc-template} provides the template used for the specification of 
   {Fully executing the current program.}  % objetive
   {The \gls{ISA} and program are loaded in the simulator.}  % pre-cond
   {The simulator starts/continues executing the program automatically.}  % post-cond
-  \begin{enumerate}[nosep]  % description
+  \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % description
     \item User selects the `full execution' option in the \gls{CLI}.
   \end{enumerate}
 \end{useCase}
@@ -375,7 +375,7 @@ Table \ref{tab:uc-template} provides the template used for the specification of 
   {Stopping the current program execution.}  % objetive
   {The \gls{ISA} and program are loaded in the simulator, and the program is executing.}  % pre-cond
   {The simulator stops executing the program.}  % post-cond
-  \begin{enumerate}[nosep]  % description
+  \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % description
     \item User selects the `stop execution' option in the \gls{CLI}.
   \end{enumerate}
 \end{useCase}
@@ -387,7 +387,7 @@ Table \ref{tab:uc-template} provides the template used for the specification of 
   {Executing the next instruction of the program on the simulator.}  % objetive
   {The \gls{ISA} and program are loaded in the simulator.}  % pre-cond
   {The simulator executes one instruction of the program.}  % post-cond
-  \begin{enumerate}[nosep]  % description
+  \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % description
     \item User selects the `next instruction' option in the \gls{CLI}.
   \end{enumerate}
 \end{useCase}

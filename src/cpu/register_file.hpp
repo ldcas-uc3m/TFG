@@ -59,7 +59,7 @@ class RegisterFile {
         }
 
 
-        std::uint32_t pc;
+        std::uint32_t pc;  // program counter
 
 
         /**

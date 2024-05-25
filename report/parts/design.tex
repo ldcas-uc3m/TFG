@@ -1,5 +1,5 @@
 \chapter{Design}\label{chap:design}
-This chapter  % TODO
+This chapter provides a full description of the proposed solution. It details the design process of the proposed solution, by discussing the different alternatives (\secref{study}), and describes the proposed architecture (\secref{architecture}), including all components and design decisions.
 
 
 \section{Study of the solution}\label{sec:study}  % STATE OF THE ART II
@@ -7,9 +7,9 @@ After the elicitation of the requirements (Section \ref{sec:requirements}) and u
 
 
 \subsection{Instruction definition language}
-\reqref[Requirement]{SR-FC-05} calls for the creation of a language to encode the functionality of the different instructions on the \gls{ISA}. This language is the one that the simulator will actually execute. This language, as per \reqref[requirement]{SR-NF-09}, should be simple and easy to understand.
+\reqref[Requirement]{SR-FC-05} calls for the creation of a language to encode the functionality of the different \glspl{instruction} on the \gls{ISA}. This language is the one that the simulator will actually execute. This language, as per \reqref[requirement]{SR-NF-09}, should be simple and easy to understand.
 
-One approach is to use a generic assembly language, such as the one described in the IEEE Standard for Microprocessor Assembly Language \parencite{IEEE-694-1985}. This is a set of common set of instructions for all microprocessors, and \textit{should} cover all \gls{ISA} possibilities. The main problem with this solution is that it wouldn't solve our main problem, to teach the user \gls{assembly} programming, as the instructions would be encoded in yet another \gls{assembly}. Therefore, we must use some other type of simple and generic language that's easier to understand.
+One approach is to use a generic assembly language, such as the one described in the IEEE Standard for Microprocessor Assembly Language \parencite{IEEE-694-1985}. This is a set of common set of \glspl{instruction} for all microprocessors, and \textit{should} cover all \gls{ISA} possibilities. The main problem with this solution is that it wouldn't solve our main problem, to teach the user \gls{assembly} programming, as the \glspl{instruction} would be encoded in yet another \gls{assembly}. Therefore, we must use some other type of simple and generic language that's easier to understand.
 
 There are scripting languages with good integration with other programming languages, such as Lua \parencite{lua}. Being an embeddable language, it can function as a simple language to interact with an application. Lua is currently used in several projects, such as Neovim \parencite{nvim-lua} and Lua\TeX~\parencite{luatex}. The problem with this approach is \reqref[requirement]{SR-NF-08}; Lua is not easily validatable due to the complexity of the language. 
 
@@ -17,7 +17,7 @@ The final approach is to create our own language. This language should be simple
 
 
 \subsection{Interpreter}
-\reqref[Requirement]{SR-FC-06} states that the system must be able to execute the instruction definition language, and \reqref[requirement]{SR-FC-07} states it should be able to do it instruction by instruction. Therefore, the best approach is to create an \gls{interpreter} for our LISP-like language.
+\reqref[Requirement]{SR-FC-06} states that the system must be able to execute the \gls{instruction} definition language, and \reqref[requirement]{SR-FC-07} states it should be able to do it \gls{instruction} by instruction. Therefore, the best approach is to create an \gls{interpreter} for our LISP-like language.
 
 To implement an \gls{interpreter} for any language, there are two main steps involved: processing the input into an \gls{AST} (\textit{parsing}), and executing it with the help of the \gls{AST} (\textit{interpreting}) \parencite{mogensen2009basics}.
 
@@ -28,13 +28,13 @@ Another approach is to build the \gls{interpreter} from scratch. Being a LISP-li
 
 
 \subsection{ISA definition format}
-\reqref[Requirement]{SR-NF-07} specifies that the format used to define and store the \gls{ISA} must be simple and easy to modify. The best approach is to use a text-based format, as they are human-readable and can be modified by any basic text editor, without the need for any specific tools. Furthermore, it allows us to encode with text  both the defined \glspl{assembly} and instruction definition language, simplifying the system's implementation.
+\reqref[Requirement]{SR-NF-07} specifies that the format used to define and store the \gls{ISA} must be simple and easy to modify. The best approach is to use a text-based format, as they are human-readable and can be modified by any basic text editor, without the need for any specific tools. Furthermore, it allows us to encode with text  both the defined \glspl{assembly} and \gls{instruction} definition language, simplifying the system's implementation.
 
 The best approach is to use a structured data format. There are many formats, but the most widely used are those who store data in attribute-value pairs and arrays, as is the case of the \gls{json} \parencite{ISO21778} and the \gls{yaml} \parencite{yamlspec} formats. While both formats offer libraries for parsing and validating files in many programming languages, the \gls{json} format is a `friendlier' format for \gls{HTTP} due to the fact that it ignores whitespace, unlike \gls{yaml}. Using \gls{json} over \gls{yaml} offers many possibilities for the use of the system in other environments, such as \glspl{web service}.
 
 
 \subsection{Programming language}
-As per \reqref[requirements]{SR-NF-01}, the programming language must allow the system to be executed natively and on multiple platforms. Native execution has the advantage of producing more performant code, as there is no overhead derived from virtual machines or \glspl{interpreter}. Popular natively compiled languages include C \parencite{KernighanBrianW1988TCpl}, C++ \parencite{StroustrupBjarne2013TCpl}, Rust \parencite{KlabnikSteve2023TRpl}, and Go \parencite{DonovanAlan2015TGPL} \parencite{statista2023langstats}.
+As per \reqref[requirements]{SR-NF-01}, the \gls{programming language} must allow the system to be executed natively and on multiple platforms. Native execution has the advantage of producing more performant code, as there is no overhead derived from virtual machines or \glspl{interpreter}. Popular natively compiled languages include C \parencite{KernighanBrianW1988TCpl}, C++ \parencite{StroustrupBjarne2013TCpl}, Rust \parencite{KlabnikSteve2023TRpl}, and Go \parencite{DonovanAlan2015TGPL} \parencite{statista2023langstats}.
 
 Furthermore, \reqref[requirement]{SR-NF-02} states that the system shall also support multiple platforms, including browsers. Through the use of WebAssembly \parencite{HaasAndreas2017Btwu}, most programming languages can be compiled and executed `natively' in the browser, including all previously mentioned languages.
 
@@ -48,32 +48,107 @@ From the mentioned languages, C++ (specifically ISO C++20) was chosen for severa
 
 
 \section{System architecture}\label{sec:architecture}
+% TODO
 
 \subsection{Overview}
+The system's architecture can be divided in four main elements:
+\begin{itemize}
+  \item \textbf{Compiler:} Translates the \glsdisp{assembly}{assembly-like} programs into the \gls{interpreter}'s language, using the \gls{instruction} definitions.
+  \item \textbf{Memory:} Stores the \glspl{instruction} and program memory.
+  \item \textbf{\gls{CPU}:} Executes the \glspl{instruction} and stores the registers.
+  \item \textbf{\gls{CLI}:} Provides the \gls{UI} and coordinates all the other elements.
+\end{itemize}
+
+Figure \ref{fig:component_diagram} details the UML component diagram \parencite{Cook2017} of the system, including all of its components. Table \ref{tab:comp-template} provides the template used for the specification of the components, including the description of each attribute. The successive tables describe each of the components.
+
+\graphicfigure[.9]{component_diagram}{Component diagram of the proposed solution}
 
 \printcomptemplate{Identifier}
 
-\begin{component}{acasdf}
-  {}  % role
-  {}  % dependencias
-  {}  % Descripción
-  {in: ,out: }  % data
+
+\begin{component}{Compiler}
+  {Interfaces with the user and coordinates the system}  % role
+  {Memory subsystem (\reqref{Data Memory}, \reqref{Text Memory}), CPU subsystem (\reqref{Register File}, \reqref{ALU}, \reqref{Interpreter}), \reqref{CLI}}  % dependencias
+  {\reqref{Register File} state, \reqref{Data Memory} state, \reqref{Text Memory} state.}  % in-data
+  {\reqref{Interpreter} signals, program to execute, \gls{ISA}.}  % out-data
+  {SR-FC-06}  % origen
+  % descripción
+  The \gls{CLI} is the main component of the system. It's in charge of executing its main functionalities: executing the program and viewing the state of the memory and register file.
+\end{component}
+
+\begin{component}{Data Memory}
+  {Stores the program's data}  % role
+  {\NA}  % dependencias
+  {Memory \glspl{word} to store.}  % in-data
+  {Memory \glspl{word} to provide, state.}  % out-data
+  {SR-FC-01, SR-FC-04}  % origen
+  % descripción
+  \Gls{data memory} stores \glspl{word} and maps them to specific addresses. It allows reading and writing to those bits, given a specified address. The start and end address is configurable.
+\end{component}
+
+\begin{component}{Text Memory}
+  {Stores the program's instructions}  % role
+  {\NA}  % dependencias
+  {Instructions to store, setup configuration.}  % in-data
+  {Instructions to provide, state.}  % out-data
   {SR-FC-01}  % origen
   % descripción
+  \Gls{text memory} stores the instructions to be executed by the \reqref{Interpreter}. Each instruction is composed of an address and the instruction data itself. This component allows for adding new instructions and reading any instruction, given its address.
+\end{component}
+
+\begin{component}{Register File}
+  {Stores the \gls{register}'s data}  % role
+  {\NA}  % dependencias
+  {\Gls{register} data to store, setup configuration}  % in-data
+  {\Gls{register} data to provide, state.}  % out-data
+  {SR-FC-01, SR-FC-04}  % origen
+  % descripción
+  The \gls{register} file holds all the \glspl{register} of the \gls{ISA}, and its contents, \glspl{word}. It also holds the \gls{program counter}. The number of registers is configurable.
+\end{component}
+
+\begin{component}{ALU}
+  {Executes the operations in the instructions}  % role
+  {\reqref{Data Memory}, \reqref{Register File} words}  % dependencias
+  {\reqref{Data Memory} words to read, \reqref{Register File} words to read.}  % in-data
+  {\reqref{Data Memory} words to write, \reqref{Register File} words to write, operation to execute.}  % out-data
+  {SR-FC-01, SR-FC-02}  % origen
+  % descripción
+  The \gls{ALU} interacts with the \gls{data memory}, \glspl{register} and \gls{I/O} in order to execute the operations required by the instructions.
+\end{component}
+
+\begin{component}{Interpreter}
+  {}  % role
+  {\reqref{Register File}, \reqref{ALU}, Memory subsystem (\reqref{Data Memory}, \reqref{Text Memory})}  % dependencias
+  {\reqref{Text Memory} instructions, \reqref{CLI} signal.}  % in-data
+  {Operation to execute.}  % out-data
+  {SR-FC-05, SR-FC-07}  % origen
+  % descripción
+\end{component}
+
+\begin{component}{CLI}
+  {Interfaces with the user and coordinates the system}  % role
+  {Memory subsystem (\reqref{Data Memory}, \reqref{Text Memory})}  % dependencias
+  {\reqref{Register File} state, \reqref{Data Memory} state, \reqref{Text Memory} state.}  % in-data
+  {\reqref{Interpreter} signals, \reqref{Data Memory} setup configuration, \reqref{Register File} setup configuration.}  % out-data
+  {SR-FC-03, SR-FC-04, SR-FC-07, SR-FC-08, SR-FC-09, SR-FC-10, SR-FC-11, SR-FC-12}  % origen
+  % descripción
+  The \gls{CLI} is the main component of the system. It's in charge of executing its main functionalities: validating the input files, executing the program (by signaling the \reqref{Interpreter}) and viewing the state of the memory and register file.
 \end{component}
 
 \FloatBarrier
 
+
 \subsubsection{Traceability}\label{subsec:comp-traceability}
-% Note that the `-` is a special character in Lua patterns and should be escaped, using \37.
+A traceability matrix was generated (Figure \ref{tab:traceability-comp-fc}) in order to validate that all the software requirements, defined in Subsection \ref{subsec:soft-requirements}, were satisfied in the components of the architecture.
 
 % SR-NC - UR-RE
 \begin{figure}[h]
-  \label{tab:traceability-comp-fc}
   \centering
   \traceabilityPrintMatrix{^[^US][^R][^-]}{^SR\37-FC}{}
   \caption{Traceability between functional requirements and components}
+  \label{tab:traceability-comp-fc}
 \end{figure}
+% Note that the `-` is a special character in Lua patterns and should be escaped, using \37.
 
 \FloatBarrier
 

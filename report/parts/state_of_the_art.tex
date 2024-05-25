@@ -1,6 +1,6 @@
 \chapter{State of the Art}\label{chap:state-of-the-art}
-This chapter presents the current stage of the technologies related to our application, specifically the different kinds of simulators that are currently present in the market (\sectionref{assembly-simulators}), both specific to one architecture (\subsectionref{specific-assembly-simulators}) and architecture-agnostic simulators (\subsectionref{generic-assembly-simulators}).\\
-Finally, it includes a comparison between all the mentioned simulators and our proposed application (\sectionref{comparison}).
+This chapter presents the current stage of the technologies related to our application, specifically the different kinds of simulators that are currently present in the market (\secref{assembly-simulators}), both specific to one architecture (\subsecref{specific-assembly-simulators}) and architecture-agnostic simulators (\subsecref{generic-assembly-simulators}).\\
+Finally, it includes a comparison between all the mentioned simulators and our proposed application (\secref{comparison}).
 
 
 
@@ -63,7 +63,7 @@ This tool can not only type-check instruction and vector lengths for the \gls{IS
 \subsubsection*{CREATOR}\label{subsubsec:creator}
 CREATOR \parencite{creator} is a web-based didactic and generic \gls{assembly} simulator. It was created by the ARCOS group from Universidad Carlos III de Madrid as a tool to teach students from the Computer Architecture and Computer Structure courses \gls{assembly} programming \parencite{creatorZenodo}.
 
-It is a fully-fledged simulator, with support for an \gls{assembly} editor with syntax highlighting and error detection, step-by-step execution, \gls{I/O}, breakpoints, visualization of \gls{memory}, \glspl{register} and \gls{stack}, floating point support, loading and saving files, adding libraries, detection of argument passing conventions, etc., all accessible through its \gls{GUI} (Figure \ref{fig:creator}). 
+It is a fully-fledged simulator, with support for an \gls{assembly} editor with syntax highlighting and error detection, step-by-step execution, \gls{I/O}, breakpoints, visualization of \gls{memory}, \glspl{register} and \gls{stack}, floating point support, loading and saving files, adding libraries, detection of argument passing conventions, etc., all accessible through its \gls{GUI} (Figure \ref{fig:creator}), or \gls{CLI}.
 
 Furthermore, it allows the user to view, edit, and create the architecture in use, using JavaScript. CREATOR allows the user to tweak and control a lot of the simulator's architecture and behavior. They can edit the \gls{memory} layout, register file (including number of bits, names and alias, and properties such as enabling reading or writing, if its value is saved when jumping into a \gls{subroutine}, which one is the stack and global pointer), \glspl{instruction} and \glspl{pseudo-instruction} (\glspl{clock cycle}, number of words, fields, etc.), and \glspl{directive}.
 
@@ -79,7 +79,7 @@ Furthermore, it allows the user to view, edit, and create the architecture in us
 \section{Comparison}\label{sec:comparison}
 Our proposal aims to take the desirable features from each of the different simulators presented in order to create an application which fits our needs.
 
-As we've justified before, we want a \textit{generic} simulator, and from the two discussed approaches we think \hyperref[subsubsec:creator]{CREATOR}'s approach is more suitable for our proposal, as the ability to quickly modify the architecture instead of \glsdisp{compilation}{re-compiling} the whole simulator encourages experimentation (less `friction'). We also must take into account that some features that make the simulator more generic might also create more of this `friction'; giving users a more fine-grained control over the architecture could discourage experimentation and add unnecessary complexity, if we prioritize for the user to understand \gls{assembly} over understanding computer architecture.  % TODO: citation needed
+As we've justified before, we want a \textit{generic} simulator, and from the two discussed approaches we think \hyperref[subsubsec:creator]{CREATOR}'s approach is more suitable for our proposal, as the ability to quickly modify the architecture instead of \glsdisp{compilation}{re-compiling} the whole simulator encourages experimentation (less `friction'). We also must take into account that some features that make the simulator more generic might also create more of this `friction'; giving users a more fine-grained control over the architecture could discourage experimentation and add unnecessary complexity, if we prioritize for the user to understand \gls{assembly} over understanding computer architecture.  % TODO: citation needed?
 
 % Specific simulators...  % TODO?
 

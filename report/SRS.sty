@@ -17,6 +17,7 @@
 \RequirePackage{hyperref}
 \usepackage{xifthen}  % \isempty
 \RequirePackage{booktabs}  % \toprule, \bottomrule
+\RequirePackage{enumitem}
 
 
 % PACKAGE OPTIONS
@@ -44,6 +45,7 @@
 % --8<---- Template texts
 
 \newcommand\@na{N/A}
+\newcommand\NA{\@na}
 
 % english
 
@@ -114,8 +116,8 @@
   \def\@uc@postcond@desc{Conditions that must be fulfilled \textit{after} executing the use case.}
   \def\@component@role@desc{Component's function in the system.}
   \def\@component@deps@desc{Components that depend on this component.}
-  \def\@component@description@desc{Purpose of the component.}
-  \def\@component@data@desc{Input (\textit{in}) and output (\textit{out}) values of the component.}
+  \def\@component@description@desc{Explanation of the functioning of the component.}
+  \def\@component@data@desc{Input (\textit{in}) and output (\textit{out}) data of the component.}
   \def\@component@resources@desc{Resources that use the component.}
   \def\@component@origin@desc{Software requirements that derived the component.}
   \def\@component@type@desc{Component type.}
@@ -190,8 +192,8 @@
   \def\@uc@postcond@desc{Condiciones que se deben cumplir después de ejecutar el caso de uso.}
   \def\@component@role@desc{Papel del componente en el sistema.}
   \def\@component@deps@desc{Componentes que dependen de este.}
-  \def\@component@description@desc{Explicación del componente.}
-  \def\@component@data@desc{Valores de entrada (\textit{in}) y salida (\textit{out}) del componente.}
+  \def\@component@description@desc{Explicación del funcionamiento del componente.}
+  \def\@component@data@desc{Datos de entrada (\textit{in}) y salida (\textit{out}) del componente.}
   \def\@component@resources@desc{Recursos que utiliza el componente.}
   \def\@component@origin@desc{Requisitos software que dieron lugar al componente.}
   \def\@component@type@desc{Tipo del componente.}
@@ -296,6 +298,7 @@
   \gdef\traceabilityPrintMatrix#1#2#3{%
     \directlua{__print_matrix('\unexpanded{#1}', '\unexpanded{#2}',
                               \string{#3\string})}}
+  % TODO: allow to define type for ref: req/uc/comp
 
   % redefine these macros to change table style
   \newenvironment{traceabilityMatrix}[1]
@@ -330,7 +333,7 @@
         \multicolumn{2}{@{}l}{\bfseries#5}\\
         \hline
    }
-   {
+   {%
         \bottomrule
       \end{tabular}
     \end{table}
@@ -344,7 +347,7 @@
     \else
       \SRStabular{#1}
     \fi
-    \textbf{\@req@description} &
+    \textbf{\@req@description} &%
   }%
   {%
     \\
@@ -387,7 +390,8 @@
 \newenvironment{softwareReq}[3]
   {%
     \traceability@addOrigins{#1}{#3}\def\@@req@origin{#3}
-    \baseReq{#1}{#2}}
+    \baseReq{#1}{#2}
+  }
   {%
     \endbaseReq
     \textbf{\@req@origin} & \hyperref[req:\@@req@origin]  {\@@req@origin} \\  % TODO: process multiple origins
@@ -416,17 +420,17 @@
   {
     \def\@@uc@precond{#5}\def\@@uc@postcond{#6}
     \if@captions@pp
-      \SRStabular[\@uc~#1][][h][.9]{#1}
+      \SRStabular[\@uc~#1][uc:#1][h][.9]{#1}
     \else
       \SRStabular[][][h][.9]{#1}
     \fi
       \textbf{\@uc@name}             & #2 \\
       \textbf{\@uc@actors}           & #3 \\
       \textbf{\@uc@shortdescription} & #4 \\
-      \textbf{\@uc@description}      &
+      \textbf{\@uc@description}      &%
   }
-  {
-      \\
+  {%
+      \makeatother\\
       \textbf{\@uc@precond}          & \@@uc@precond \\
       \textbf{\@uc@postcond}         & \@@uc@postcond \\
     \endSRStabular
@@ -449,6 +453,7 @@
   {
     \if@captions@pp
       \SRStabular[\@component~`#1']{#1}
+      % \SRStabular[\@component~`#1'][comp:#1]{#1}
     \else
       \SRStabular{#1}
     \fi
@@ -458,21 +463,25 @@
   {\endSRStabular}
 
 
-% Usage: \begin{component}{<ID>}{<ROLE>}{<DEPS>}{<DATA>}{<RESOURCES>}{<ORIGIN>}
+% Usage: \begin{component}{<ID>}{<ROLE>}{<DEPS>}{<IN-DATA>}{<OUT-DATA>}{<ORIGIN>}
 %        ...
 %        \end{component}
 \newenvironment{component}[6]
   {
     \traceability@addOrigins{#1}{#6}
-    \def\@@component@data{#4}\def\@@component@resources{#5}
+    \def\@@component@data@in{#4}
+    \def\@@component@data@out{#5}
     \def\@@component@origin{#6}
     \begin{baseComponent}{#1}{#2}{#3}
-      \textbf{\@component@description} &
+      \textbf{\@component@description} &%
   }
-  {
+  {%
       \\
-      \textbf{\@component@data}      & \expandafter\itemizecsv\expandafter{\@@component@data} \\
-      \textbf{\@component@resources} & \expandafter\itemizecsv\expandafter{\@@component@resources}\\
+      \textbf{\@component@data}      &%
+      \begin{itemize}[leftmargin=*, nosep]
+        \item \textbf{in:} \@@component@data@in
+        \item \textbf{out:} \@@component@data@out
+      \end{itemize}\\
       \textbf{\@component@origin}    & \@@component@origin \\
     \end{baseComponent}
   }
@@ -485,8 +494,7 @@
     \textbf{\@component@deps}         & \@component@deps@desc \\
     \textbf{\@component@description}  & \@component@description@desc \\
     \textbf{\@component@data}         & \@component@data@desc \\
-    \textbf{\@component@resources}    & \@component@resources@desc \\
-    \textbf{\@component@origin}       & \@component@origin \\
+    \textbf{\@component@origin}       & \@component@origin@desc \\
   \end{SRStabular}
 }
 
