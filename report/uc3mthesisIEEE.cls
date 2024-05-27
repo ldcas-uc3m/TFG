@@ -1,10 +1,10 @@
-% Bachelor Thesis Template of the Carlos III de Madrid University, IEEE style
+% Bachelor Thesis Template of the Carlos III de Madrid University, IEEE style, loosely following doctoral thesis guidelines (https://uc3m.libguides.com/en/thesis/writing)
 % Based on the University Library's Bachelor Thesis Template, found in https://www.overleaf.com/latex/templates/bachelor-thesis-template-uc3m-ieee-style/rtmtnzvxjnwt
-% Edited by Luis Daniel Casais Mezquida <https://github.com/ldcas-uc3m>
+% Made by Luis Daniel Casais Mezquida <https://github.com/ldcas-uc3m>
 
 % LICENSE: Creative Commons CC BY 4.0
 
-% WARNING: This Guide contains Library recommendations based mainly on APA and IEEE styles, but you must always follow the guidelines of your TFG Tutor and the TFG regulations for your degree.
+% WARNING: This Guide contains Library recommendations based mainly on the IEEE style, but you must always follow the guidelines of your TFG Tutor and the TFG regulations for your degree
 
 
 
@@ -46,9 +46,9 @@
 % DOCUMENT SETTINGS
 %----------
 
-\LoadClass[12pt, twoside, openright]{report}  % font: 12pt
+\LoadClass[12pt,twoside,openright]{report}  % font: 12pt
 
-\RequirePackage[a4paper, vmargin=2.5cm, hmargin=3cm]{geometry}
+\RequirePackage[a4paper,vmargin=2.5cm,hmargin=3cm]{geometry}
 \RequirePackage{emptypage}  % removes headers/footers from empty pages
 
 % narrow spacing
@@ -87,11 +87,12 @@
 % MATH
 %----------
 
-\RequirePackage{amsmath, amssymb, amsfonts, amsthm, mathtools}
+\RequirePackage{amsmath, amssymb, amsfonts, amsthm, mathtools, textcomp}
 
 % usefull macros
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
 \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+\DeclarePairedDelimiter\tangle{\langle}{\rangle}
 
 
 
@@ -111,9 +112,10 @@
 %----------
 
 \if@langes@pp
-	\RequirePackage[spanish, es-tabla]{babel} 
-	\RequirePackage[babel, spanish=spanish]{csquotes}
+	\RequirePackage[spanish,es-tabla]{babel}
+	\RequirePackage[babel,spanish=spanish]{csquotes}
 
+	\renewcommand{\bibname}{Referencias}
 	\def\@acknowledgements@text{Dedicatoria}
 	\def\@abstract@text{Resumen}
 	\def\@keywords@text{Palabras clave}
@@ -124,11 +126,12 @@
 	\def\@table@caption{TABLA}
 	\def\@pluralpostfix{es}
 \fi
-	
+
 \if@langen@pp
 	\RequirePackage[english]{babel}
-	\RequirePackage[babel, english=american]{csquotes}
-	
+	\RequirePackage[babel,english=american]{csquotes}
+
+	\renewcommand{\bibname}{References}
 	\def\@acknowledgements@text{Acknowledgements}
 	\def\@abstract@text{Abstract}
 	\def\@keywords@text{Keywords}
@@ -150,6 +153,7 @@
 \RequirePackage{fancyhdr}
 
 \preto{\headrule}{\color{azulUC3M}}  % blue headrule
+\preto{\footrule}{\color{azulUC3M}}  % blue footrule
 
 % fix headheight
 \if@langes@pp
@@ -159,14 +163,22 @@
 \fi
 % \renewcommand{\chaptermark}[1]{\markboth{#1}{}}  % \leftmark with just chapter names
 
-
 \makeatletter
+% redefine \chaptermark to avoid \MakeUppercase
+\renewcommand{\chaptermark}[1]{%
+  \markboth{%
+    \ifnum\c@secnumdepth>\m@ne
+      \@chapapp~\thechapter.~~%
+    \fi
+  #1%
+  }{}%
+}
 
 \fancypagestyle{fancy} {
 	\fancyhf{}
-	\fancyhead[LO]{\color{azulUC3M}\MakeUppercase{\leftmark}}  % chapter name
+	\fancyhead[LO]{\color{azulUC3M}\textsc{\leftmark}}  % chapter name
 	\ifdef{\@shorttitle}  % title
-		{\fancyhead[RE]{\color{azulUC3M}\@shorttitle}}
+		{\fancyhead[RE]{\color{azulUC3M}\textsc{\@shorttitle}}}
 		{\fancyhead[RE]{\color{azulUC3M}\@title}}
 	\fancyhead[LE,RO]{\color{azulUC3M}\thepage}  % page number
 	\renewcommand{\headrulewidth}{0.4pt}
@@ -259,6 +271,7 @@
 \setcounter{tocdepth}{2}  % until subsection
 
 % chapters
+\makeatletter
 \titlecontents{chapter}
 	[-5pt]  % left margin
 	{\addvspace{1pc}}  % above
@@ -266,7 +279,7 @@
 		\hypersetup{hidelinks}
 		\bfseries
 		\color{azulUC3M}
-		\chaptertitlename\ \thecontentslabel.\enspace  % label
+		\@chapapp~\thecontentslabel.\enspace  % label
 	}
 	{  % before without label
 		\hypersetup{hidelinks}
@@ -274,12 +287,14 @@
 		\color{azulUC3M}
 	}
 	{  % filler and page
-		\titlerule*[.7pc]{.}
+		\color{azulUC3M}
+		% \titlerule*[.7pc]{.}%
+		\hfill
 		\hypersetup{hidelinks}
 		\bfseries
-		\color{azulUC3M}
 		\contentspage
 	}
+\makeatother
 
 	% sections
 	\titlecontents{section}
@@ -288,7 +303,7 @@
 		{\contentsmargin{0pt}\thecontentslabel.\enspace}  % before with label
 		{\contentsmargin{0pt}}  % before without label
 		{\titlerule*[.7pc]{.}\contentspage}  % filler and page
-	
+
 	% subsections
 	\titlecontents{subsection}[10pt]
 		{}
@@ -308,7 +323,8 @@
 \RequirePackage{array}
 \RequirePackage{multirow}  % combine cells
 \RequirePackage{caption}  % customize the title of tables and figures
-\RequirePackage{floatrow}  % we use this package and its \ttabbox and \ffigbox macros to align the table and figure names according to the defined style.
+% \RequirePackage{float}
+\usepackage{floatrow} % use \ttabbox{\caption{}\label{}}{<tabular>} and \ffigbox{\caption{}\label{}}{<graphic>} to align the table/figure captions according to the defined style
 \RequirePackage{tablefootnote}  % allow footnotes from text in tables (\tablefootnote)
 \RequirePackage{threeparttable}  % fancier tables (with tablenotes)
 \RequirePackage{booktabs}  % \toprule, \bottomrule
@@ -321,17 +337,18 @@
 
 
 % Table layout for engineering
-\captionsetup*[table]{
-	format=hang,
+\captionsetup[table]{
+	format=plain,
 	justification=centering,
 	singlelinecheck=off,
-	labelsep=colon,
-	width=.75\linewidth,
+	labelsep=newline,
+	% width=.8\linewidth,
 	font=small,
-	labelfont={bf,color=azulUC3M},
-	textfont=it
+	position=top,
+	labelfont={bf,sc,color=azulUC3M},
+	textfont=sc
 }
-
+\floatsetup[table]{style=plaintop}
 
 
 %----------
@@ -348,13 +365,12 @@
 \captionsetup[figure]{
 	format=hang,
 	name=Fig.,
-	justification=centering,
+	justification=RaggedRight,
 	singlelinecheck=off,
 	labelsep=colon,
-	width=.75\linewidth,
 	font=small,
+	position=bottom,
 	labelfont={bf,color=azulUC3M},
-	textfont=it
 }
 
 
@@ -372,8 +388,8 @@
 % CODE LISTINGS
 %----------
 
-% support and styling for listings. More information in  https://es.wikibooks.org/wiki/Manual_de_LaTeX/Listados_de_código/Listados_con_listings
 \RequirePackage{listings}
+% more information in  https://es.wikibooks.org/wiki/Manual_de_LaTeX/Listados_de_código/Listados_con_listings
 
 % Custom listing
 \lstdefinestyle{estilo}{
@@ -428,12 +444,6 @@
 \newcommand{\course}[1]{\gdef\@course{#1}}
 \newcommand{\place}[1]{\gdef\@place{#1}}
 \newcommand{\shorttitle}[1]{\gdef\@shorttitle{#1}}
-% \renewcommand{\title}[2][]{
-% 	\ifthenelse{\isempty{#1}}
-% 		{\gdef{\@shorttitle{#1}}}
-% 		{\gdef{\@shorttitle{#2}}}
-% 	\gdef\@title{#2}
-% }
 
 \newcommand{\makecover} {  % requires \degree, \subject, \author, \course, \title, \tutors, \place, \date
 
@@ -524,7 +534,7 @@
 	\thispagestyle{empty}
 
 	\vspace*{\fill}
-	
+
 	\ifblank{#3}
 		{\epigraph{#1}{#2}}  % no source
 		{\epigraph{#1}{#2, \textit{#3}}}
@@ -609,28 +619,19 @@
 % APPENDIXES
 %----------
 
-\RequirePackage{appendix}
+\RequirePackage[header,title]{appendix}
 
-\if@langes@pp
-	\renewcommand{\appendixpagename}{Apéndices}
-	\renewcommand{\appendixtocname}{Apéndices}
-\fi
+% set appendix name in TOC
+\makeatletter
+\BeforeBeginEnvironment{appendices}{%
+	\addtocontents{toc}{\protect\renewcommand{\protect\@chapapp}{\appendixname}}
+}
+\makeatother
 
-\preto{\appendixpagename}{\Huge\color{azulUC3M}}
-
-\renewenvironment{appendices}
-	{  % begin definition
-		\cleardoublepage
-		\pagestyle{fancy}
-		\appendix
-		\addappheadtotoc
-		\appendixpage
-		\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}  % don't show appendixes on TOC
-		% TODO: show appendixes on TOC...
-		\pagenumbering{gobble} % Appendix pages are not numbered
-	}
-	{\newpage}  % end definition
-
+% remove appendices have no page numbers
+\AtBeginEnvironment{appendices}{%
+	\pagenumbering{gobble}
+}
 
 
 %----------

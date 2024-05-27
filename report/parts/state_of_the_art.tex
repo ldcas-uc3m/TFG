@@ -22,11 +22,12 @@ Kite \parencite{song_kite2019} is a simulator that models a five-stage \gls{pipe
 
 It incorporates advanced features derived from a \gls{pipeline} architecture, such as \gls{instruction dependency} detection and \gls{pipeline stalls}, among others. These `under the hood' features offer a better understanding of the underlying concepts of computer architecture.
 
-The simulator consists of an executable with a \gls{CLI} that takes three input files: the program's code, the register's state, and the data \gls{memory}'s state. It loads the state of registers and data \gls{memory}, executes the program's code and saves the state to the specified files, after the execution, printing some statistics (Figure \ref{fig:kite}). It also implements a \gls{debug} mode that prints the state of each instruction on the \gls{pipeline}, each \gls{clock cycle}.
+The simulator consists of an executable with a \gls{CLI} that takes three input files: the program's code, the register's state, and the data \gls{memory}'s state. It loads the state of registers and data \gls{memory}, executes the program's code and saves the state to the specified files, after the execution, printing some statistics (\figref{kite}). It also implements a \gls{debug} mode that prints the state of each instruction on the \gls{pipeline}, each \gls{clock cycle}.
 
-\begin{figure}[h]
-  \caption[Kite simulator's CLI]{Kite simulator's \gls{CLI}}
+\begin{figure}[htb]
+  \centering
   \includegraphics[width=0.7\textwidth]{kite.png}
+  \caption[Kite simulator's CLI]{Kite simulator's \gls{CLI}}
   \label{fig:kite}
 \end{figure}
 
@@ -36,12 +37,15 @@ Its source code can be found in the Yonsei University Computer Architecture and 
 \subsection*{ARMLite}\label{subsubsec:armlite}
 ARMLite \parencite{ARMLite} is a web-based simulator for a 32-bit `\glsdisp{ARM}{ARM-like}' processor. It includes a basic set of instructions described in \textit{Assembly Language Programming} \parencite{PawsonRichard.2020Ass}, by R. Pawson. This simulator was developed for educational purposes, but specifically to target AQA \parencite{AQA}'s Assembly language instruction set for its A-level computer syllabus \parencite{AQAInstructionSet}.
 
-The simulator offers a \gls{GUI} (Figure \ref{fig:armlite}) that shows the current state of the \glspl{register} and the data \gls{memory}, as well as the current instruction and the status bits. It also adds \gls{I/O} support (a text box and a display), and options to start, stop, pause, resume, and slow or speed up execution, as well as step-by-step execution. It allows for users to load, save, and edit their programs, as well as a box to output system information (errors, last action performed, etc.).
+The simulator offers a \gls{GUI} (\figref{armlite}) that shows the current state of the \glspl{register} and the data \gls{memory}, as well as the current instruction and the status bits. It also adds \gls{I/O} support (a text box and a display), and options to start, stop, pause, resume, and slow or speed up execution, as well as step-by-step execution. It allows for users to load, save, and edit their programs, as well as a box to output system information (errors, last action performed, etc.).
 
-\begin{figure}[h]
-  \caption[ARMLite executing Conway's Game of Life]{ARMLite executing Conway's Game of Life\normalfont \parencite{Gardner1970fantastic}}
-  \includegraphics[width=0.7\textwidth]{ARMLite.png}
-  \label{fig:armlite}
+\begin{figure}[htb]
+  \ffigbox[\FBwidth]
+    {%
+      \caption[ARMLite executing Conway's Game of Life]{ARMLite executing Conway's Game of Life~\normalfont\parencite{Gardner1970fantastic}}
+      \label{fig:armlite}
+    }%
+    {\includegraphics[width=0.7\textwidth]{ARMLite.png}}
 \end{figure}
 
 While not being \gls{FOSS} \textit{per se} (we couldn't find any information about the license used by this simulator), the simulator uses JavaScript, which means the browser interprets the webpages's source code locally. As the code is \glsdisp{obfuscate}{unobfuscated} and is, to date, public and free to use, we \textit{could} consider this simulator \gls{FOSS}.
@@ -63,14 +67,15 @@ This tool can not only type-check instruction and vector lengths for the \gls{IS
 \subsubsection*{CREATOR}\label{subsubsec:creator}
 CREATOR \parencite{creator} is a web-based didactic and generic \gls{assembly} simulator. It was created by the ARCOS group from Universidad Carlos III de Madrid as a tool to teach students from the Computer Architecture and Computer Structure courses \gls{assembly} programming \parencite{creatorZenodo}.
 
-It is a fully-fledged simulator, with support for an \gls{assembly} editor with syntax highlighting and error detection, step-by-step execution, \gls{I/O}, breakpoints, visualization of \gls{memory}, \glspl{register} and \gls{stack}, floating point support, loading and saving files, adding libraries, detection of argument passing conventions, etc., all accessible through its \gls{GUI} (Figure \ref{fig:creator}), or \gls{CLI}.
+It is a fully-fledged simulator, with support for an \gls{assembly} editor with syntax highlighting and error detection, step-by-step execution, \gls{I/O}, breakpoints, visualization of \gls{memory}, \glspl{register} and \gls{stack}, floating point support, loading and saving files, adding libraries, detection of argument passing conventions, etc., all accessible through its \gls{GUI} (\figref{creator}), or \gls{CLI}.
 
 Furthermore, it allows the user to view, edit, and create the architecture in use, using JavaScript. CREATOR allows the user to tweak and control a lot of the simulator's architecture and behavior. They can edit the \gls{memory} layout, register file (including number of bits, names and alias, and properties such as enabling reading or writing, if its value is saved when jumping into a \gls{subroutine}, which one is the stack and global pointer), \glspl{instruction} and \glspl{pseudo-instruction} (\glspl{clock cycle}, number of words, fields, etc.), and \glspl{directive}.
 
 
-\begin{figure}[h]
-  \caption[CREATOR's main GUI]{CREATOR's main \gls{GUI}}
+\begin{figure}[htb]
+  \centering
   \includegraphics[width=0.7\textwidth]{creator.png}
+  \caption[CREATOR's main GUI]{CREATOR's main \gls{GUI}}
   \label{fig:creator}
 \end{figure}
 
@@ -83,7 +88,7 @@ As we've justified before, we want a \textit{generic} simulator, and from the tw
 
 % Specific simulators...  % TODO?
 
-In Table \ref{tab:sim-comparison}, we show a comparison of the different features of the current assembly simulators and our proposal.
+In \tabref{sim-comparison}, we show a comparison of the different features of the current assembly simulators and our proposal.
 
 The evaluated features are the following:
 \begin{itemize}
@@ -98,11 +103,11 @@ The evaluated features are the following:
   \item \textbf{Architecture validation support:} Whether the simulator offers support for validating the defined architecture using an external tool.
 \end{itemize}
 
-\begin{table}[h]
+\begin{table}[htb]
   \caption{Feature comparison of current assembly simulators}
   \label{tab:sim-comparison}
   \begin{adjustbox}{max width=\textwidth}  % fit to textwidth
-    \begin{threeparttable}[h]
+    \begin{threeparttable}[htb]
       \begin{tabular}{>{\bfseries}lccccc}
           \toprule
           Simulator   & Kite       & ARMLite    & Sail       & CREATOR    & Proposal\\
@@ -137,6 +142,6 @@ The evaluated features are the following:
 \end{table}
 
 
-We can also compare the mentioned simulators by plotting them on a two-dimension map (Figure \ref{fig:simulator_map}), with one axis representing how `generic' it is and the other one representing how `didactic' it is.
+We can also compare the mentioned simulators by plotting them on a two-dimension map (\figref{simulator_map}), with one axis representing how `generic' it is and the other one representing how `didactic' it is.
 
-\drawiosvgfigure[.65]{simulator_map}{Simulator comparison map.}
+\drawiosvgfigure[.65]{simulator_map}{Simulator comparison map}

@@ -43,7 +43,7 @@ The user requirements are divided into two distinct types:
 
 Each user requirement is uniquely identified by an ID, which follows the format \textit{UR-YY-XX}, where \textit{YY} identifies the type of the requirement, either a capacity (\textit{CA}) or a restriction (\textit{RE}); and \textit{XX} identifies the sequential number of the requirement within that type, starting at \textit{01}.
 
-Table \ref{tab:ur-template} provides the template used for the specification of the requirements, including the description of each attribute.
+\tabref{ur-template} provides the template used for the specification of the requirements, including the description of each attribute.
 
 \printureqtemplate{UR-YY-XX}
 
@@ -142,7 +142,7 @@ The user requirements are divided into two distinct types:
 
 Each user requirement is uniquely identified by an ID, which follows the format \textit{SR-YY-XX}, where \textit{YY} identifies the type of the requirement, either functional (\textit{FC}) or non-functional (\textit{NF}); and \textit{XX} identifies the sequential number of the requirement within that type, starting at \textit{01}.
 
-Table \ref{tab:sr-template} provides the template used for the specification of the requirements, including the description of each attribute.
+\tabref{sr-template} provides the template used for the specification of the requirements, including the description of each attribute.
 
 \printsreqtemplate{SR-YY-XX}
 
@@ -284,36 +284,31 @@ Table \ref{tab:sr-template} provides the template used for the specification of 
 
 
 \subsection{Traceability}\label{subsec:req-traceability}
-A traceability matrix verifies if software requirements cover all user requirements. All functional requirements cover the capabilities (Figure \ref{fig:ca-fc-traceability}) and all non-functional requirements cover the restrictions (Figure \ref{fig:re-nf-traceability}), proving the analysis was correct.
+A traceability matrix verifies if software requirements cover all user requirements. All functional requirements cover the capabilities (\tabref{traceability-ca-fc}) and all non-functional requirements cover the restrictions (\tabref{traceability-re-nf}), proving the analysis was correct.
 
 % SR-FC - UR-CA
-\begin{figure}[h]
-  \centering
-  \traceabilityPrintMatrix{^SR\37-FC}{^UR\37-CA}{}
-  \caption{Traceability between capacities and functional requirements}
-  \label{fig:ca-fc-traceability}
-\end{figure}
+\traceabilityTable{traceability-ca-fc}
+  {^SR\37-FC}{^UR\37-CA}
+  {Traceability between capacities and functional requirements}
 
 % SR-Nf - UR-RE
-\begin{figure}[h]
-  \centering
-  \traceabilityPrintMatrix{^SR\37-NF}{^UR\37-RE}{}
-  \caption{Traceability between restrictions and non-functional requirements}
-  \label{fig:re-nf-traceability}
-\end{figure}
+\traceabilityTable{traceability-re-nf}
+  {^SR\37-NF}{^UR\37-RE}
+  {Traceability between restrictions and non-functional requirements}
+
 % Note that `-` is a special character in Lua patterns and should be escaped, using \37
 
 \FloatBarrier
 
 
 \section{Use cases}\label{sec:use-cases}
-The UML use case model \parencite{Cook2017} (Figure \ref{fig:use_case_model}) represents the typical usage of the system, allowing developer to visualize the different interactions between the user and the functionalities the system offers. The use case model includes all the different use cases for the system.
+The UML use case model \parencite{Cook2017} (\figref{use_case_model}) represents the typical usage of the system, allowing developer to visualize the different interactions between the user and the functionalities the system offers. The use case model includes all the different use cases for the system.
 
 \drawiosvgfigure[.8]{use_case_model}{Use case model}
 
 Each use case represents the process an external agent (actor) should follow in order to execute a specific functionality, and is uniquely identified by an ID. The ID follows the format \textit{UC-XX}, where \textit{XX} identifies the sequential number of the use case, starting at \textit{01}.
 
-Table \ref{tab:uc-template} provides the template used for the specification of the use case, including the description of each attribute.
+\tabref{uc-template} provides the template used for the specification of the use case, including the description of each attribute.
 
 \printuctemplate{UC-XX}
 

@@ -6,10 +6,15 @@
 \usepackage{enumitem}  % control item separation -> \begin{itemize}[nosep, noitemsep]
 \usepackage{lipsum}  % dummy text
 \usepackage{placeins}  % \FloatBarrier
+\usepackage[nounderscore]{syntax}  % BNF grammars
 
 \usepackage[en,enableTraceability,enableCaptions]{SRS}  % requirements
 \usepackage{mymacros}  % report-specific macros
 
+
+% configure syntax's grammar enviroment
+\setlength{\grammarparsep}{8pt} % separation between rules
+\setlength{\grammarindent}{8em} % separation between LHS/RHS 
 
 % silence ht warnings
 \usepackage{silence}
@@ -27,7 +32,7 @@
 \degree{Bachelor's degree in Computer Science and Engineering}
 \course{2023-2024}
 \title{Analysis, Design and Implementation of a Didactic and Generic Assembly Language Simulator}
-\shorttitle{ADI of a Didactic and Generic Assembly Language Simulator}
+\shorttitle{AD\&I of a Didactic and Generic Assembly Language Simulator}
 \author{Luis Daniel Casais Mezquida}
 \tutors{Alejandro Calderón Mateos}
 \place{Leganés, Madrid, Spain}
@@ -86,7 +91,7 @@
   % BIBLIOGRAPHY
   \cleardoublepage
   \label{bibliography}
-  \printbibliography[heading=bibintoc]
+  \printbibliography[heading=bibintoc,title={References}]
 
   % GLOSSARY
   \cleardoublepage
@@ -96,10 +101,9 @@
 
 
   % APPENDICES
-  % \begin{appendices}
-  %   \chapter{My stuff}
-  %   \lipsum
-  % \end{appendices}
+  \begin{appendices}
+    \includefrom{parts/}{manual.tex}
+  \end{appendices}
 
 
 \end{document}

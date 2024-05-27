@@ -6,7 +6,7 @@ This chapter provides a full description of the proposed solution. It details th
 After the elicitation of the requirements (Section \ref{sec:requirements}) and use cases (Section \ref{sec:use-cases}) of the system, we must discuss the different tools at our disposition to build the application, as our design will depend on them.
 
 
-\subsection{Instruction definition language}
+\subsection{Instruction definition language}\label{subsec:inst-lang-study}
 \reqref[Requirement]{SR-FC-05} calls for the creation of a language to encode the functionality of the different \glspl{instruction} on the \gls{ISA}. This language is the one that the simulator will actually execute. This language, as per \reqref[requirement]{SR-NF-09}, should be simple and easy to understand.
 
 One approach is to use a generic assembly language, such as the one described in the IEEE Standard for Microprocessor Assembly Language \parencite{IEEE-694-1985}. This is a set of common set of \glspl{instruction} for all microprocessors, and \textit{should} cover all \gls{ISA} possibilities. The main problem with this solution is that it wouldn't solve our main problem, to teach the user \gls{assembly} programming, as the \glspl{instruction} would be encoded in yet another \gls{assembly}. Therefore, we must use some other type of simple and generic language that's easier to understand.
@@ -48,9 +48,6 @@ From the mentioned languages, C++ (specifically ISO C++20) was chosen for severa
 
 
 \section{System architecture}\label{sec:architecture}
-% TODO
-
-\subsection{Overview}
 The system's architecture can be divided in four main elements:
 \begin{itemize}
   \item \textbf{Compiler:} Translates the \glsdisp{assembly}{assembly-like} programs into the \gls{interpreter}'s language, using the \gls{instruction} definitions.
@@ -59,9 +56,9 @@ The system's architecture can be divided in four main elements:
   \item \textbf{\gls{CLI}:} Provides the \gls{UI} and coordinates all the other elements.
 \end{itemize}
 
-Figure \ref{fig:component_diagram} details the UML component diagram \parencite{Cook2017} of the system, including all of its components. Table \ref{tab:comp-template} provides the template used for the specification of the components, including the description of each attribute. The successive tables describe each of the components.
+Figure \figref{component_diagram} details the UML component diagram \parencite{Cook2017} of the system, including all of its components. \tabref{comp-template} provides the template used for the specification of the components, including the description of each attribute. The successive tables describe each of the components.
 
-\graphicfigure[.9]{component_diagram}{Component diagram of the proposed solution}
+\graphicfigure[.95]{component_diagram}{Component diagram of the proposed solution}
 
 \printcomptemplate{Identifier}
 
@@ -117,7 +114,7 @@ Figure \ref{fig:component_diagram} details the UML component diagram \parencite{
 \end{component}
 
 \begin{component}{Interpreter}
-  {}  % role
+  {Decodes and executes the instructions}  % role
   {\reqref{Register File}, \reqref{ALU}, Memory subsystem (\reqref{Data Memory}, \reqref{Text Memory})}  % dependencias
   {\reqref{Text Memory} instructions, \reqref{CLI} signal.}  % in-data
   {Operation to execute.}  % out-data
@@ -139,15 +136,12 @@ Figure \ref{fig:component_diagram} details the UML component diagram \parencite{
 
 
 \subsubsection{Traceability}\label{subsec:comp-traceability}
-A traceability matrix was generated (Figure \ref{tab:traceability-comp-fc}) in order to validate that all the software requirements, defined in Subsection \ref{subsec:soft-requirements}, were satisfied in the components of the architecture.
+A traceability matrix was generated (\tabref{traceability-comp-fc}) in order to validate that all the software requirements, defined in Subsection \ref{subsec:soft-requirements}, were satisfied in the components of the architecture.
 
-% SR-NC - UR-RE
-\begin{figure}[h]
-  \centering
-  \traceabilityPrintMatrix{^[^US][^R][^-]}{^SR\37-FC}{}
-  \caption{Traceability between functional requirements and components}
-  \label{tab:traceability-comp-fc}
-\end{figure}
+% components - SR-FC
+\traceabilityTable{traceability-comp-fc}
+  {^[^US][^R][^-]}{^SR\37-FC}
+  {Traceability between functional requirements and components}
 % Note that the `-` is a special character in Lua patterns and should be escaped, using \37.
 
 \FloatBarrier
@@ -155,7 +149,117 @@ A traceability matrix was generated (Figure \ref{tab:traceability-comp-fc}) in o
 
 \subsection{Instruction definition language}
 % LUISP-DA backus-naur form
+As stated in \subsecref{inst-lang-study}, the language used to define the instructions is a language from the LISP family. The developed language is LUISP-DA (\textit{assembLy analogoUs lISP DiAlect}).
 
+Being a LISP-like language, instructions are defined as LISP expressions, comprised of lists of symbols and/or other lists, delimited by parenthesis. Inner expressions are evaluated first, recursively.
+
+\noindent
+The full grammar's representation, in Backus-Naur Form \parencite{Backus1959TheSA}, is the following:
+%
+\begin{grammar}
+  <expression> ::= <ATOMIC>
+    \alt <b-expression>
+    \alt <i-expression>
+    \alt <block>
+    \alt <conditional>
+    \alt <call>
+
+  % boolean expression
+  <b-expression> ::= <BOOL>
+    \alt `('<B-OP> <i-expression> <i-expression>`)'
+    \alt `(!' <b-expression>`)'\hfill\textit{not}
+
+  % integer expression
+  <i-expression> ::= <NUM>
+    \alt `(+' <i-expression> <i-expression>`)'\hfill\textit{add}
+    \alt `(-' <i-expression> <i-expression>?`)'\hfill\textit{sub}
+    \alt `(*' <i-expression> <i-expression>`)'\hfill\textit{mul}
+    \alt `(/' <i-expression> <i-expression>`)'\hfill\textit{div}
+    \alt `(%' <i-expression> <i-expression> `)'\hfill\textit{mod}
+    \alt `(reg' <REG>`)'\hfill\textit{get\_reg}
+    \alt `(reg!' <REG> <i-expression>`)'\hfill\textit{set\_reg}
+    \alt `pc'\hfill\textit{get\_pc}
+    \alt `(pc!' <i-expression>`)'\hfill\textit{set\_pc}
+    \alt `(mem' <i-expression>`)'\hfill\textit{get\_mem}
+    \alt `(mem!' <i-expression> <i-expression>`)'\hfill\textit{set\_mem}
+
+  <block> ::= `do' <expression>+
+
+  <conditional> ::= `if' `('<b-expression>`)' <expression> <expression>
+
+  <call> ::= `(call' <NUM> <i-expression>?`)'\hfill\textit{print\_int / print\_char / exit}
+    \alt `(call' <NUM> <REG>`)'\hfill\textit{read\_int / read\_char}
+
+  % lexer
+  <B-OP> ::= `<'\hfill\textit{lt}
+    \alt `<='\hfill\textit{le}
+    \alt `>'\hfill\textit{gt}
+    \alt `>='\hfill\textit{ge}
+    \alt `=='\hfill\textit{eq}
+    \alt `!='\hfill\textit{ne}
+
+  <ATOMIC> ::= <NUM>
+    \alt <BOOL>
+    \alt <NIL>
+
+  <NUM> ::= [0-9]+\hfill\textit{(decimal format)}
+    \alt `0x'[0-f]+\hfill\textit{(hexadecimal format)}
+
+  <BOOL> ::= `true'
+    \alt `false'
+
+  <NIL> ::= `nil'
+
+  <REG> ::= \textit{The set of register names defined in the \gls{ISA}}
+\end{grammar}
+
+
+The first element of each expression is called the \textit{operator}, and takes the rest of the elements of the expression the values the operator is applied two. There are several predefined operators, which can be categorized by type they evaluate to:
+\begin{itemize}
+  \item Operators that evaluate to \qdist{NUM}:
+  \begin{itemize}
+    \item \textit{add}: Adds two values.
+    \item \textit{sub}: Subtracts two values, or negates a value if only one value is specified.
+    \item \textit{mul}: Multiplies two values.
+    \item \textit{div}: Divides two values.
+    \item \textit{div}: Divides two values.
+    \item \textit{get\_reg}: Gets the contents of a register.
+    \item \textit{set\_reg}: Stores a value in a register. Evaluates to the value.
+    \item \textit{get\_pc}: Gets the current \gls{program counter}.
+    \item \textit{set\_pc}: Stores a value in the \gls{program counter}. Evaluates to the value.
+    \item \textit{get\_mem}: Gets the value in a memory address.
+    \item \textit{set\_mem}: Stores a value in a memory address. Evaluates to the value.
+  \end{itemize}
+  \item Operators that evaluate to \qdist{BOOL}:
+  \begin{itemize}
+    \item \textit{lt}: Evaluates if a value is less than other value.
+    \item \textit{lt}: Evaluates if a value is less than other value.
+    \item \textit{le}: Evaluates if a value is less or equal than other value.
+    \item \textit{gt}: Evaluates if a value is greater than other value.
+    \item \textit{ge}: Evaluates if a value is greater or equal than other value.
+    \item \textit{eq}: Evaluates if a value is equal to other value.
+    \item \textit{ne}: Evaluates if a value is not equal to other value.
+    \item \textit{not}: Negates a value.
+  \end{itemize}
+\end{itemize}
+
+\noindent
+There are other `special' operators, as well:
+\begin{itemize}
+ \item Blocks (\qdist{block}) allow the user to evaluate an infinite number of expressions, one after the other, the whole expression evaluating to \qdist{NIL}.
+ \item Conditionals (\qdist{conditional}) enable \glsdisp{branch}{branching}, by using an \textit{if-then-else} structure. If the first element evaluates to \texttt{true}, the the conditional evaluates to the second element; and if the condition evaluates to \texttt{false} (or \qdist{NIL}), it evaluates to the third element instead (if the third element doesn't exist, it evaluates to \qdist{NIL}).
+ \item System calls (\qdist{call}) evaluates the first element, known as the \textit{opcode}, and executes the specified \textit{call} with its arguments. The \textit{opcodes} are defined in the \gls{ISA}. There defined \textit{calls} are:
+ \begin{itemize}[nosep]
+    \item \textit{print\_int}: Prints a value as an integer to \gls{STDOUT}.
+    \item \textit{read\_int}: Stores a value from \gls{STDIN} in a register.
+    \item \textit{print\_char}: Prints a value as an ASCII character to \gls{STDOUT}.
+    \item \textit{read\_char}: Stores an ASCII character from \gls{STDIN} in a register.
+    \item \textit{exit}: Ends the execution of the program.
+  \end{itemize}
+\end{itemize}
+
+\noindent
+For more information about the use of the language, see \appref{manual}.
 
 
 \subsection{Interpreter}

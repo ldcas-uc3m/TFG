@@ -420,9 +420,9 @@
   {
     \def\@@uc@precond{#5}\def\@@uc@postcond{#6}
     \if@captions@pp
-      \SRStabular[\@uc~#1][uc:#1][h][.9]{#1}
+      \SRStabular[\@uc~#1][uc:#1][htb][.9]{#1}
     \else
-      \SRStabular[][][h][.9]{#1}
+      \SRStabular[][][htb][.9]{#1}
     \fi
       \textbf{\@uc@name}             & #2 \\
       \textbf{\@uc@actors}           & #3 \\
@@ -438,7 +438,7 @@
 
 % \printuctemplate[caption]{id-format}
 \newcommand{\printuctemplate}[2][\@uc@template]{%
-  \begin{SRStabular}[#1][tab:uc-template][h][.9]{#2}
+  \begin{SRStabular}[#1][tab:uc-template][htb][.9]{#2}
     \textbf{\@uc@name}              & \@uc@name@desc\\
     \textbf{\@uc@actors}            & \@uc@actors@desc \\
     \textbf{\@uc@shortdescription}  & \@uc@shortdescription@desc \\
@@ -488,7 +488,7 @@
 
 
 % \printcomptemplate[caption]{id-format}
-\newcommand{\printcomptemplate}[2][\@component@template.]{%
+\newcommand{\printcomptemplate}[2][\@component@template]{%
   \begin{SRStabular}[#1][tab:comp-template]{#2}
     \textbf{\@component@role}         & \@component@role@desc\\
     \textbf{\@component@deps}         & \@component@deps@desc \\
