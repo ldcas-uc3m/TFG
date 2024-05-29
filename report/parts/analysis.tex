@@ -93,6 +93,11 @@ Each user requirement is uniquely identified by an ID, which follows the format 
 \end{userReq}
 \stepcounter{i}
 
+\begin{userReq}{UR-CA-\padtwo{i}}{pc=m,pd=m,s=nc,v=h}
+  The system shall provide a \gls{REPL environment} for the user to test the instruction definition language.
+\end{userReq}
+\stepcounter{i}
+
 
 % restrictions
 \setcounter{i}{1}
@@ -222,6 +227,12 @@ Each user requirement is uniquely identified by an ID, which follows the format 
 \end{softwareReq}
 \stepcounter{i}
 
+\begin{softwareReq}{SR-FC-\padtwo{i}}{pc=m,pd=m,s=c,v=h}
+  {UR-CA-09}
+  The system shall provide a \gls{REPL environment} for the instruction definition language.
+\end{softwareReq}
+\stepcounter{i}
+
 
 % non-functional
 \setcounter{i}{1}
@@ -291,7 +302,7 @@ A traceability matrix verifies if software requirements cover all user requireme
   {^SR\37-FC}{^UR\37-CA}
   {Traceability between capacities and functional requirements}
 
-% SR-Nf - UR-RE
+% SR-NF - UR-RE
 \traceabilityTable{traceability-re-nf}
   {^SR\37-NF}{^UR\37-RE}
   {Traceability between restrictions and non-functional requirements}
@@ -384,6 +395,19 @@ Each use case represents the process an external agent (actor) should follow in 
   {The simulator executes one instruction of the program.}  % post-cond
   \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % description
     \item User selects the `next instruction' option in the \gls{CLI}.
+  \end{enumerate}
+\end{useCase}
+\stepcounter{i}
+
+\begin{useCase}{UC-\padtwo{i}}
+  {Use \gls{REPL environment}}  % name
+  {User}  % actors
+  {Evaluating instruction definition Language expressions.}  % objetive
+  {The \gls{ISA} and program are loaded in the simulator.}  % pre-cond
+  {The simulator evaluates the expressions.}  % post-cond
+  \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % description
+    \item User selects the `REPL' option in the \gls{CLI}.
+    \item User types the expression to evaluate.
   \end{enumerate}
 \end{useCase}
 \stepcounter{i}

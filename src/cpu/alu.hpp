@@ -76,7 +76,7 @@ class ALU final {
 
 
         // map of operators names and function pointers
-        const std::unordered_map<std::string, lisp_function> repl_env {
+        const std::unordered_map<std::string, lisp_function> op_env {
             /* Integer operators */
             { "+", ALU_FUNCTION(add) },
             { "-", ALU_FUNCTION(sub) },

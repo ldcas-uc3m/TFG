@@ -92,7 +92,6 @@
 % usefull macros
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
 \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
-\DeclarePairedDelimiter\tangle{\langle}{\rangle}
 
 
 
@@ -367,7 +366,7 @@
 	name=Fig.,
 	justification=RaggedRight,
 	singlelinecheck=off,
-	labelsep=colon,
+	labelsep=period,
 	font=small,
 	position=bottom,
 	labelfont={bf,color=azulUC3M},
@@ -381,6 +380,10 @@
 
 \RequirePackage{chngcntr}  % continuous numbering of footnotes
 \counterwithout{footnote}{chapter}
+
+% blue footnote line
+\preto{\footnoterule}{\color{azulUC3M}}
+\appto{\footnoterule}{\color{black}}
 
 
 
@@ -571,7 +574,7 @@
 	{\cleardoublepage}  % end definition
 
 \newcommand{\keywords}[1]{
-	% TODO: make command only work inside abstract enviroment
+	% TODO: make command only work inside abstract environment
 	\vfill
 	\textbf{\@keywords@text:} #1.%
 }

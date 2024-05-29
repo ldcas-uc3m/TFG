@@ -74,12 +74,12 @@ AST_Node Interpreter::read_atom(Reader & reader) {  // lexer
     token_type type;
 
     /* Operators */
-    if (_alu.repl_env.contains(token_str)) {
+    if (_alu.op_env.contains(token_str)) {
         type = token_type::OP;
     }
     /* Registers */
     else if (_rf.contains(token_str)) {
-        type = token_type::REG;
+        type = token_type::REG; 
     }
     /* Blocks */
     else if (token_str == "do") {
@@ -205,7 +205,7 @@ const AST_Node Interpreter::eval_token(const AST & ast) const {
             case token_type::OP: {
                 // call first item of the evaluated list as function using the rest of the evaluated list as its arguments
 
-                lisp_function func = _alu.repl_env.find(symbol.value)->second;
+                lisp_function func = _alu.op_env.find(symbol.value)->second;
 
                 // get arguments (tail)
                 std::vector<Token> args;
@@ -273,7 +273,7 @@ const AST_Node Interpreter::eval_ast(const AST & ast) const {
         case token_type::OP: {
             // check the symbol exists in REPL
 
-            if (!_alu.repl_env.contains(token.value))
+            if (!_alu.op_env.contains(token.value))
                 throw LUISPDAException("Unrecognized symbol: " + token.value);
 
 

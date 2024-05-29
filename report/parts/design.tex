@@ -13,10 +13,10 @@ One approach is to use a generic assembly language, such as the one described in
 
 There are scripting languages with good integration with other programming languages, such as Lua \parencite{lua}. Being an embeddable language, it can function as a simple language to interact with an application. Lua is currently used in several projects, such as Neovim \parencite{nvim-lua} and Lua\TeX~\parencite{luatex}. The problem with this approach is \reqref[requirement]{SR-NF-08}; Lua is not easily validatable due to the complexity of the language. 
 
-The final approach is to create our own language. This language should be simple, but able to execute any computation, and abstract enough to be easy to understand. The solution is to implement a language in the LISP family. LISP \parencite{mccarthy1960recursive} is a simple recursive language whose operations are based on symbolic expressions. Expressions are lists of elements, where the first element is the operator and the rest of elements the operand. Elements can be atomic (numbers, operators, etc.), or other lists, which will be synthesized into atomic elements by the recursive pattern. By implementing in the language the basic operations described in \reqref[requirement]{SR-FC-02}, we fulfill all our goals for a simple language that supports any possible \gls{ISA}. 
+The final approach is to create our own language. This language should be simple, but able to execute any computation, and abstract enough to be easy to understand. The solution is to implement a language in the LISP family, a concept similar to WebAssembly's Text Format \parencite{wasmtext}. LISP \parencite{mccarthy1960recursive} is a simple recursive language whose operations are based on symbolic expressions. Expressions are lists of elements, where the first element is the operator and the rest of elements the operand. Elements can be atomic (numbers, operators, etc.), or other lists, which will be synthesized into atomic elements by the recursive pattern. By implementing in the language the basic operations described in \reqref[requirement]{SR-FC-02}, we fulfill all our goals for a simple language that supports any possible \gls{ISA}. 
 
 
-\subsection{Interpreter}
+\subsection{Interpreter}\label{subsec:interpreter-study}
 \reqref[Requirement]{SR-FC-06} states that the system must be able to execute the \gls{instruction} definition language, and \reqref[requirement]{SR-FC-07} states it should be able to do it \gls{instruction} by instruction. Therefore, the best approach is to create an \gls{interpreter} for our LISP-like language.
 
 To implement an \gls{interpreter} for any language, there are two main steps involved: processing the input into an \gls{AST} (\textit{parsing}), and executing it with the help of the \gls{AST} (\textit{interpreting}) \parencite{mogensen2009basics}.
@@ -27,22 +27,22 @@ Nowadays, there are tools that, given a language definition as an input, generat
 Another approach is to build the \gls{interpreter} from scratch. Being a LISP-like language comes with the advantage of simplifying the \gls{interpreter} design. Make-A-Lisp \parencite{mal} is a guide for implementing a generic LISP \gls{interpreter}, and outlines the basic functionalities and architecture.
 
 
-\subsection{ISA definition format}
+\subsection{ISA definition format}\label{subsec:isa-format-study}
 \reqref[Requirement]{SR-NF-07} specifies that the format used to define and store the \gls{ISA} must be simple and easy to modify. The best approach is to use a text-based format, as they are human-readable and can be modified by any basic text editor, without the need for any specific tools. Furthermore, it allows us to encode with text  both the defined \glspl{assembly} and \gls{instruction} definition language, simplifying the system's implementation.
 
 The best approach is to use a structured data format. There are many formats, but the most widely used are those who store data in attribute-value pairs and arrays, as is the case of the \gls{json} \parencite{ISO21778} and the \gls{yaml} \parencite{yamlspec} formats. While both formats offer libraries for parsing and validating files in many programming languages, the \gls{json} format is a `friendlier' format for \gls{HTTP} due to the fact that it ignores whitespace, unlike \gls{yaml}. Using \gls{json} over \gls{yaml} offers many possibilities for the use of the system in other environments, such as \glspl{web service}.
 
 
-\subsection{Programming language}
+\subsection{Programming language}\label{subsec:language-study}
 As per \reqref[requirements]{SR-NF-01}, the \gls{programming language} must allow the system to be executed natively and on multiple platforms. Native execution has the advantage of producing more performant code, as there is no overhead derived from virtual machines or \glspl{interpreter}. Popular natively compiled languages include C \parencite{KernighanBrianW1988TCpl}, C++ \parencite{StroustrupBjarne2013TCpl}, Rust \parencite{KlabnikSteve2023TRpl}, and Go \parencite{DonovanAlan2015TGPL} \parencite{statista2023langstats}.
 
 Furthermore, \reqref[requirement]{SR-NF-02} states that the system shall also support multiple platforms, including browsers. Through the use of WebAssembly \parencite{HaasAndreas2017Btwu}, most programming languages can be compiled and executed `natively' in the browser, including all previously mentioned languages.
 
-From the mentioned languages, C++ (specifically ISO C++20) was chosen for several reasons:
+From the mentioned languages, C++ (specifically the current standard at the time of writing, ISO C++20 \parencite{ISOcpp20}) was chosen for several reasons:
 \begin{itemize}[nosep]
   \item It's a mature language, with support for modern features and multiple \glspl{programming paradigm}.
-  \item It's strongly typed, memory safe, and high-performant, with zero-cost abstractions.
-  \item It's an ISO standard language \parencite{ISOcpp20}.
+  \item It's strongly typed, memory safe, and high-performant, with zero-cost abstractions.  % TODO? get ref from stroustroup
+  \item It's an ISO standard language.
 \end{itemize}
 
 
@@ -52,7 +52,7 @@ The system's architecture can be divided in four main elements:
 \begin{itemize}
   \item \textbf{Compiler:} Translates the \glsdisp{assembly}{assembly-like} programs into the \gls{interpreter}'s language, using the \gls{instruction} definitions.
   \item \textbf{Memory:} Stores the \glspl{instruction} and program memory.
-  \item \textbf{\gls{CPU}:} Executes the \glspl{instruction} and stores the registers.
+  \item \textbf{\gls{CPU}:} Fetches, decodes, and executes the \glspl{instruction} (in the interpreter's language), and stores the registers.
   \item \textbf{\gls{CLI}:} Provides the \gls{UI} and coordinates all the other elements.
 \end{itemize}
 
@@ -64,13 +64,13 @@ Figure \figref{component_diagram} details the UML component diagram \parencite{C
 
 
 \begin{component}{Compiler}
-  {Interfaces with the user and coordinates the system}  % role
-  {Memory subsystem (\reqref{Data Memory}, \reqref{Text Memory}), CPU subsystem (\reqref{Register File}, \reqref{ALU}, \reqref{Interpreter}), \reqref{CLI}}  % dependencias
-  {\reqref{Register File} state, \reqref{Data Memory} state, \reqref{Text Memory} state.}  % in-data
-  {\reqref{Interpreter} signals, program to execute, \gls{ISA}.}  % out-data
+  {\glsdisp{compilation}{Compiles} the program to execute into the interpreter's language}  % role
+  {Memory subsystem (\reqref{Data Memory}, \reqref{Text Memory}), CPU subsystem (\reqref{Register File}, \reqref{ALU}, \reqref{Control Unit}), \reqref{CLI}}  % dependencias
+  {Program to compile, \gls{ISA} definition}  % in-data
+  {\reqref{Data Memory} words to store (as defined in the program), program to execute.}  % out-data
   {SR-FC-06}  % origen
   % descripción
-  The \gls{CLI} is the main component of the system. It's in charge of executing its main functionalities: executing the program and viewing the state of the memory and register file.
+  The \glsdisp{compilation}{compiler} translates the \glsdisp{assembly}{assembly-like} program to execute into the interpreter's language, according to the \gls{ISA}, loading the \gls{text memory}. It also preloads the \gls{data memory} segment if defined in the program.
 \end{component}
 
 \begin{component}{Data Memory}
@@ -78,7 +78,7 @@ Figure \figref{component_diagram} details the UML component diagram \parencite{C
   {\NA}  % dependencias
   {Memory \glspl{word} to store.}  % in-data
   {Memory \glspl{word} to provide, state.}  % out-data
-  {SR-FC-01, SR-FC-04}  % origen
+  {SR-FC-01, SR-FC-04, SR-FC-08}  % origen
   % descripción
   \Gls{data memory} stores \glspl{word} and maps them to specific addresses. It allows reading and writing to those bits, given a specified address. The start and end address is configurable.
 \end{component}
@@ -88,17 +88,17 @@ Figure \figref{component_diagram} details the UML component diagram \parencite{C
   {\NA}  % dependencias
   {Instructions to store, setup configuration.}  % in-data
   {Instructions to provide, state.}  % out-data
-  {SR-FC-01}  % origen
+  {SR-FC-01, SR-FC-07}  % origen
   % descripción
-  \Gls{text memory} stores the instructions to be executed by the \reqref{Interpreter}. Each instruction is composed of an address and the instruction data itself. This component allows for adding new instructions and reading any instruction, given its address.
+  \Gls{text memory} stores the instructions to be executed by the \reqref{Control Unit}. Each instruction is composed of an address and the instruction data itself. This component allows for adding new instructions and reading any instruction, given its address.
 \end{component}
 
 \begin{component}{Register File}
   {Stores the \gls{register}'s data}  % role
   {\NA}  % dependencias
   {\Gls{register} data to store, setup configuration}  % in-data
-  {\Gls{register} data to provide, state.}  % out-data
-  {SR-FC-01, SR-FC-04}  % origen
+  {\Gls{register} data to provide, state, environment (register names).}  % out-data
+  {SR-FC-01, SR-FC-04, SR-FC-08}  % origen
   % descripción
   The \gls{register} file holds all the \glspl{register} of the \gls{ISA}, and its contents, \glspl{word}. It also holds the \gls{program counter}. The number of registers is configurable.
 \end{component}
@@ -106,19 +106,19 @@ Figure \figref{component_diagram} details the UML component diagram \parencite{C
 \begin{component}{ALU}
   {Executes the operations in the instructions}  % role
   {\reqref{Data Memory}, \reqref{Register File} words}  % dependencias
-  {\reqref{Data Memory} words to read, \reqref{Register File} words to read.}  % in-data
+  {\reqref{Data Memory} words to read, \reqref{Register File} words to read, environment (available operations).}  % in-data
   {\reqref{Data Memory} words to write, \reqref{Register File} words to write, operation to execute.}  % out-data
   {SR-FC-01, SR-FC-02}  % origen
   % descripción
   The \gls{ALU} interacts with the \gls{data memory}, \glspl{register} and \gls{I/O} in order to execute the operations required by the instructions.
 \end{component}
 
-\begin{component}{Interpreter}
+\begin{component}{Control Unit}
   {Decodes and executes the instructions}  % role
-  {\reqref{Register File}, \reqref{ALU}, Memory subsystem (\reqref{Data Memory}, \reqref{Text Memory})}  % dependencias
-  {\reqref{Text Memory} instructions, \reqref{CLI} signal.}  % in-data
+  {\reqref{ALU}, Memory subsystem (\reqref{Data Memory}, \reqref{Text Memory})}  % dependencias
+  {\reqref{Text Memory} instructions, \reqref{CLI} signal, \reqref{ALU} environment, \reqref{Register File} environment.}  % in-data
   {Operation to execute.}  % out-data
-  {SR-FC-05, SR-FC-07}  % origen
+  {SR-FC-05, SR-FC-07, SR-FC-10, SR-FC-12, SR-FC-13}  % origen
   % descripción
 \end{component}
 
@@ -126,10 +126,10 @@ Figure \figref{component_diagram} details the UML component diagram \parencite{C
   {Interfaces with the user and coordinates the system}  % role
   {Memory subsystem (\reqref{Data Memory}, \reqref{Text Memory})}  % dependencias
   {\reqref{Register File} state, \reqref{Data Memory} state, \reqref{Text Memory} state.}  % in-data
-  {\reqref{Interpreter} signals, \reqref{Data Memory} setup configuration, \reqref{Register File} setup configuration.}  % out-data
-  {SR-FC-03, SR-FC-04, SR-FC-07, SR-FC-08, SR-FC-09, SR-FC-10, SR-FC-11, SR-FC-12}  % origen
+  {\reqref{Control Unit} signals, \reqref{Data Memory} setup configuration, \reqref{Register File} setup configuration, program to execute, \gls{ISA}.}  % out-data
+  {SR-FC-03, SR-FC-04, SR-FC-07, SR-FC-08, SR-FC-09, SR-FC-10, SR-FC-11, SR-FC-12, SR-FC-13}  % origen
   % descripción
-  The \gls{CLI} is the main component of the system. It's in charge of executing its main functionalities: validating the input files, executing the program (by signaling the \reqref{Interpreter}) and viewing the state of the memory and register file.
+  The \gls{CLI} is the main component of the system. It's in charge of executing its main functionalities: validating the input files, executing the program (by signaling the \reqref{Control Unit}) and viewing the state of the memory and register file.
 \end{component}
 
 \FloatBarrier
@@ -147,92 +147,38 @@ A traceability matrix was generated (\tabref{traceability-comp-fc}) in order to 
 \FloatBarrier
 
 
-\subsection{Instruction definition language}
-% LUISP-DA backus-naur form
+\subsection{Instruction definition language}\label{subsec:inst-lang-design}
 As stated in \subsecref{inst-lang-study}, the language used to define the instructions is a language from the LISP family. The developed language is LUISP-DA (\textit{assembLy analogoUs lISP DiAlect}).
 
-Being a LISP-like language, instructions are defined as LISP expressions, comprised of lists of symbols and/or other lists, delimited by parenthesis. Inner expressions are evaluated first, recursively.
+Being a LISP-like language, instructions are defined as LISP expressions, comprised of lists of symbols and/or other lists, delimited by parenthesis. Inner expressions are evaluated first, recursively. To simplify the language, there are no variables, macros, or functions, as they are not necessary for defining basic instructions.
 
 \noindent
-The full grammar's representation, in Backus-Naur Form \parencite{Backus1959TheSA}, is the following:
-%
-\begin{grammar}
-  <expression> ::= <ATOMIC>
-    \alt <b-expression>
-    \alt <i-expression>
-    \alt <block>
-    \alt <conditional>
-    \alt <call>
+There are three data types:
+\begin{itemize}
+  \item \qdist{NUM}, integer numbers.
+  \item \qdist{BOOL}, boolean values.
+  \item \qdist{NIL}, `none' type.
+\end{itemize}
 
-  % boolean expression
-  <b-expression> ::= <BOOL>
-    \alt `('<B-OP> <i-expression> <i-expression>`)'
-    \alt `(!' <b-expression>`)'\hfill\textit{not}
-
-  % integer expression
-  <i-expression> ::= <NUM>
-    \alt `(+' <i-expression> <i-expression>`)'\hfill\textit{add}
-    \alt `(-' <i-expression> <i-expression>?`)'\hfill\textit{sub}
-    \alt `(*' <i-expression> <i-expression>`)'\hfill\textit{mul}
-    \alt `(/' <i-expression> <i-expression>`)'\hfill\textit{div}
-    \alt `(%' <i-expression> <i-expression> `)'\hfill\textit{mod}
-    \alt `(reg' <REG>`)'\hfill\textit{get\_reg}
-    \alt `(reg!' <REG> <i-expression>`)'\hfill\textit{set\_reg}
-    \alt `pc'\hfill\textit{get\_pc}
-    \alt `(pc!' <i-expression>`)'\hfill\textit{set\_pc}
-    \alt `(mem' <i-expression>`)'\hfill\textit{get\_mem}
-    \alt `(mem!' <i-expression> <i-expression>`)'\hfill\textit{set\_mem}
-
-  <block> ::= `do' <expression>+
-
-  <conditional> ::= `if' `('<b-expression>`)' <expression> <expression>
-
-  <call> ::= `(call' <NUM> <i-expression>?`)'\hfill\textit{print\_int / print\_char / exit}
-    \alt `(call' <NUM> <REG>`)'\hfill\textit{read\_int / read\_char}
-
-  % lexer
-  <B-OP> ::= `<'\hfill\textit{lt}
-    \alt `<='\hfill\textit{le}
-    \alt `>'\hfill\textit{gt}
-    \alt `>='\hfill\textit{ge}
-    \alt `=='\hfill\textit{eq}
-    \alt `!='\hfill\textit{ne}
-
-  <ATOMIC> ::= <NUM>
-    \alt <BOOL>
-    \alt <NIL>
-
-  <NUM> ::= [0-9]+\hfill\textit{(decimal format)}
-    \alt `0x'[0-f]+\hfill\textit{(hexadecimal format)}
-
-  <BOOL> ::= `true'
-    \alt `false'
-
-  <NIL> ::= `nil'
-
-  <REG> ::= \textit{The set of register names defined in the \gls{ISA}}
-\end{grammar}
-
-
-The first element of each expression is called the \textit{operator}, and takes the rest of the elements of the expression the values the operator is applied two. There are several predefined operators, which can be categorized by type they evaluate to:
+The first element of each expression is called the \textit{operator}, and takes the rest of the elements of the expression the values the operator is applied to. There are several predefined operators, which can be categorized by type they evaluate to:
 \begin{itemize}
   \item Operators that evaluate to \qdist{NUM}:
   \begin{itemize}
     \item \textit{add}: Adds two values.
-    \item \textit{sub}: Subtracts two values, or negates a value if only one value is specified.
+    \item \textit{sub}: Subtracts two values.
+    \item \textit{neg}: Negates a value.
     \item \textit{mul}: Multiplies two values.
     \item \textit{div}: Divides two values.
-    \item \textit{div}: Divides two values.
-    \item \textit{get\_reg}: Gets the contents of a register.
-    \item \textit{set\_reg}: Stores a value in a register. Evaluates to the value.
-    \item \textit{get\_pc}: Gets the current \gls{program counter}.
-    \item \textit{set\_pc}: Stores a value in the \gls{program counter}. Evaluates to the value.
-    \item \textit{get\_mem}: Gets the value in a memory address.
-    \item \textit{set\_mem}: Stores a value in a memory address. Evaluates to the value.
+    \item \textit{mod}: Module of two values.
+    \item \textit{get-reg}: Gets the contents of a register.
+    \item \textit{set-reg}: Stores a value in a register. Evaluates to the value.
+    \item \textit{get-pc}: Gets the current \gls{program counter}.
+    \item \textit{set-pc}: Stores a value in the \gls{program counter}. Evaluates to the value.
+    \item \textit{get-mem}: Gets the value in a memory address.
+    \item \textit{set-mem}: Stores a value in a memory address. Evaluates to the value.
   \end{itemize}
   \item Operators that evaluate to \qdist{BOOL}:
   \begin{itemize}
-    \item \textit{lt}: Evaluates if a value is less than other value.
     \item \textit{lt}: Evaluates if a value is less than other value.
     \item \textit{le}: Evaluates if a value is less or equal than other value.
     \item \textit{gt}: Evaluates if a value is greater than other value.
@@ -250,29 +196,139 @@ There are other `special' operators, as well:
  \item Conditionals (\qdist{conditional}) enable \glsdisp{branch}{branching}, by using an \textit{if-then-else} structure. If the first element evaluates to \texttt{true}, the the conditional evaluates to the second element; and if the condition evaluates to \texttt{false} (or \qdist{NIL}), it evaluates to the third element instead (if the third element doesn't exist, it evaluates to \qdist{NIL}).
  \item System calls (\qdist{call}) evaluates the first element, known as the \textit{opcode}, and executes the specified \textit{call} with its arguments. The \textit{opcodes} are defined in the \gls{ISA}. There defined \textit{calls} are:
  \begin{itemize}[nosep]
-    \item \textit{print\_int}: Prints a value as an integer to \gls{STDOUT}.
-    \item \textit{read\_int}: Stores a value from \gls{STDIN} in a register.
-    \item \textit{print\_char}: Prints a value as an ASCII character to \gls{STDOUT}.
-    \item \textit{read\_char}: Stores an ASCII character from \gls{STDIN} in a register.
+    \item \textit{print-int}: Prints a value as an integer to \gls{STDOUT}.
+    \item \textit{read-int}: Stores a value from \gls{STDIN} in a register.
+    \item \textit{print-char}: Prints a value as an ASCII character to \gls{STDOUT}.
+    \item \textit{read-char}: Stores an ASCII character from \gls{STDIN} in a register.
     \item \textit{exit}: Ends the execution of the program.
   \end{itemize}
 \end{itemize}
 
 \noindent
+The full grammar's representation, in Backus-Naur Form \parencite{Backus1963Rev}, is the following:
+%
+\begin{grammar}
+  <expression> ::= <ATOMIC>
+    \alt <b-expression>
+    \alt <i-expression>
+    \alt <block>
+    \alt <conditional>
+    \alt <call>
+
+  % boolean expression
+  <b-expression> ::= <BOOL>
+    \alt <L>`<' <i-expression> <i-expression><R>\hfill\textit{lt}
+    \alt <L>`<=' <i-expression> <i-expression><R>\hfill\textit{le}
+    \alt <L>`>' <i-expression> <i-expression><R>\hfill\textit{gt}
+    \alt <L>`>=' <i-expression> <i-expression><R>\hfill\textit{ge}
+    \alt <L>`==' <i-expression> <i-expression><R>\hfill\textit{eq}
+    \alt <L>`!=' <i-expression> <i-expression><R>\hfill\textit{ne}
+    \alt <L>`!' <b-expression><L>\hfill\textit{not}
+
+  % integer expression
+  <i-expression> ::= <NUM>
+    \alt <L>`+' <i-expression> <i-expression><R>\hfill\textit{add}
+    \alt <L>`-' <i-expression> <i-expression><R>\hfill\textit{sub}
+    \alt <L>`-' <i-expression><R>\hfill\textit{neg}
+    \alt <L>`*' <i-expression> <i-expression><R>\hfill\textit{mul}
+    \alt <L>`/' <i-expression> <i-expression><R>\hfill\textit{div}
+    \alt <L>`%' <i-expression> <i-expression><R>\hfill\textit{mod}
+    \alt <L>`reg' <REG><R>\hfill\textit{get-reg}
+    \alt <L>`reg!' <REG> <i-expression><R>\hfill\textit{set-reg}
+    \alt <L>`pc'\hfill\textit{get-pc}
+    \alt <L>`pc!' <i-expression><R>\hfill\textit{set-pc}
+    \alt <L>`mem' <i-expression><R>\hfill\textit{get-mem}
+    \alt <L>`mem!' <i-expression> <i-expression><R>\hfill\textit{set-mem}
+
+  <block> ::= <L>`do' <expr-block><R>
+
+  <expr-block> ::= <expression>
+    \alt <expression> <expr-block>
+
+  <conditional> ::= <L>`if' <b-expression> <expression> <expression><R>
+
+  <call> ::= <L>`call' <NUM> <i-expression><R>\hfill\textit{print-int / print-char}
+    \alt <L>`call' <NUM> <REG><R>\hfill\textit{read-int / read-char}
+    \alt <L>`call' <NUM><R>\hfill\textit{exit}
+
+  <L> ::= `('
+
+  <R> ::= `)'
+
+  <ATOMIC> ::= <NUM>
+    \alt <BOOL>
+    \alt <NIL>
+
+  <NUM> ::= <DEC>
+    \alt `0x'<HEX>
+
+  <DEC> ::= <I-DIGIT>
+    \alt <I-DIGIT><DEC>
+
+  <HEX> ::= <H-DIGIT>
+    \alt <H-DIGIT><HEX>
+
+  <I-DIGIT> ::= `0' | `1' | `2' | `3' | `4' | `5' | `6' | `7' | `8' | `9'
+
+  <H-DIGIT> ::= <I-DIGIT> | `a' | `b' | `c' | `d' | `e' | `f'
+
+  <BOOL> ::= `true'
+    \alt `false'
+
+  <NIL> ::= `nil'
+
+  <REG> ::= \textit{The set of register names defined in the \gls{ISA}}
+\end{grammar}
+
+
+\noindent
 For more information about the use of the language, see \appref{manual}.
 
 
-\subsection{Interpreter}
-% sequence diagram
+\subsection{Control Unit}\label{subsec:interpreter-design}
+The LUISP-DA \gls{interpreter} is implemented in the \reqref{Control Unit} component. As stated in \subsecref{interpreter-study}, the architecture of the \gls{interpreter} will be based on the Make-A-Lisp \parencite{mal} architecture. Nevertheless, as we only need to model a simple \glsdisp{assembly}{assembly-like language}, we'll use a subset of the original architecture, and modify it for our purposes.
+
+\figref{interpreter_architecture} shows an overview of the LUISP-DA interpreter. As stated in Subsection \ref{subsec:interpreter-study}, the interpretation is done in two stages:
+\begin{enumerate}
+  \item \textbf{\nameref{subsubsec:read}:} The instruction, a string, is parsed into an \gls{AST}.
+  \item \textbf{\nameref{subsubsec:eval}:} The \gls{AST} is evaluated recursively.
+\end{enumerate}
+
+Finally, after each instruction, the \gls{program counter} is incremented.
+
+\graphicfigure[.8]{interpreter_architecture}{Interpreter architecture}
+
+
+\subsubsection{READ}\label{subsubsec:read}
+In this stage, the \gls{interpreter} first reads the instruction from the \reqref{Text Memory} (\textit{read-inst}), then parses the string (\textit{read-str}) and extracts (and stores) the tokens (\textit{tokenize}). After that, it starts generating the \gls{AST} by reading and evaluating the first token. This is done through the use of three functions:
+\begin{itemize}
+  \item \textit{read-token}: Checks if the current token is the start of an \qdist{L} token. If it is, it calls \textit{read-list} on the next token; otherwise it calls \textit{read-atom} on the current token. It returns the generated \gls{AST}.
+  \item \textit{read-list}: Creates a new \gls{AST} node, and iteratively calls \textit{read-token} on all the following tokens until it reaches an \qdist{R} token, adding the resulting nodes as children of the current node. Finally, it returns the new node.
+  \item \textit{read-atom}: Evaluates the current token's type (by searching the token in the ENV), and returns a new \gls{AST} node.
+\end{itemize}
+
+
+\subsubsection{EVAL}\label{subsubsec:eval}
+After \textit{read-inst} returns the \gls{AST} of the instruction, it is evaluated through the use of two functions:
+\begin{itemize}
+  \item \textit{eval-token}: Reads the node's token. If it's an \qdist{R} token, it calls \textit{eval-ast} on all the arguments (all children nodes except the first one), executes on the \reqref{ALU} the operator (first child) with the results as arguments, and returns the result. If it has no children, it returns a \qdist{NIL} node, and if it has only one child, it returns the child node. In any other case, it calls \textit{eval-ast} on the node.
+  \item \textit{eval-ast}: Reads the node's token. If it's an \qdist{R} token, it creates a new node with an \qdist{R} token, adds as children of that node the result of calling \textit{eval-token} on all the original node's children, and returns the new node. Otherwise, it returns the current node.
+\end{itemize}
+
+\noindent
+The first symbol of the \gls{AST} is passed to \textit{eval-token} to start the evaluation.
+
+
+\subsection{Compiler}\label{subsec:compiler-design}
+% .data, .text
 
 
 
-\subsection{ISA definition}
+\subsection{ISA definition}\label{subsec:isa-design}
 % JSON -> diagrama entidad-relación?
 
 
-
-\subsection{User interface}
-% CLI -> diagrama de flujo??
+\subsection{User interface}\label{subsec:ui-design}
+% CLI -> sequence diagram
 
 

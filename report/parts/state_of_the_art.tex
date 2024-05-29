@@ -25,10 +25,12 @@ It incorporates advanced features derived from a \gls{pipeline} architecture, su
 The simulator consists of an executable with a \gls{CLI} that takes three input files: the program's code, the register's state, and the data \gls{memory}'s state. It loads the state of registers and data \gls{memory}, executes the program's code and saves the state to the specified files, after the execution, printing some statistics (\figref{kite}). It also implements a \gls{debug} mode that prints the state of each instruction on the \gls{pipeline}, each \gls{clock cycle}.
 
 \begin{figure}[htb]
-  \centering
-  \includegraphics[width=0.7\textwidth]{kite.png}
-  \caption[Kite simulator's CLI]{Kite simulator's \gls{CLI}}
-  \label{fig:kite}
+  \ffigbox[\FBwidth]
+    {%
+      \caption[Kite simulator's CLI]{Kite simulator's \gls{CLI}}
+      \label{fig:kite}
+    }%
+    {\includegraphics[width=0.7\textwidth]{kite.png}}
 \end{figure}
 
 Its source code can be found in the Yonsei University Computer Architecture and Systems Lab's GitHub \parencite{kiteGH}.
@@ -73,10 +75,12 @@ Furthermore, it allows the user to view, edit, and create the architecture in us
 
 
 \begin{figure}[htb]
-  \centering
-  \includegraphics[width=0.7\textwidth]{creator.png}
-  \caption[CREATOR's main GUI]{CREATOR's main \gls{GUI}}
-  \label{fig:creator}
+  \ffigbox[\FBwidth]
+    {%
+        \caption[CREATOR's main GUI]{CREATOR's main \gls{GUI}}
+        \label{fig:creator}
+    }%
+    {\includegraphics[width=0.7\textwidth]{creator.png}}
 \end{figure}
 
 
@@ -84,9 +88,7 @@ Furthermore, it allows the user to view, edit, and create the architecture in us
 \section{Comparison}\label{sec:comparison}
 Our proposal aims to take the desirable features from each of the different simulators presented in order to create an application which fits our needs.
 
-As we've justified before, we want a \textit{generic} simulator, and from the two discussed approaches we think \hyperref[subsubsec:creator]{CREATOR}'s approach is more suitable for our proposal, as the ability to quickly modify the architecture instead of \glsdisp{compilation}{re-compiling} the whole simulator encourages experimentation (less `friction'). We also must take into account that some features that make the simulator more generic might also create more of this `friction'; giving users a more fine-grained control over the architecture could discourage experimentation and add unnecessary complexity, if we prioritize for the user to understand \gls{assembly} over understanding computer architecture.  % TODO: citation needed?
-
-% Specific simulators...  % TODO?
+As we've justified before, we want a \textit{generic} simulator, and from the two discussed approaches we think \hyperref[subsubsec:creator]{CREATOR}'s approach is more suitable for our proposal, as the ability to quickly modify the architecture instead of \glsdisp{compilation}{re-compiling} the whole simulator encourages experimentation (less `friction'). We also must take into account that some features that make the simulator more generic might also create more of this `friction'; giving users a more fine-grained control over the architecture could discourage experimentation and add unnecessary complexity, if we prioritize for the user to understand \gls{assembly} over understanding computer architecture.
 
 In \tabref{sim-comparison}, we show a comparison of the different features of the current assembly simulators and our proposal.
 
@@ -99,8 +101,9 @@ The evaluated features are the following:
   \item \textbf{Step-by-step execution:} Whether the simulator can execute programs step-by-step (either instruction-by-instruction or cycle-by-cycle).
   \item \textbf{Simple architecture definition:} Whether the simulator's \gls{ISA} is defined in a simple way.
   \item \textbf{Native execution:} Whether the simulator can be executed natively in hardware.
+  \item \textbf{In-browser:} Whether the simulator can be executed in a browser.
   \item \textbf{Error checking:} Whether the simulator offers some type of checking of syntactic errors in the program.
-  \item \textbf{Architecture validation support:} Whether the simulator offers support for validating the defined architecture using an external tool.
+  \item \textbf{Architecture validation support:} Whether the simulator offers support for validating the defined architecture, through the use of an external tool or through other means such as a \gls{REPL environment} for the instruction definition language.
 \end{itemize}
 
 \begin{table}[htb]
@@ -126,15 +129,15 @@ The evaluated features are the following:
           Native execution
                       & \checkmark &            & \checkmark &            & \checkmark\\
           In-browser  &            & \checkmark &            & \checkmark & \checkmark\tnote{*}\\
-          \gls{GUI}   &            & \checkmark &            & \checkmark & \checkmark\tnote{*}\\
+          % \gls{GUI}   &            & \checkmark &            & \checkmark & \checkmark\tnote{*}\\
           Error checking
                       &            & \checkmark &            & \checkmark & \checkmark\\
           Architecture validation support
-                      &            &            & \checkmark &            & \checkmark\\
+                      &            &            &            &            & \checkmark\\
           \bottomrule
       \end{tabular}
       \begin{tablenotes}
-        \item [*] Future work.
+        \item [*] Future work
         % \item [a] Simulator needs to be \glsdisp{compilation}{recompiled} for any new architecture.
       \end{tablenotes}
     \end{threeparttable}

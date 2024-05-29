@@ -166,12 +166,11 @@ stateDiagram-v2
     read_inst --> EVAL: AST
 
     state EVAL {
-        eval_token --> eval_ast
         eval_ast --> eval_token
-        eval_ast --> eval
+        eval_token --> eval_ast
     }
 
-    EVAL --> repl_env
+    EVAL --> ENV
 ```
 
 
@@ -257,10 +256,7 @@ These modes are defined in the `rfdmode::dmode` enum and can be changed through 
 
 
 
-
----
-
-
+<!--
 - "GDB" interface
     - With register status
 - Registers
@@ -269,4 +265,5 @@ These modes are defined in the `rfdmode::dmode` enum and can be changed through 
 - Memory (dynamically generated)
 - GUI
 - Savestates
+-->
 
