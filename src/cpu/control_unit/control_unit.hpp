@@ -17,7 +17,7 @@
 
 
 
-/* LUISP-DA interpreter, based on Make A Lisp */
+/* LUISP-DA control_unit, based on Make A Lisp */
 
 class Interpreter final {
 

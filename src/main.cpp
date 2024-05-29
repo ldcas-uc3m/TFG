@@ -6,7 +6,7 @@
 
 #include "cpu/register_file.hpp"
 #include "cpu/alu.hpp"
-#include "cpu/interpreter/interpreter.hpp"
+#include "cpu/control_unit/control_unit.hpp"
 #include "memory/text.hpp"
 #include "exceptions/exceptions.hpp"
 #include "compiler/compiler.hpp"

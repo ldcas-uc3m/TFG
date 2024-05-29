@@ -7,7 +7,7 @@
 #include <functional>
 #include <stdexcept>
 
-#include "interpreter/ast.hpp"
+#include "control_unit/ast.hpp"
 #include "exceptions.hpp"
 #include "memory/text.hpp"
 #include "register_file.hpp"
