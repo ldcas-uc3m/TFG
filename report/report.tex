@@ -7,6 +7,7 @@
 \usepackage{lipsum}  % dummy text
 \usepackage{placeins}  % \FloatBarrier
 \usepackage[nounderscore]{syntax}  % BNF grammars
+\usepackage[most]{tcolorbox}  % beautiful boxes
 
 \usepackage[en,enableTraceability,enableCaptions]{SRS}  % requirements
 \usepackage{mymacros}  % report-specific macros
@@ -14,7 +15,10 @@
 
 % configure syntax's grammar environment
 \setlength{\grammarparsep}{8pt} % separation between rules
-\setlength{\grammarindent}{8em} % separation between LHS/RHS 
+\setlength{\grammarindent}{8em} % separation between LHS/RHS
+
+% configure tcolorbox
+\tcbset{enhanced jigsaw,breakable}
 
 % silence ht warnings
 \usepackage{silence}

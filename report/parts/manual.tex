@@ -1,4 +1,40 @@
 \chapter{User manual}\label{app:manual}
-\lipsum
-\newpage
-\lipsum
+
+\section{Architecture definition file}
+The structure of the \gls{json} files is the following:
+\begin{itemize}[nosep,noitemsep]
+  \item \texttt{name}: Name of the architecture.
+  \item \texttt{memory}: Memory configuration.
+    \begin{itemize}[nosep,noitemsep]
+      \item \texttt{text}: Text memory configuration.
+        \begin{itemize}[nosep,noitemsep]
+          \item \texttt{start\_addr}: Memory start address (\texttt{string} - HEX).
+        \end{itemize}
+      \item \texttt{data}: Data memory configuration.
+        \begin{itemize}[nosep,noitemsep]
+          \item \texttt{start\_addr}: Memory start address (\texttt{string} - HEX).
+          \item \texttt{end\_addr}: Memory end address (\texttt{string} - HEX).
+        \end{itemize}
+    \end{itemize}
+  \item \texttt{registers}: Register names (\texttt{array[string]}).
+  \item \texttt{syscalls}: System call map (\texttt{object[string, string]}).
+    \begin{itemize}[nosep,noitemsep]
+      \item \texttt{<id>}: \texttt{"print\_int"} | \texttt{"print\_char"} | \texttt{"read\_int"} | \texttt{"read\_char"} | \texttt{"exit"}
+    \end{itemize}
+  \item \texttt{instruction\_set}: Set of architecture instructions.\\
+    Each instruction is a JSON object with the following format:
+    \begin{itemize}[nosep,noitemsep]
+      \item \texttt{<instruction\_name>}
+      \begin{itemize}[nosep,noitemsep]
+        \item \texttt{args}: Function arguments. They must all start by \texttt{\$}. (\texttt{array[string]})
+        \item \texttt{def}: LUISP-DA definition (\texttt{string}).
+      \end{itemize}
+    \end{itemize}
+  \item \texttt{data\_types}: Map of memory data types and their mappings.  
+      Supported data types are:
+      \begin{itemize}[nosep,noitemsep]
+        \item \texttt{str}: zero-terminated strings
+        \item \texttt{word}: 32-bit words
+        \item \texttt{none}: no type
+      \end{itemize}
+\end{itemize}
