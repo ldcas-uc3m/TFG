@@ -38,3 +38,24 @@ The structure of the \gls{json} files is the following:
         \item \texttt{none}: no type
       \end{itemize}
 \end{itemize}
+
+
+\section{Instalation and execution}
+
+\begin{enumerate}
+  \item Download and decompress the source code from the repository (\myrepo).
+  \item Move to the \texttt{build} directory and build and compile the source code:
+  \begin{tcolorbox}[bottom=-8pt]
+    \begin{verbatim}
+cd build/
+cmake -G Ninja ..
+cmake --build .
+    \end{verbatim}
+  \end{tcolorbox}
+  \item Execute the simulator (which can be found in \texttt{build/src/}) with an input \gls{ISA} file. E.g.:
+  \begin{tcolorbox}[bottom=-8pt]
+    \begin{verbatim}
+./src/tfg --isa=../architectures/RISC-V.json
+    \end{verbatim}
+  \end{tcolorbox}
+\end{enumerate}

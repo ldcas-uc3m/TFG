@@ -56,7 +56,7 @@ The system's architecture can be divided in four main elements:
   \item \textbf{\gls{CLI}:} Provides the \gls{UI} and coordinates all the other elements.
 \end{itemize}
 
-Figure \figref{component_diagram} details the UML component diagram \parencite{Cook2017} of the system, including all of its components. \tabref{comp-template} provides the template used for the specification of the components, including the description of each attribute. The successive tables describe each of the components.
+\figref{component_diagram} details the UML component diagram \parencite{Cook2017} of the system, including all of its components. \tabref{comp-template} provides the template used for the specification of the components, including the description of each attribute. The successive tables describe each of the components.
 
 \graphicfigure[.95]{component_diagram}{Component diagram of the proposed solution}
 
@@ -346,7 +346,6 @@ The compiler will go through the program file, line by line (ignoring empty line
 
 
 \subsection{ISA definition}\label{subsec:isa-design}
-% JSON -> diagrama entidad-relación? json schema? https://json-schema.org/draft/2020-12/draft-bhutton-json-schema-01
 As stated in Subsection \subsecref{isa-format-study}, the \gls{ISA} will be defined in a \gls{json} format, which will also serve as the configuration file for the simulator. For the configuration, we'll need to define several things:
 \begin{itemize}
   \item The name of the architecture.

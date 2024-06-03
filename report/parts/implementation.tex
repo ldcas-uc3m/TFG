@@ -2,9 +2,83 @@
 
 
 \section{Implementation}
-% estructuctura de ficheros y relacionarlo a los componentes del diseño
+As stated in \subsecref{language-study}, the chosen \gls{programming language} for the project is ISO C++20 \parencite{ISOcpp20}. The chosen \gls{build system} is CMake \parencite{cmake} plus ninja-build \parencite{ninja}, as it provides a \gls{FOSS}, cross-platform, \glsdisp{compilation}{compiler}-independent build platform.
+
+The system was implemented as described in \secref{architecture}. Each component was implemented as an object in a separate library (with both a header (\texttt{.hpp}) and source (\texttt{.cpp}) file), and each component imported the other components they were dependent on. The \reqref{Control Unit} component was divided into three sub-objects: the \gls{AST} object, a reader object in order to keep track of the current word read, and the control unit object itself.
+
+Some extra libraries were added in order to add exception handling (\textit{Exceptions} library) and other auxiliary functions (\textit{Lib} library). In order to parse the \gls{json} architecture definition files, a third-party library, JSON for Modern C++ \parencite{nlohmann/json} was used.
+
+\figref{file-structure} shows the file structure of the project, relating the directories and files to the described components.
+
+\begin{figure}[htb]
+  \ffigbox[\FBwidth]
+    {%
+      \caption{Project file structure}
+      \label{fig:file-structure}
+    }
+    {
+      \begin{tcolorbox}
+        \dirtree{%
+          .1 /. 
+            .2 src/. 
+              .3 compiler/. 
+                .4 compiler.hpp \textnormal{/} compiler.cpp\DTcomment{\reqref{Compiler}}. 
+                .4 CMakeLists.txt\DTcomment{\textit{Compiler} library}. 
+              .3 cpu/\DTcomment{CPU subsystem}. 
+                .4 alu.hpp \textnormal{/} alu.cpp\DTcomment{\reqref{ALU}}. 
+                .4 register\_file.hpp \textnormal{/} register\_file.cpp\DTcomment{\reqref{Register File}}. 
+                .4 control\_unit/\DTcomment{\reqref{Control Unit}}. 
+                  .5 ast.hpp \textnormal{/} ast.cpp\DTcomment{\gls{AST} definition}. 
+                  .5 reader.hpp \textnormal{/} reader.cpp\DTcomment{\textit{read} functions}. 
+                  .5 control\_unit.hpp \textnormal{/} control\_unit.cpp. 
+                .4 CMakeLists.txt\DTcomment{\textit{CPU} library}. 
+              .3 memory/\DTcomment{Memory subsystem}. 
+                .4 data.hpp \textnormal{/} data.cpp\DTcomment{\reqref{Data Memory}}. 
+                .4 text.hpp \textnormal{/} text.cpp\DTcomment{\reqref{Text Memory}}. 
+                .4 CMakeLists.txt\DTcomment{\textit{Memory} library}. 
+              .3 exceptions/\DTcomment{Exception definitions}. 
+                .4 exceptions.hpp. 
+                .4 CMakeLists.txt\DTcomment{\textit{Exceptions} library}. 
+              .3 lib/\DTcomment{Auxiliary functions}. 
+                .4 string\_manipulation.hpp \textnormal{/} string\_manipulation.cpp. 
+                .4 CMakeLists.txt\DTcomment{\textit{Lib} library}. 
+            .2 CMakeLists.txt\DTcomment{CMake configuration}. 
+        }
+      \end{tcolorbox}
+    }
+\end{figure}
+
+
+\noindent
+The full source code can be found in \myrepo.
+
 
 
 \section{Deployment}
 % cómo compilar y correr
 % - compatible con versión...
+The technical specifications recommended for the final user to obtain the best experience from the application are:
+\begin{itemize}
+  \item \textbf{Operating System:} Ubuntu 24.04 LTS (Linux distribution) / Windows 11.
+  \item \textbf{Processor:} Intel\textsuperscript{\textregistered} Core\textsuperscript{TM} i3 CPU 6300 @3.8GHz or higher.
+  \item \textbf{\gls{RAM}:} 2GB or higher.
+  \item \textbf{Storage:} 100MB or free space or higher.
+  \item \textbf{Network:} An Internet connection is required to download the dependencies when compiling the software.
+  \item \textbf{Software:} The following software must be installed in order to run the application:
+  \begin{itemize}
+    \item CMake \parencite{cmake} version 3.22 or compatible.
+    \item Ninja-build \parencite{ninja} version 1.11.1 or compatible.
+    \item GCC \parencite{gcc} version 11.4 or compatible.
+  \end{itemize}
+\end{itemize}
+
+\noindent
+In order to compile and install the software, the following steps must be followed:
+\begin{enumerate}
+  \item Download and decompress the source code from the repository.
+  \item Build and compile the source code with CMake \parencite{cmake} and Ninja-build \parencite{ninja}.
+  \item Execute the simulator with an input \gls{ISA} file.
+\end{enumerate}
+
+For more information about the installation and use of the simulator, see \appref{manual}.
+

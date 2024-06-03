@@ -2,12 +2,13 @@
 \documentclass[en]{uc3mthesisIEEE}
 
 
-\usepackage{import}
+\usepackage{import}  % better than \input and \include
 \usepackage{enumitem}  % control item separation -> \begin{itemize}[nosep, noitemsep]
 \usepackage{lipsum}  % dummy text
 \usepackage{placeins}  % \FloatBarrier
-\usepackage[nounderscore]{syntax}  % BNF grammars
 \usepackage[most]{tcolorbox}  % beautiful boxes
+\usepackage[nounderscore]{syntax}  % BNF grammars
+\usepackage{dirtree}  % directory trees
 
 \usepackage[en,enableTraceability,enableCaptions]{SRS}  % requirements
 \usepackage{mymacros}  % report-specific macros
@@ -17,8 +18,9 @@
 \setlength{\grammarparsep}{8pt} % separation between rules
 \setlength{\grammarindent}{8em} % separation between LHS/RHS
 
-% configure tcolorbox
-\tcbset{enhanced jigsaw,breakable}
+% repository URL
+\newcommand{\myrepo}{\url{https://github.com/ldcas-uc3m/TFG}}
+
 
 % silence ht warnings
 \usepackage{silence}
