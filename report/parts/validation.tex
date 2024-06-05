@@ -1,2 +1,198 @@
-\chapter{Validation and verification}\label{chap:validation}
+\chapter{Verification and Validation}\label{chap:validation}
+The main objective of this chapter is to verify that all the requirements, specified in \chapref{analysis}, have been fulfilled.
 
+In software engineering, verification and validation are the processes of checking that a software system meets its specifications and fulfills its intended purpose \parencite{IEEE1012-2012}. \figref{verif_process} summarizes the process of software validation and verification.
+
+\drawiosvgfigure[.8]{verif_process}{Software verification and validation process overview}
+
+As stated in \chapref{analysis}, the customer initially sets the requirements desired for the final product, the user requirements. From there, analysts derive and specify the software requirements. In order to verify that the project requirements are met, verification and validation processes are needed.
+
+Software verification (\secref{verification}) is the process of evaluating work-products (not the actual final product) of a development phase to determine whether they meet the specified requirements for that phase (the software requirements). Software validation (\secref{validation}) is the process of evaluating the final product at the end of the development process to determine whether it satisfies the requirements specified by the user at the beginning of the project \parencite{IEEE1012-2012}.
+
+For both verification and validation, we designed tests to evaluate the corresponding requirements. Each test is uniquely identified by an ID. The ID follows the format \textit{YYY-XX}, where \textit{XX} identifies the sequential number of the test case, starting at \textit{01}, and \textit{YYY} represents the type, either \textit{VET} (verification) or \textit{VAT} (validation). \tabref{test-template} provides the template used for the specification of the test case, including the description of each attribute.
+
+\printtesttemplate{YYY-XX}
+
+
+
+\section{Verification Tests}\label{sec:verification}
+In order to perform the verification tests, we have followed a dynamic process during the development phase of the software. With these tests we aimed to answer the question ``\textit{Are we building the product correctly?}''.
+
+\tabref{traceability-sr-vet} shows the traceability between the software requirements and the verification tests.
+
+\setcounter{i}{1}
+
+\begin{testCase}{VET-\padtwo{i}}
+  {The software is installed.}  % precond
+  {The results from the execution of the program are the same as the theoretical expected results.}  % postcond
+  {Verify that the system is able to simulate a predefined \gls{ISA}.}  % desc
+  {OK}  % eval
+  {SR-FC-01, SR-FC-02, SR-FC-04, SR-FC-06, SR-FC-08, SR-NF-07, SR-FC-09}  % origin
+  \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % procedure
+    \item Implement a predefined \gls{ISA} in an architecture definition file, including the configuration of the different components.
+    \item Write a program that uses that \gls{ISA}, and implements all basic operations: arithmetic, logical, \glsdisp{branch}{branching}, memory manipulation, and \gls{I/O}.
+    \item Load the architecture file into the simulator.
+    \item Load and fully execute the program.
+  \end{enumerate}
+\end{testCase}
+\stepcounter{i}
+
+% error detection
+\begin{testCase}{VET-\padtwo{i}}
+  {The software is installed, and a \gls{ISA} is loaded.}  % precond
+  {The software stops the execution and warns the user of the error.}  % postcond
+  {Verify that the system is able to detect syntactical errors.}  % desc
+  {OK}  % eval
+  {SR-FC-10}  % origin
+  \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % procedure
+    \item Write a program that uses the loaded \gls{ISA}, with syntactical errors.
+    \item Load and fully execute the program.
+  \end{enumerate}
+\end{testCase}
+\stepcounter{i}
+
+% inst-by-inst execution
+\begin{testCase}{VET-\padtwo{i}}
+  {The software is installed, and a \gls{ISA} is loaded.}  % precond
+  {The state of the \glspl{register} and \gls{memory} is updated correctly after each instruction, and the program is fully executed as expected.}  % postcond
+  {Verify that the system allows for a step-by-step execution.}  % desc
+  {OK}  % eval
+  {SR-FC-03, SR-FC-06, SR-FC-07, SR-FC-09, SR-FC-11}  % origin
+  \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % procedure
+    \item Write a program that uses the loaded \gls{ISA}, with operations on \glspl{register} and \gls{memory}.
+    \item Load and the program.
+    \item View the state of the \glspl{register} and \gls{memory}.
+    \item Change the representation format.
+    \item Execute an instruction.
+    \item View the state \glspl{register} and \gls{memory}.
+    \item Repeat until the program finishes.
+  \end{enumerate}
+\end{testCase}
+\stepcounter{i}
+
+% stop execution, load program
+\begin{testCase}{VET-\padtwo{i}}
+  {The software is installed, and a \gls{ISA} and program are loaded.}  % precond
+  {The new program is loaded and executed as expected, and the simulator is reset.}  % postcond
+  {Verify that the system allows to stop the execution and load a new program.}  % desc
+  {OK}  % eval
+  {SR-FC-08, SR-FC-09, SR-FC-12}  % origin
+  \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % procedure
+    \item Execute an instruction.
+    \item Stop the execution of the program.
+    \item Load and execute a new program.
+  \end{enumerate}
+\end{testCase}
+\stepcounter{i}
+
+% REPL
+\begin{testCase}{VET-\padtwo{i}}
+  {The software is installed, and a \gls{ISA} is loaded.}  % precond
+  {The expressions are evaluated correctly, and the state is modified correctly.}  % postcond
+  {Verify that the system offers a \gls{REPL environment} for the LUISP-DA language.}  % desc
+  {OK}  % eval
+  {SR-FC-13, SR-FC-05}  % origin
+  \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % procedure
+    \item Enter the \glsdisp{REPL environment}{REPL} mode.
+    \item Write and evaluate some LUISP-DA expressions, including \gls{register} and \gls{memory} manipulation.
+  \end{enumerate}
+\end{testCase}
+\stepcounter{i}
+
+% local exec
+\begin{testCase}{VET-\padtwo{i}}
+  {The software's source code is downloaded.}  % precond
+  {The expressions are evaluated correctly, and the state is modified correctly.}  % postcond
+  {Verify that the software can be executed natively in many platforms.}  % desc
+  {OK}  % eval
+  {SR-NF-01, SR-NF-02}  % origin
+  \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % procedure
+    \item Compile the source code for multiple platforms.
+    \item Execute the simulator in those platforms.
+  \end{enumerate}
+\end{testCase}
+\stepcounter{i}
+
+% FOSS, public
+\begin{testCase}{VET-\padtwo{i}}
+  {\NA}  % precond
+  {The source code is publicly available, and it uses a \gls{FOSS} license.}  % postcond
+  {Verify that the software is \gls{FOSS} and publicly available.}  % desc
+  {OK}  % eval
+  {SR-NF-03, SR-NF-04}  % origin
+  \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % procedure
+    \item Access the software's source code website.
+    \item Verify the software's license.
+  \end{enumerate}
+\end{testCase}
+\stepcounter{i}
+
+% manual, ease of use
+\begin{testCase}{VET-\padtwo{i}}
+  {The software is installed.}  % precond
+  {All actions were successfully performed.}  % postcond
+  {Verify that the software is easy to use.}  % desc
+  {OK}  % eval
+  {SR-NF-05, SR-NF-06, SR-NF-07, SR-NF-09}  % origin
+  \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % procedure
+    \item Read the software's user manual.
+    \item Execute all basic functionalities of the software: create an \gls{ISA} and program, execute it fully, instruction by instruction, stop and change programs and use the REPL.
+  \end{enumerate}
+\end{testCase}
+\stepcounter{i}
+
+% validation
+\begin{testCase}{VET-\padtwo{i}}
+  {\NA}  % precond
+  {The language is validatable.}  % postcond
+  {Verify that the instruction definition language is validatable.}  % desc
+  {OK\tablefootnote{As LUISP-DA is a language from the LISP family, and we've provided its formal definition (see \subsecref{inst-lang-design}), it is a validatable language.}}  % eval
+  {SR-NF-08}  % origin
+  \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % procedure
+    \item Validate LUISP-DA expressions.
+  \end{enumerate}
+\end{testCase}
+\stepcounter{i}
+
+% VET - SR
+\begin{landscape}
+  \begin{table}
+    \ttabbox[\FBwidth]
+      {%
+        \caption{Traceability between software requirements and verification tests}
+        \label{tab:traceability-sr-vet}
+      }%
+      {\traceabilityPrintMatrix{^VET}{^SR}{}}
+  \end{table}
+\end{landscape}
+
+
+
+\FloatBarrier
+
+
+\section{Validation Tests}\label{sec:validation}
+To perform the validation tests, we have checked the final software, comparing it against the user's needs specified in \subsecref{user-requirements}. With these tests we want to answer the question ``\textit{Have we built the right product?}''.
+
+\tabref{traceability-ur-vat} shows the traceability between the software requirements and the verification tests.
+
+\setcounter{i}{1}
+
+\begin{testCase}{VAT-\padtwo{i}}
+  {Antes}  % precond
+  {Después}  % postcond
+  {Desc}  % desc
+  {OK}  % eval
+  {UR-01}  % origin
+  \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % procedure
+    \item caca
+  \end{enumerate}
+\end{testCase}
+\stepcounter{i}
+
+\FloatBarrier
+
+% VAT - UR
+\traceabilityTable{traceability-ur-vat}
+  {^VAT}{^UR}
+  {Traceability between user requirements and validation tests}

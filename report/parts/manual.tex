@@ -1,6 +1,91 @@
 \chapter{User manual}\label{app:manual}
 
-\section{Architecture definition file}
+
+\section*{LUISP-DA}
+LUISP-DA stands for \textit{assembLy analogoUs lISP DiAlect}. It's the language used to program the simulator.
+
+It's a Lisp-like language, where instructions are defined as a list (\qdist{LIST}) of symbols and/or other lists.
+
+The immediate symbols implemented are:
+\begin{itemize}
+  \item \qdist{NUM}: Integer numbers.
+  \item \qdist{BOOL}: Booleans, \texttt{true} or \texttt{false}.
+  \item \qdist{NIL}: Undefined token.
+  \item \qdist{REG}: Registers defined in the architecture file.
+  \item \qdist{OP}: Defined operators.
+\end{itemize}
+
+A list is always in between parenthesis:
+\begin{lstlisting}
+(+ 1 2)
+\end{lstlisting}
+
+Its first element is called the operand symbol, which will be applied to the rest of the elements (immediate symbols or lists) of the list. In the previous example, the operator \texttt{+} is applied to \texttt{1} and \texttt{2}, giving as a result \texttt{3}.
+
+A list can be an element of another list. Inner lists are computed first, and they return the evaluation of the list. In the example:
+\begin{lstlisting}
+(+ 1 (+ 2 2))
+\end{lstlisting}
+The operator \texttt{+} is applied to \texttt{2} and \texttt{2}, giving as a result \texttt{4}, and transforming the expression into:
+\begin{lstlisting}
+(+ 1 4)
+\end{lstlisting}
+
+A list of one element is evaluated as the element. A list with no elements is evaluated as a \qdist{NIL}.
+
+\noindent
+An operand symbol can be:
+\begin{itemize}
+  \item An operator \qdist{OP}, which takes the child elements as arguments. The implemented operators (with its operands) are:
+  \begin{itemize}
+    \item \texttt{+ A B}: Adds two \qdist{NUM} \texttt{A} and \texttt{A}.
+    \item \texttt{- A B}: Subtracts two \qdist{NUM} \texttt{A} and \texttt{A}.
+    \begin{itemize}
+      \item \texttt{- A}: Negates the \qdist{NUM} \texttt{A}.
+    \end{itemize}
+    \item \texttt{* A B}: Multiplies two \qdist{NUM} \texttt{A} and \texttt{A}.
+    \item \texttt{/ A B}: Divides two \qdist{NUM} \texttt{A} and \texttt{A}.
+    \item \texttt{\% A B}: Computes the modulo two \qdist{NUM} \texttt{A} and \texttt{A}.
+    \item \texttt{< A B}: For two \qdist{NUM} \texttt{A} and \texttt{A}, checks if \texttt{A} is less than \texttt{A}, returning a \qdist{BOOL}.
+    \item \texttt{> A B}: For two \qdist{NUM} \texttt{A} and \texttt{A}, checks if \texttt{A} is bigger than \texttt{A}, returning a \qdist{BOOL}.
+    \item \texttt{<= A B}: For two \qdist{NUM} \texttt{A} and \texttt{A}, checks if \texttt{A} is less or equal than \texttt{A}, returning a \qdist{BOOL}.
+    \item \texttt{>= A B}: For two \qdist{NUM} \texttt{A} and \texttt{A}, checks if \texttt{A} is bigger or equal than \texttt{A}, returning a \qdist{BOOL}.
+    \item \texttt{== A B}: For two \qdist{NUM} \texttt{A} and \texttt{A}, checks if \texttt{A} is equal to \texttt{A}, returning a \qdist{BOOL}.
+    \item \texttt{!= A B}: For two \qdist{NUM} \texttt{A} and \texttt{A}, checks if \texttt{A} is not equal to \texttt{A}, returning a \qdist{BOOL}.
+    \item \texttt{!\ A}: Negates the \qdist{BOOL} \texttt{A}.
+    \item \texttt{reg RA}: Returns the value stored in register (\qdist{REG}) \texttt{RA}.
+    \item \texttt{reg!\ RA B}: Stores the \qdist{NUM} \texttt{A} in register (\qdist{REG}) \texttt{RA}, and returns \texttt{A}.
+    \item \texttt{mem A}: Returns the value stored in memory address (\qdist{NUM}) \texttt{A}.
+    \item \texttt{mem!\ A B}: Stores the \qdist{NUM} \texttt{A} in memory address (\qdist{NUM}) \texttt{A}, and returns \texttt{A}.
+    \item \texttt{pc}: Returns the value stored in the program counter.
+    \item \texttt{pc!\ A}: Stores the \qdist{NUM} \texttt{A} in the program counter, and returns \texttt{A}.
+  \end{itemize}
+  \item A block \qdist{BLK}. It sequentially executes multiple instructions (\qdist{LIST}), and returns the result of the last one (PC is not updated for those instructions). In the example:
+  \begin{lstlisting}
+(do (+ 1 2) (+ -1 1))
+  \end{lstlisting}
+  That would return the result of \texttt{(+ -1 1)}, \texttt{0}.
+  \item A conditional \qdist{CND}. It checks the condition (first element) (which must evaluate to a \qdist{BOOL}), if it's other than \qdist{NIL} or \texttt{false}, it evaluates and returns the second element. Else, it evaluates and returns the third element (if it doesn't exist, it returns \qdist{NIL}). In the example:
+  \begin{lstlisting}
+(if (> 2 1) (+ 1 1) (+ 2 2))
+  \end{lstlisting}
+  That would return the result of \texttt{(+ 1 1)}, \texttt{2}.
+  \item A system call \qdist{CALL}. It checks the \textit{opcode} (first element) (which must evaluate to a \qdist{NUM}), and executes the specified system call with its arguments.
+  \begin{itemize}
+    \item \texttt{print\_int} - \texttt{call N A}: Prints the value of the \qdist{NUM} `A`.
+    \item \texttt{print\_char} - \texttt{call N A}: Prints the value of the \qdist{NUM} `A` as an ascii character.
+    \item \texttt{read\_int} - \texttt{call N RA}: Reads the value of a \qdist{NUM} and saves it to the register \texttt{RA}.
+    \item \texttt{read\_char} - \texttt{call N RA}: Reads the value of an ascii character and saves it as a \qdist{NUM} to the register \texttt{RA}.
+    \item \texttt{exit} - \texttt{call N}: Stops the execution of the program.
+  \end{itemize}
+  The definition of the \textit{opcodes} is defined in the architecture definition file.
+\end{itemize}
+
+After each instruction, the PC is updated.
+
+
+
+\section*{Architecture definition file}
 The structure of the \gls{json} files is the following:
 \begin{itemize}[nosep,noitemsep]
   \item \texttt{name}: Name of the architecture.
@@ -40,11 +125,13 @@ The structure of the \gls{json} files is the following:
 \end{itemize}
 
 
-\section{Instalation and execution}
+
+\section*{Instalation and execution}
 
 \begin{enumerate}
-  \item Download and decompress the source code from the repository (\myrepo).
-  \item Move to the \texttt{build} directory and build and compile the source code:
+  \item Install CMake\footurl{https://cmake.org/} 3.22, Ninja-build\footurl{https://ninja-build.org/} 1.11.1 and GCC\footurl{https://gcc.gnu.org/} 11.4, or compatible versions.
+  \item Download and decompress the source code from the repository\footnote{\myrepo}.
+  \item Move to the \texttt{build} directory and build and compile the source code\footnote{You will need an Internet connection for CMake to download the dependencies.}:
   \begin{tcolorbox}[bottom=-8pt]
     \begin{verbatim}
 cd build/
@@ -59,3 +146,6 @@ cmake --build .
     \end{verbatim}
   \end{tcolorbox}
 \end{enumerate}
+
+
+\section*{Assembly program file}

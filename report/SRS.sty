@@ -56,12 +56,15 @@
   \def\@uc{Use case}
   \def\@component{Component}
   \def\@test{Test}
+
+
   % template captions
   \def\@req@template@u{\@req@u~template}
   \def\@req@template@s{\@req@s~template}
   \def\@uc@template{\@uc~template}
   \def\@component@template{\@component~template}
   \def\@test@template{\@test~template}
+
   % attribute names
   \def\@req@description{Description}
   \def\@req@priocus{Necessity}
@@ -69,12 +72,14 @@
   \def\@req@sta{Stability}
   \def\@req@verif{Verifiability}
   \def\@req@origin{Origin}
+
   \def\@uc@name{Name}
   \def\@uc@actors{Actors}
   \def\@uc@shortdescription{Objetive}
   \def\@uc@description{Description}
   \def\@uc@precond{Pre-condition}
   \def\@uc@postcond{Post-condition}
+
   \def\@component@role{Role}
   \def\@component@deps{Dependencies}
   \def\@component@description{Description}
@@ -83,11 +88,20 @@
   \def\@component@origin{Origin}
   \def\@component@types{Types}
   \def\@component@members{Functions/variables}
-  \def\@test@description{Description}
-  \def\@test@input{Input}
-  \def\@test@output{Output}
-  \def\@test@env{Enviroment}
+
+  % \def\@test@description{Description}
+  % \def\@test@input{Input}
+  % \def\@test@output{Output}
+  % \def\@test@env{Enviroment}
+  % \def\@test@origin{Origin}
+
+  \def\@test@desc{Description}
+  \def\@test@precond{Preconditions}
+  \def\@test@postcond{Postconditions}
+  \def\@test@procedure{Procedure}
+  \def\@test@eval{Evaluation}
   \def\@test@origin{Origin}
+
   % attribute values
   \def\@req@valueof@pc@h{Essential}
   \def\@req@valueof@pc@m{Convenient}
@@ -101,6 +115,7 @@
   \def\@req@valueof@v@h{High}
   \def\@req@valueof@v@m{Medium}
   \def\@req@valueof@v@l{Low}
+
   % attribute descriptions
   \def\@req@description@desc{Detailed description of the requirement.}
   \def\@req@priocus@desc{Priority of the requirement for the user (\textit{\@req@valueof@pc@h}, \textit{\@req@valueof@pc@m} or \textit{\@req@valueof@pc@l}).}
@@ -108,12 +123,14 @@
   \def\@req@sta@desc{Indicates the requirement's variability trough the development process (\textit{\@req@valueof@s@nc}, \textit{\@req@valueof@s@c} or \textit{\@req@valueof@s@vi}).}
   \def\@req@verif@desc{Ability to test the validity of the requirement (\textit{\@req@valueof@v@h}, \textit{\@req@valueof@v@m} or \textit{\@req@valueof@v@l}).}
   \def\@req@origin@desc{User requirements that derived this requirement.}
+
   \def\@uc@name@desc{Brief description of the use case.}
   \def\@uc@actors@desc{External agent that executes the use case.}
   \def\@uc@shortdescription@desc{The use case's purpose.}
   \def\@uc@description@desc{Steps that the external agent must take to execute the use case.}
   \def\@uc@precond@desc{Conditions that must be fulfilled \textit{before} executing the use case.}
   \def\@uc@postcond@desc{Conditions that must be fulfilled \textit{after} executing the use case.}
+
   \def\@component@role@desc{Component's function in the system.}
   \def\@component@deps@desc{Components that depend on this component.}
   \def\@component@description@desc{Explanation of the functioning of the component.}
@@ -121,6 +138,13 @@
   \def\@component@resources@desc{Resources that use the component.}
   \def\@component@origin@desc{Software requirements that derived the component.}
   \def\@component@type@desc{Component type.}
+
+  \def\@test@desc@desc{Test description.}
+  \def\@test@precond@desc{Conditions that must be fulfilled in order to perform the test.}
+  \def\@test@procedure@desc{Description of the steps to take in order to perform the test.}
+  \def\@test@postcond@desc{Conditions that must be fulfilled after performing the test in order to pass.}
+  \def\@test@eval@desc{Result of the test (\textit{OK} or \textit{Error}).}
+  \def\@test@origin@desc{Requirements that originated this test.}
 \fi
 
 % spanish
@@ -159,11 +183,13 @@
   \def\@component@origin{Origen}
   \def\@component@types{Tipos}
   \def\@component@members{Funciones/variables}
-  \def\@test@description{Descripción}
-  \def\@test@input{Entrada}
-  \def\@test@output{Salida}
-  \def\@test@env{Entorno}
-  \def\@test@origin{Origen}
+  % \def\@test@description{Descripción}
+  % \def\@test@input{Entrada}
+  % \def\@test@output{Salida}
+  % \def\@test@env{Entorno}
+  % \def\@test@origin{Origen}
+
+
   % attribute values
   \def\@req@valueof@pc@h{Esencial}
   \def\@req@valueof@pc@m{Conveniente}
@@ -197,6 +223,7 @@
   \def\@component@resources@desc{Recursos que utiliza el componente.}
   \def\@component@origin@desc{Requisitos software que dieron lugar al componente.}
   \def\@component@type@desc{Tipo del componente.}
+  % TODO: \@test
 \fi
 
 
@@ -510,26 +537,68 @@
 
 
 
-% Usage: \begin{testCase}{<ID>}{<INPUT>}{<OUTPUT>}{<ENV>}{<ORIGIN>}
-%        ...
+% % Usage: \begin{testCase}{<ID>}{<INPUT>}{<OUTPUT>}{<ENV>}{<ORIGIN>}
+% %        ...
+% %        \end{testCase}
+% \newenvironment{testCase}[5]
+%   {
+%     \def\@@test@input{#2}\def\@@test@output{#3}\def\@@test@env{#4}
+%     \traceability@addOrigins{#1}{#5}\def\@@test@origin{#5}
+%     \SRStabular{#1}
+%     \@test@description &
+%   }
+%   {
+%     \\
+%     \textbf{\@test@input}  & \@@test@input \\
+%     \textbf{\@test@output} & \@@test@output \\
+%     \textbf{\@test@origin} & \@@test@origin \\
+%     \textbf{\@test@env}    & \expandafter\itemizecsv\expandafter{\@@test@env} \\
+%     \endSRStabular
+%   }
+
+
+
+% Usage: \begin{testCase}{<ID>}{<PRECOND>}{<POSTCON>}{<DESCR>}{<EVAL>}{<ORIGIN>}
+%        <PROCEDURE>
 %        \end{testCase}
-\newenvironment{testCase}[5]
+\newenvironment{testCase}[6]
   {
-    \def\@@test@input{#2}\def\@@test@output{#3}\def\@@test@env{#4}
-    \traceability@addOrigins{#1}{#5}\def\@@test@origin{#5}
-    \SRStabular{#1}
-    \@test@description &
+    \def\@@test@precond{#2}
+    \def\@@test@postcond{#3}
+    \def\@@test@desc{#4}
+    \def\@@test@eval{#5}
+    \def\@@test@origin{#6}
+    \traceability@addOrigins{#1}{#6}
+    % \SRStabular{#1}
+    \if@captions@pp
+      \SRStabular[\@test~#1][][htb][.9]{#1}
+    \else
+      \SRStabular[][][htb][.9]{#1}
+    \fi
+    \textbf{\@test@desc} & \@@test@desc \\
+    \textbf{\@test@precond}  & \@@test@precond \\
+    \textbf{\@test@procedure} &
   }
   {
     \\
-    \textbf{\@test@input}  & \@@test@input \\
-    \textbf{\@test@output} & \@@test@output \\
-    \textbf{\@test@origin} & \@@test@origin \\
-    \textbf{\@test@env}    & \expandafter\itemizecsv\expandafter{\@@test@env} \\
+    \textbf{\@test@postcond} & \@@test@postcond \\
+    \textbf{\@test@origin} & \@@test@origin \\  % TODO: process & ref multiple origins
+    \textbf{\@test@eval} & \@@test@eval \\  % TODO: standarize eval values
     \endSRStabular
   }
 
-% TODO: \printtctemplate[caption]{id-format}
+% \printtesttemplate[caption]{id-format}
+\newcommand{\printtesttemplate}[2][\@test@template]{%
+  \begin{SRStabular}[#1][tab:test-template]{#2}
+    \textbf{\@test@desc}       & \@test@desc@desc\\
+    \textbf{\@test@precond}    & \@test@precond@desc \\
+    \textbf{\@test@procedure}  & \@test@procedure@desc \\
+    \textbf{\@test@postcond}   & \@test@postcond@desc \\
+    \textbf{\@test@origin}     & \@test@origin@desc \\
+    \textbf{\@test@eval}       & \@test@eval@desc \\
+  \end{SRStabular}
+}
+
 
 
 \endinput

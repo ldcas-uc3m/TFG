@@ -302,7 +302,7 @@ The LUISP-DA \gls{interpreter} is implemented in the \reqref{Control Unit} compo
   \item \textbf{\nameref{subsubsec:eval}:} The \gls{AST} is evaluated recursively.
 \end{enumerate}
 
-Finally, after each instruction, the \gls{program counter} is incremented.
+Finally, after each instruction (except the ones inside a \qdist{block}), the \gls{program counter} is incremented.
 
 \graphicfigure[.8]{interpreter_architecture}{Interpreter architecture}
 
@@ -325,7 +325,7 @@ After \textit{read-inst} returns the \gls{AST} of the instruction, it is evaluat
 The first symbol of the \gls{AST} is passed to \textit{eval-token} to start the evaluation.
 
 
-\subsection{Program file}
+\subsection{Program files}
 \reqref[Requirement]{SR-FC-08} states that the system must be able to load \glsdisp{assembly}{assembly-like} programs.
 
 \glsdisp{assembly}{Assembly} programs allow the user to load both \gls{text memory} and \gls{data memory} before the execution, by dividing the program in two segments: a \texttt{.data} segment and a \texttt{.text} segment. For our simple simulator, we'll allow the user to load data in the form of strings, \glspl{word}, and without type\footnote{For more information, see \subsecref{isa-design}.}. The simulator will also support the use of tags, references to instruction addresses, in order to simplify the \glsdisp{branch}{branching} syntax. Finally, there will be support for comments.

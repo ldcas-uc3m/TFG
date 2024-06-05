@@ -1,7 +1,8 @@
 \chapter{Implementation and Deployment}\label{chap:implementation}
+This chapter summarizes the main decisions taken when implementing the design of the system (\secref{implementation}), including the file structure of the project, and describes the specifications and steps for deploying that implementation (\secref{deployment}).
 
 
-\section{Implementation}
+\section{Implementation}\label{sec:implementation}
 As stated in \subsecref{language-study}, the chosen \gls{programming language} for the project is ISO C++20 \parencite{ISOcpp20}. The chosen \gls{build system} is CMake \parencite{cmake} plus ninja-build \parencite{ninja}, as it provides a \gls{FOSS}, cross-platform, \glsdisp{compilation}{compiler}-independent build platform.
 
 The system was implemented as described in \secref{architecture}. Each component was implemented as an object in a separate library (with both a header (\texttt{.hpp}) and source (\texttt{.cpp}) file), and each component imported the other components they were dependent on. The \reqref{Control Unit} component was divided into three sub-objects: the \gls{AST} object, a reader object in order to keep track of the current word read, and the control unit object itself.
@@ -54,7 +55,7 @@ The full source code can be found in \myrepo.
 
 
 
-\section{Deployment}
+\section{Deployment}\label{sec:deployment}
 % cómo compilar y correr
 % - compatible con versión...
 The technical specifications recommended for the final user to obtain the best experience from the application are:

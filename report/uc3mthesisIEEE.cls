@@ -330,6 +330,7 @@
 \RequirePackage{adjustbox}  % a better \resizebox: \begin{adjustbox}{max width=\textwidth} \end{adjustbox}
 
 
+
 % new type of column for tables: custom width and centered content
 \newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
 \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
@@ -413,10 +414,10 @@
 	showstringspaces = false,
 	commentstyle=\color{gray45},
 	%
-	numbers=left,
-	numbersep=15pt,
-	numberstyle=\tiny,
-	numberfirstline = false,
+	% numbers=left,
+	% numbersep=15pt,
+	% numberstyle=\tiny,
+	% numberfirstline = false,
 	breaklines=true,
 	xleftmargin=\parindent
 }
@@ -631,9 +632,9 @@
 }
 \makeatother
 
-% remove appendices have no page numbers
 \AtBeginEnvironment{appendices}{%
-	\pagenumbering{gobble}
+	\pagenumbering{gobble}  % remove appendices have no page numbers
+	\setcounter{footnote}{0}  % reset footnote counter
 }
 
 

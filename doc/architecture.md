@@ -56,18 +56,14 @@ It's a Lisp-like language, where instructions are defined as a list (`LIST`) of 
     ```lisp
     (+ 1 2)
     ```
-- Its first element is called the operand symbol, which will be applied to the rest of the elements (inmediate symbols or lists) of the list.  
-    In the example:
-    ```lisp
-    (+ 1 2)
-    ```
-    The operator `+` is applied to `1` and `2`, giving as a result `3`.
+- Its first element is called the operand symbol, which will be applied to the rest of the elements (immediate symbols or lists) of the list.  
+    In the previous example, the operator `+` is applied to `1` and `2`, giving as a result `3`.
 - A list can be an element of another list. Inner lists are computed first, and they return the evaluation of the list.  
     In the example:
     ```lisp
     (+ 1 (+ 2 2))
     ```
-    The operator `+` is applied to `2` and `2`, giving as a result `4`:
+    The operator `+` is applied to `2` and `2`, giving as a result `4`, and transforming the expression into:
     ```lisp
     (+ 1 4)
     ```
@@ -83,12 +79,12 @@ An operand symbol can be:
     - `* A B`: Multiplies two `NUM` `A` and `B`
     - `/ A B`: Divides two `NUM` `A` and `B`
     - `% A B`: Computes the modulo two `NUM` `A` and `B`
-    - `< A B`: For two `NUM` `A` and `B`, checks if `A` is less than `B`
-    - `> A B`: For two `NUM` `A` and `B`, checks if `A` is bigger than `B`
-    - `<= A B`: For two `NUM` `A` and `B`, checks if `A` is less or equal than `B`
-    - `>= A B`: For two `NUM` `A` and `B`, checks if `A` is bigger or equal than `B`
-    - `== A B`: For two `NUM` `A` and `B`, checks if `A` is equal to `B`
-    - `!= A B`: For two `NUM` `A` and `B`, checks if `A` is not equal to `B`
+    - `< A B`: For two `NUM` `A` and `B`, checks if `A` is less than `B`, returning a `BOOL`
+    - `> A B`: For two `NUM` `A` and `B`, checks if `A` is bigger than `B`, returning a `BOOL`
+    - `<= A B`: For two `NUM` `A` and `B`, checks if `A` is less or equal than `B`, returning a `BOOL`
+    - `>= A B`: For two `NUM` `A` and `B`, checks if `A` is bigger or equal than `B`, returning a `BOOL`
+    - `== A B`: For two `NUM` `A` and `B`, checks if `A` is equal to `B`, returning a `BOOL`
+    - `!= A B`: For two `NUM` `A` and `B`, checks if `A` is not equal to `B`, returning a `BOOL`
     - `! A`: Negates the `BOOL` `A`
     - `reg RA`: Returns the value stored in register (`REG`) `RA`
     - `reg! RA B`: Stores the integer (`NUM`) `B` in register (`REG`) `RA`, and returns `B`
@@ -102,7 +98,7 @@ An operand symbol can be:
     (do (+ 1 2) (+ -1 1))
     ```
     That would return the result of `(+ -1 1)`, `0`.
-- A conditional `CND`. It checks the condition (first element) (which must evaluate to a `BOOL`), if it's other than `NIL` of `false`, it evaluates and returns the second element. Else, it evaluates and returns the third element (if it doesn't exist, it returns `NIL`).  
+- A conditional `CND`. It checks the condition (first element) (which must evaluate to a `BOOL`), if it's other than `NIL` or `false`, it evaluates and returns the second element. Else, it evaluates and returns the third element (if it doesn't exist, it returns `NIL`).  
     In the example:
     ``` lisp
     (if (> 2 1) (+ 1 1) (+ 2 2))
@@ -113,10 +109,10 @@ An operand symbol can be:
     - `print_char` - `call N A`: Prints the value of the `NUM` `A` as an ascii character.
     - `read_int` - `call N RA`: Reads the value of a `NUM` and saves it to the register `RA`.
     - `read_char` - `call N RA`: Reads the value of an ascii character and saves it as a `NUM` to the register `RA`.
-    - `exit` - `call N`: <!-- TODO -->
+    - `exit` - `call N`: Stops the execution of the program.
 The definition of the _opcodes_ is defined in the architecture definition file.
 
-The inmediate symbols implemented are:
+The immediate symbols implemented are:
 - `NUM`: Integer numbers
 - `BOOL`: Booleans, `true` or `false`
 - `NIL`: Undefined token.
