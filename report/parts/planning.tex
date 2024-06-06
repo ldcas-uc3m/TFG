@@ -1,11 +1,113 @@
-\chapter{Planning and Cost Analysis}\label{chap:planning}
-
-\section{Planning}
-
-\section{Cost Analysis}
+\chapter{Project plan}\label{chap:planning}
+This chapter presents an overview of the development and logistics of the project. We detail the planning of the project (\secref{planning}), analyze its budget and overall cost (\secref{cost}), and we finally discuss the socio-economic environment in which it was carried out.
 
 
-\section{Socio-economic environment}
+\section{Planning}\label{sec:planning}
+This section details the project's planning, by describing the followed methodology and detailing the duration of each part.
+
+\subsection{Methodology}
+Due to the characteristics of the design, the development process was divided into four iterations:
+\begin{enumerate}[label=\Roman*.]
+  \item \textbf{\Gls{memory} and \Gls{register} File}:
+  \item \textbf{Control Unit and \gls{ALU}}:
+  \item \textbf{Compiler}:
+  \item \textbf{\gls{CLI}}:
+\end{enumerate}
+
+We chose to follow an iterative methodology, specifically Bohem's spiral model \parencite{BohemBSpiral}, in order to ensure that, before implementing a component, all components that it depends on are correctly implemented. It also simplifies the development life cycle and makes it more flexible, as it allows the developer to go back and modify previous elements, and encourages prototyping.
+
+The life cycle development process of this model (\figref{spiral_model}) has four phases, which are repeated during the different iterations of the model. These phases are:
+\begin{enumerate}
+  \item \textbf{Planning}: The user requirements are gathered, and the iteration's objectives are determined.
+  \item \textbf{Analysis}: An analysis of the user requirements is performed in order to identify potential risks, and the test cases are designed.
+  \item \textbf{Development and testing}: The software is implemented, and tests are performed.
+  \item \textbf{Evaluation}: The software is evaluated with the client, in order to provide feedback. In this specific case, the tutor acted as the client. This is the critical task of the life cycle, as the iteration isn't finished until the software is approved.
+\end{enumerate}
+
+\svgfigure{spiral_model}{Spiral model life cycle}
+
+
+\subsection{Time estimation}
+The time estimation of the project was designed with the use of a Gantt chart \parencite{clark1922gantt} (\figref{gantt}). This diagram shows all the performed tasks in each iteration of the life cycle, plus an extra documentation task in each iteration for the drafting of this thesis.
+
+The project had a total duration of 9 months, averaging 40 hours per month (taking into account days off, holidays, sick days, and other drawbacks), around 10 hours per week. Therefore, the total time dedicated to this project is 360 hours.
+
+
+\begin{landscape}
+  \begin{figure}
+    \ffigbox[\FBwidth]
+      {%
+        \caption{Gantt chart}
+        \label{fig:gantt}
+      }%
+      {
+        \begin{ganttchart}[
+          hgrid,
+          % vgrid,
+          time slot format=isodate,
+          time slot unit=day,
+          x unit=.075cm,
+          y unit chart=.481cm,
+          y unit title=.7cm,
+          title label font=\footnotesize,
+          group label font=\bf\scriptsize,
+          bar label font=\scriptsize,
+          milestone label font=\it\scriptsize,
+          % expand chart=\textwidth
+        ]{2023-09-13}{2024-06-13}
+
+          \gantttitlecalendar{year, month=shortname} \\
+
+          \ganttgroup{I. \Gls{memory} and \Gls{register} File}{2023-09-13}{2023-10-21} \\
+          \ganttbar{Planning}{2023-09-13}{2023-09-15}\\
+          \ganttlinkedbar{Analysis}{2023-09-16}{2023-09-18}\\
+          \ganttlinkedbar{Development and testing}{2023-09-18}{2023-10-12}\\
+          \ganttlinkedbar{Evaluation}{2023-10-12}{2023-10-14}\\
+          \ganttlinkedbar{Documentation}{2023-10-14}{2023-10-21}\\
+
+          \ganttgroup{II. Control Unit and \gls{ALU}}{2023-10-22}{2023-12-23} \\
+          \ganttbar{Planning}{2023-10-22}{2023-10-24}\\
+          \ganttlinkedbar{Analysis}{2023-10-25}{2023-10-27}\\
+          \ganttlinkedbar{Development and testing}{2023-10-27}{2023-12-10}\\
+          \ganttlinkedbar{Evaluation}{2023-12-10}{2023-12-14}\\
+          \ganttlinkedbar{Documentation}{2023-12-14}{2023-12-23}\\
+
+          \ganttgroup{III. Compiler}{2024-01-07}{2024-03-22} \\
+          \ganttlinkedbar{Planning}{2024-01-07}{2024-01-09}\\
+          \ganttlinkedbar{Analysis}{2024-01-10}{2024-01-12}\\
+          \ganttlinkedbar{Development and testing}{2024-01-13}{2024-02-25}\\
+          \ganttlinkedbar{Evaluation}{2024-02-26}{2024-02-28}\\
+          \ganttlinkedbar{Documentation}{2024-02-29}{2024-03-22}\\
+
+          \ganttgroup{IV. \gls{CLI}}{2024-04-02}{2024-05-26} \\
+          \ganttlinkedbar{Planning}{2024-04-02}{2024-04-04}\\
+          \ganttlinkedbar{Analysis}{2024-04-05}{2024-04-07}\\
+          \ganttlinkedbar{Development and testing}{2024-04-08}{2024-05-01}\\
+          \ganttlinkedbar{Evaluation}{2024-05-02}{2024-05-05}\\
+          \ganttlinkedbar{Documentation}{2024-05-06}{2024-05-26}\\
+
+          \ganttgroup{Report}{2024-05-27}{2024-06-12} \\
+
+          % \ganttmilestone{Project delivery}{2024-06-12}
+
+          % link iterations
+          \ganttlink{elem0}{elem6}
+          \ganttlink{elem6}{elem12}
+          \ganttlink{elem12}{elem18}
+          \ganttlink{elem18}{elem24}
+          % \ganttlink{elem24}{elem25}
+        \end{ganttchart}
+      }
+  \end{figure}
+\end{landscape}
+
+
+\section{Cost analysis}\label{sec:cost}
+
+
+
+
+\section{Socio-economic environment}\label{sec:environment}
 
 \subsection{Current environment}
 % aparece iniciativa RISC-V como open-hardware y modular

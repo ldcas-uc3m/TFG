@@ -57,7 +57,19 @@
         \caption{#3}
         \label{fig:#2}
       }%
-    {\includegraphics[width=#1\textwidth]{#2}}
+      {\includegraphics[width=#1\textwidth]{#2}}
+  \end{figure}
+}
+
+% \svgfigure[width]{filename}{caption}
+\newcommand{\svgfigure}[3][.7] {
+  \begin{figure}[htb]
+    \ffigbox[\FBwidth]
+      {%
+        \caption{#3}
+        \label{fig:#2}
+      }%
+      {\includesvg[inkscapelatex=false,width=#1\textwidth]{#2.svg}}
   \end{figure}
 }
 
