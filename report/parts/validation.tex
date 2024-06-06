@@ -154,16 +154,12 @@ In order to perform the verification tests, we have followed a dynamic process d
 \end{testCase}
 \stepcounter{i}
 
+
 % VET - SR
 \begin{landscape}
-  \begin{table}
-    \ttabbox[\FBwidth]
-      {%
-        \caption{Traceability between software requirements and verification tests}
-        \label{tab:traceability-sr-vet}
-      }%
-      {\traceabilityPrintMatrix{^VET}{^SR}{}}
-  \end{table}
+  \traceabilityTable[]{traceability-sr-vet}
+    {^VET}{^SR}
+    {Traceability between software requirements and verification tests}
 \end{landscape}
 
 
@@ -179,18 +175,96 @@ To perform the validation tests, we have checked the final software, comparing i
 \setcounter{i}{1}
 
 \begin{testCase}{VAT-\padtwo{i}}
-  {Antes}  % precond
-  {Después}  % postcond
-  {Desc}  % desc
+  {An \gls{ISA} is designed.}  % precond
+  {The program is executed correctly.}  % postcond
+  {Validate that the system can execute any program defined in any \gls{ISA}, through the CLI.}  % desc
   {OK}  % eval
-  {UR-01}  % origin
+  {UR-CA-01, UR-CA-02, UR-CA-03, UR-CA-04, UR-CA-05}  % origin
   \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % procedure
-    \item caca
+    \item Define an \gls{ISA}.
+    \item Execute the program with the \gls{ISA} definition.
   \end{enumerate}
 \end{testCase}
 \stepcounter{i}
 
-\FloatBarrier
+\begin{testCase}{VAT-\padtwo{i}}
+  {An \gls{ISA} is designed.}  % precond
+  {The system notifies the user of the errors.}  % postcond
+  {Validate that the system recognizes errors.}  % desc
+  {OK}  % eval
+  {UR-CA-06, UR-CA-07}  % origin
+  \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % procedure
+    \item Define a program with syntactical errors.
+    \item Try to execute the program.
+  \end{enumerate}
+\end{testCase}
+\stepcounter{i}
+
+\begin{testCase}{VAT-\padtwo{i}}
+  {Design an \gls{ISA} and a program.}  % precond
+  {The program is executed correctly.}  % postcond
+  {Validate that the system can be executed either instruction by instruction, or fully.}  % desc
+  {OK}  % eval
+  {UR-CA-04, UR-CA-07, UR-CA-08}  % origin
+  \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % procedure
+    \item Execute the program instruction by instruction.
+    \item Change the representation.
+    \item Stop it and reset the program.
+    \item Execute the program fully.
+  \end{enumerate}
+\end{testCase}
+\stepcounter{i}
+
+\begin{testCase}{VAT-\padtwo{i}}
+  {Define an \gls{ISA}.}  % precond
+  {The expressions are evaluated as expected.}  % postcond
+  {Validate that the system contains a \gls{REPL environment} for the LUISP-DA language.}  % desc
+  {OK}  % eval
+  {UR-CA-09}  % origin
+  \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % procedure
+    \item Test LUISP-DA expressions in the \gls{REPL environment}.
+  \end{enumerate}
+\end{testCase}
+\stepcounter{i}
+
+\begin{testCase}{VAT-\padtwo{i}}
+  {\NA.}  % precond
+  {The license is \gls{FOSS}.}  % postcond
+  {Validate that the software is \gls{FOSS} .}  % desc
+  {OK}  % eval
+  {UR-RE-02}  % origin
+  \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % procedure
+    \item See the source code's license.
+  \end{enumerate}
+\end{testCase}
+\stepcounter{i}
+
+\begin{testCase}{VAT-\padtwo{i}}
+  {The source code is downloaded.}  % precond
+  {All actions were successfully performed.}  % postcond
+  {Validate that the system can be executed natively.}  % desc
+  {OK}  % eval
+  {UR-RE-01}  % origin
+  \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % procedure
+    \item Compile the software for multiple architectures.
+    \item Execute all basic functionalities.
+  \end{enumerate}
+\end{testCase}
+\stepcounter{i}
+
+\begin{testCase}{VAT-\padtwo{i}}
+  {The system is installed.}  % precond
+  {All actions were successfully and easily performed.}  % postcond
+  {Validate that the system is easy to use.}  % desc
+  {OK}  % eval
+  {UR-RE-03, UR-RE-04, UR-RE-05, UR-RE-06}  % origin
+  \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % procedure
+    \item Read the software's user manual.
+    \item Execute all basic functionalities.
+  \end{enumerate}
+\end{testCase}
+\stepcounter{i}
+
 
 % VAT - UR
 \traceabilityTable{traceability-ur-vat}

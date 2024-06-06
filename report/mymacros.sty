@@ -96,15 +96,15 @@
   \ifnum\value{#1}<10 0\fi\arabic{#1}%
 }
 
-% \traceabilityTable{label}{item-pattern}{origin-pattern}{caption}
-\newcommand{\traceabilityTable}[4] {%
-  \begin{table}[htb]
+% \traceabilityTable[pos]{label}{item-pattern}{origin-pattern}{caption}
+\newcommand{\traceabilityTable}[5][htb] {%
+  \begin{table}[#1]
     \ttabbox[\FBwidth]
       {%
-        \caption{#4}
-        \label{tab:#1}
+        \caption{#5}
+        \label{tab:#2}
       }%
-      {\traceabilityPrintMatrix{#2}{#3}{}}
+      {\traceabilityPrintMatrix{#3}{#4}{}}
   \end{table}
 }
 
