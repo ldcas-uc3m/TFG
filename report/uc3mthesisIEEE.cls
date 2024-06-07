@@ -102,7 +102,7 @@
 \RequirePackage{txfonts}
 \RequirePackage[T1]{fontenc}
 \RequirePackage[utf8]{inputenc}
-\RequirePackage{mathptmx}  % times new roman
+\RequirePackage{newtx}  % times new roman
 
 
 
@@ -331,9 +331,9 @@
 
 
 
-% new type of column for tables: custom width and centered content
-\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
-\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+% new type of column for tables
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}  % custom width and centered content
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}  % custom width and right aligned
 
 
 % Table layout for engineering

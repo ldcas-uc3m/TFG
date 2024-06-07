@@ -1,5 +1,5 @@
 \chapter{Project plan}\label{chap:planning}
-This chapter presents an overview of the development and logistics of the project. We detail the planning of the project (\secref{planning}), analyze its budget and overall cost (\secref{cost}), and we finally discuss the socio-economic environment in which it was carried out.
+This chapter presents an overview of the development and logistics of the project. We detail the planning of the project (\secref{planning}), analyze its budget and overall cost (\secref{budget}), and we finally discuss the socio-economic environment in which it was carried out.
 
 
 \section{Planning}\label{sec:planning}
@@ -8,10 +8,10 @@ This section details the project's planning, by describing the followed methodol
 \subsection{Methodology}
 Due to the characteristics of the design, the development process was divided into four iterations:
 \begin{enumerate}[label=\Roman*.]
-  \item \textbf{\Gls{memory} and \Gls{register} File}:
-  \item \textbf{Control Unit and \gls{ALU}}:
-  \item \textbf{Compiler}:
-  \item \textbf{\gls{CLI}}:
+  \item \textbf{\Gls{memory} and \Gls{register} File}. This iteration's goal was to implement the \reqref{Text Memory}, \reqref{Data Memory}, and \reqref{Register File} components separately.
+  \item \textbf{Control Unit and \gls{ALU}}. This phase consists on implementing the \reqref{Control Unit} and \reqref{ALU} components, and connecting them to all the previous components. The goal of this iteration is to be able to simulate the full \gls{CPU} and \gls{memory}, and execute LUISP-DA instructions.
+  \item \textbf{Compiler}. This iteration consists on implementing the \reqref{Compiler} component, with the purpose of being able to load \glspl{ISA} and execute programs.
+  \item \textbf{\gls{CLI}}. The final iteration implements the \reqref{CLI} component, adding features such as the \gls{REPL environment} and the whole \gls{UI}.
 \end{enumerate}
 
 We chose to follow an iterative methodology, specifically Bohem's spiral model \parencite{BohemBSpiral}, in order to ensure that, before implementing a component, all components that it depends on are correctly implemented. It also simplifies the development life cycle and makes it more flexible, as it allows the developer to go back and modify previous elements, and encourages prototyping.
@@ -27,10 +27,10 @@ The life cycle development process of this model (\figref{spiral_model}) has fou
 \svgfigure{spiral_model}{Spiral model life cycle}
 
 
-\subsection{Time estimation}
-The time estimation of the project was designed with the use of a Gantt chart \parencite{clark1922gantt} (\figref{gantt}). This diagram shows all the performed tasks in each iteration of the life cycle, plus an extra documentation task in each iteration for the drafting of this thesis.
+\subsection{Time estimation}\label{subsec:time-estimation}
+The time estimation of the project was designed with the use of a Gantt chart \parencite{clark1922gantt} (\figref{gantt}). This diagram shows all the performed tasks in each iteration of the life cycle, plus an extra documentation task in each iteration for the drafting of this thesis. We also added a final `Report' task to represent the time spent finishing this report.
 
-The project had a total duration of 9 months, averaging 40 hours per month (taking into account days off, holidays, sick days, and other drawbacks), around 10 hours per week. Therefore, the total time dedicated to this project is 360 hours.
+The project had a total duration of 9 months, averaging 35 hours per month (taking into account days off, holidays, sick days, and other drawbacks), around 10 hours per week. Therefore, the total time dedicated to this project is 315 hours.
 
 
 \begin{landscape}
@@ -73,14 +73,14 @@ The project had a total duration of 9 months, averaging 40 hours per month (taki
           \ganttlinkedbar{Documentation}{2023-12-14}{2023-12-23}\\
 
           \ganttgroup{III. Compiler}{2024-01-07}{2024-03-22} \\
-          \ganttlinkedbar{Planning}{2024-01-07}{2024-01-09}\\
+          \ganttbar{Planning}{2024-01-07}{2024-01-09}\\
           \ganttlinkedbar{Analysis}{2024-01-10}{2024-01-12}\\
           \ganttlinkedbar{Development and testing}{2024-01-13}{2024-02-25}\\
           \ganttlinkedbar{Evaluation}{2024-02-26}{2024-02-28}\\
           \ganttlinkedbar{Documentation}{2024-02-29}{2024-03-22}\\
 
           \ganttgroup{IV. \gls{CLI}}{2024-04-02}{2024-05-26} \\
-          \ganttlinkedbar{Planning}{2024-04-02}{2024-04-04}\\
+          \ganttbar{Planning}{2024-04-02}{2024-04-04}\\
           \ganttlinkedbar{Analysis}{2024-04-05}{2024-04-07}\\
           \ganttlinkedbar{Development and testing}{2024-04-08}{2024-05-01}\\
           \ganttlinkedbar{Evaluation}{2024-05-02}{2024-05-05}\\
@@ -102,8 +102,200 @@ The project had a total duration of 9 months, averaging 40 hours per month (taki
 \end{landscape}
 
 
-\section{Cost analysis}\label{sec:cost}
 
+\section{Budget}\label{sec:budget}
+This section details the project's budget, based on the time estimation and planning described in \secref{planning}. \tabref{project-info} summarizes the main characteristics of the project, including the total budget.
+
+\makeatletter
+
+\begin{table}[htb]
+  \ttabbox[\FBwidth]
+    {%
+      \caption{Project information}
+      \label{tab:project-info}
+    }%
+    {
+      \begin{tabular}{>{\bfseries}p{3.5cm}p{9cm}}
+        \toprule
+        Title               & \textit{\@title} \\ \midrule
+        Author              & \@author \\ \midrule
+        Department          & Departamento de Informática \\ \midrule
+        Start date          & 13th of September of 2023 \\ \midrule
+        End date            & 13th of June of 2024 \\ \midrule
+        Duration            & 9 months \\ \midrule
+        Total budget        & 12.973,30 € \\
+        \bottomrule
+      \end{tabular}
+    }
+\end{table}
+
+\makeatother
+
+
+The different costs will be divided in two parts: direct costs (those associated with personnel and equipment), and indirect costs (those with an indirect influence to the project). These costs don't include taxes, which will be included in the costs summary on Subsection \ref{subsec:cost-summary}.
+
+
+\subsection{Direct costs}
+Direct costs are those that are directly related with the development of the project. These can be divided into two groups:
+\begin{itemize}
+  \item \textbf{Personnel costs}: These vary in relation to the qualifications, experience, and geographical location of each member.
+  \item \textbf{Equipment costs}: These are all the costs associated to the tools required for developing the software, mainly hardware and software tools.
+\end{itemize}
+
+\noindent
+We can divide the personnel costs between four different roles:
+\begin{itemize}
+  \item \textbf{Project manager}: Manage the project's schedule and provide feedback.
+  \item \textbf{Analyst}: Analyze the user's requirements, design the architecture of the system, and write documentation.
+  \item \textbf{Programmer}: Implement the required functionalities.
+  \item \textbf{Tester}: Design and perform the test for the different functionalities.
+\end{itemize}
+
+The tutor played the role of project manager, while the student played the rest of the roles. \tabref{personnel-cost} shows the direct costs caused by each of the roles, and the total personnel costs.
+
+\begin{table}[htb]
+  \ttabbox[\FBwidth]
+    {%
+      \caption{Personnel cost}
+      \label{tab:personnel-cost}
+    }%
+    {
+      \begin{tabular}{lrrr}
+        \toprule
+        \textbf{Role} & \textbf{Hours} & \textbf{Cost per hour} & \textbf{Total} \\
+        \midrule
+        Project Manager &  40 h & 65,00 €/h & 2.600,00 € \\
+        Analyst         &  80 h & 35,00 €/h & 2.800,00 € \\
+        Programmer      & 200 h & 30,00 €/h & 6.000,00 € \\
+        Tester          &  35 h & 20,00 €/h &   700,00 € \\
+        \midrule
+        \textbf{Total}  & 385 h &           & \textbf{12.100,00 €} \\
+        \bottomrule
+      \end{tabular}
+    }
+\end{table}
+
+Equipment costs refer to those caused by equipment acquisition and usage. The chargeable cost, $C$, for each item is calculated using Equation \eqref{eq:chargeable-cost}, where:
+\begin{itemize}
+  \item $c$ is the cost of the item.
+  \item $d$ is the time the item has been used.
+  \item $u$ is the percentage of the total time the item was used for the project.
+  \item $D$ is the item's depreciation period.
+\end{itemize}
+
+\begin{equation}\label{eq:chargeable-cost}
+  C = \frac{c \cdot u \cdot d}{D}
+\end{equation}
+
+\tabref{equipment-cost} shows the chargeable costs of each equipment item, and the total equipment costs.
+
+\begin{table}[htb]
+  \ttabbox[\FBwidth]
+    {%
+      \caption{Equipment cost}
+      \label{tab:equipment-cost}
+    }%
+    {
+      \begin{adjustbox}{max width=\textwidth}  % fit to textwidth
+        % \begin{tabular}{lR{2cm}R{2cm}R{2.3cm}R{2.3cm}R{2.3cm}}
+        \begin{tabular}{lrrrrr}
+          \toprule
+          \textbf{Item} & \textbf{Cost ($c$)} & \textbf{Usage ($u$)} & \textbf{Dedication ($d$)} & \textbf{Depreciation ($D$)} & \textbf{Chargeable cost ($C$)}   \\
+          \midrule
+          Laptop      & 649,00 € & 60 \% & 9 months &  72 months & 486,75 € \\
+          Monitor     & 124,99 € & 40 \% & 9 months &  60 months &  74,99 € \\
+          Mouse       &  79,95 € & 50 \% & 9 months &  36 months &  99,94 € \\
+          Adapter     &  39,90 € & 70 \% & 9 months &  72 months &  34,91 € \\
+          Video cable &   5,75 € & 50 \% & 9 months &  60 months &   4,31 € \\
+          Software\footnote{All the software tools used for this project were \gls{FOSS}.}
+                      &   0,00 € & 40 \% & 9 months & 120 months &   0,00 € \\
+          \midrule
+          \textbf{Total}
+                      & 899,59 € &       &          &           &\textbf{700,90 €} \\
+          \bottomrule
+        \end{tabular}
+      \end{adjustbox}
+    }
+\end{table}
+
+
+\subsection{Indirect costs}
+Indirect costs are those that are present during the development process, but cannot be assigned directly to any product.
+
+For the energy consumption, we assume that the laptop's energy usage averages 80W, and the monitor and mouse average 20W, and that they were used during the whole development process, totaling 360h. Therefore, the total energy consumed is $100W \cdot 360 h = 3.600 Wh$. The internet plan includes a 600mb optic fiber connection, 31,80 €/month, which is shared between three people, two of them not included in the project, therefore the cost applicable to the project is a third of that.
+
+
+\begin{table}[htb]
+  \ttabbox[\FBwidth]
+    {%
+      \caption{Indirect costs}
+      \label{tab:indirect-cost}
+    }%
+    {
+      \begin{tabular}{lrrr}
+        \toprule
+        \textbf{Resource} & \textbf{Unitary cost} & \textbf{Units} & \textbf{Total} \\
+        \midrule
+        Electricity    &     0.14 €/kWh & 3.600 Wh &  0,50 € \\
+        Internet       &  10,60 €/month & 9 months & 95,40 € \\
+        Transportation &      8 €/month & 9 months & 72,00 € \\
+        \midrule
+        \textbf{Total} & & & \textbf{172,40 €} \\
+        \bottomrule
+      \end{tabular}
+    }
+\end{table}
+
+
+\subsection{Costs summary}\label{subsec:cost-summary}
+\tabref{cost-summary} includes a summary of the costs of the whole project.
+
+\begin{table}[htb]
+  \ttabbox[\FBwidth]
+    {%
+      \caption{Costs summary}
+      \label{tab:cost-summary}
+    }%
+    {
+      \begin{tabular}{p{5cm}r}
+        \toprule
+        Personnel          & 12.100,00 € \\
+        Equipment          &    700,90 € \\
+        Indirect costs     &    172,40 € \\
+        \midrule
+        \textbf{Total}     & \textbf{12.973,30 €} \\
+        \bottomrule
+      \end{tabular}
+    }
+\end{table}
+
+Therefore, the total cost of the project is \textbf{12.973,30 € (TWELVE THOUSAND NINE HUNDRED SEVENTY-THREE EURO AND THIRTY CENTS)}.
+
+
+\subsection{Project offer proposal}\label{subsec:offer-proposal}
+\tabref{offer-proposal} details an offer proposal for the project. This proposal includes the estimated risks, expected benefits, and taxes. After applying all these concepts, the final cost of this project, in case it is presented to a third-party client, is \textbf{21.662,81 € (TWENTY-ONE THOUSAND SIX HUNDRED SIXTY-TWO EURO AND EIGHTY-ONE CENTS)}.
+
+\begin{table}[htb]
+  \ttabbox[\FBwidth]
+    {%
+      \caption{Offer proposal}
+      \label{tab:offer-proposal}
+    }%
+    {
+      \begin{tabular}{lrrr}
+        \toprule
+        \textbf{Concept} & \textbf{Increment} & \textbf{Partial value} & \textbf{Aggregated cost} \\
+        \midrule
+        Project cost   & --    & 12.973,30 € & 12.973,30 € \\
+        Risk           & 20 \% &  2.594,66 € & 15.567,96 € \\
+        Benefits       & 15 \% &  2.335,19 € & 17.903,15 € \\
+        Tax            & 21 \% &  3.759,66 € & 21.662,81 € \\
+        \midrule
+        \textbf{Total} & 67 \% & & \textbf{21.662,81 €} \\
+        \bottomrule
+      \end{tabular}
+    }
+\end{table}
 
 
 
