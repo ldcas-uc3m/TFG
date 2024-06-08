@@ -9,7 +9,7 @@ As stated in \chapref{analysis}, the customer initially sets the requirements de
 
 Software verification (\secref{verification}) is the process of evaluating work-products (not the actual final product) of a development phase to determine whether they meet the specified requirements for that phase (the software requirements). Software validation (\secref{validation}) is the process of evaluating the final product at the end of the development process to determine whether it satisfies the requirements specified by the user at the beginning of the project \parencite{IEEE1012-2012}.
 
-For both verification and validation, we designed tests to evaluate the corresponding requirements. Each test is uniquely identified by an ID. The ID follows the format \textit{YYY-XX}, where \textit{XX} identifies the sequential number of the test case, starting at \textit{01}, and \textit{YYY} represents the type, either \textit{VET} (verification) or \textit{VAT} (validation). \tabref{test-template} provides the template used for the specification of the test case, including the description of each attribute.
+For both verification and validation, several tests were designed in order to evaluate the corresponding requirements. Each test is uniquely identified by an ID. The ID follows the format \textit{YYY-XX}, where \textit{XX} identifies the sequential number of the test case, starting at \textit{01}, and \textit{YYY} represents the type, either \textit{VET} (verification) or \textit{VAT} (validation). \tabref{test-template} provides the template used for the specification of the test case, including the description of each attribute.
 
 \printtesttemplate{YYY-XX}
 
@@ -18,7 +18,7 @@ For both verification and validation, we designed tests to evaluate the correspo
 
 
 \section{Verification Tests}\label{sec:verification}
-In order to perform the verification tests, we have followed a dynamic process during the development phase of the software. With these tests we aimed to answer the question ``\textit{Are we building the product correctly?}''.
+In order to perform the verification tests, a dynamic process during the development phase of the software was followed. With these tests the aim is to answer the question ``\textit{Are we building the product correctly?}''.
 
 \tabref{traceability-sr-vet} shows the traceability between the software requirements and the verification tests.
 
@@ -148,7 +148,7 @@ In order to perform the verification tests, we have followed a dynamic process d
   {\NA}  % precond
   {The language is validatable.}  % postcond
   {Verify that the instruction definition language is validatable.}  % desc
-  {OK\tablefootnote{As LUISP-DA is a language from the LISP family, and we've provided its formal definition (see \subsecref{inst-lang-design}), it is a validatable language.}}  % eval
+  {OK\tablefootnote{As LUISP-DA is a language from the LISP family, and its formal definition was provided (see \subsecref{inst-lang-design}), it is a validatable language.}}  % eval
   {SR-NF-08}  % origin
   \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % procedure
     \item Validate LUISP-DA expressions.
@@ -159,7 +159,7 @@ In order to perform the verification tests, we have followed a dynamic process d
 
 % VET - SR
 \begin{landscape}
-  \traceabilityTable[]{traceability-sr-vet}
+  \traceabilityTable[p]{traceability-sr-vet}
     {^VET}{^SR}
     {Traceability between software requirements and verification tests}
 \end{landscape}
@@ -170,7 +170,7 @@ In order to perform the verification tests, we have followed a dynamic process d
 
 
 \section{Validation Tests}\label{sec:validation}
-To perform the validation tests, we have checked the final software, comparing it against the user's needs specified in \subsecref{user-requirements}. With these tests we want to answer the question ``\textit{Have we built the right product?}''.
+To perform the validation tests, the final software was tested, comparing it against the user's needs specified in \subsecref{user-requirements}. With these tests the aim it to answer the question ``\textit{Have we built the right product?}''.
 
 \tabref{traceability-ur-vat} shows the traceability between the software requirements and the verification tests.
 

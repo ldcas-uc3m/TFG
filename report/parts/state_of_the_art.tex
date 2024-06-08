@@ -1,20 +1,20 @@
 \chapter{State of the Art}\label{chap:state-of-the-art}
-This chapter presents the current stage of the technologies related to our application, specifically the different kinds of simulators that are currently present in the market (\secref{assembly-simulators}), both specific to one architecture (\subsecref{specific-assembly-simulators}) and architecture-agnostic simulators (\subsecref{generic-assembly-simulators}).\\
-Finally, it includes a comparison between all the mentioned simulators and our proposed application (\secref{comparison}).
+This chapter presents the current stage of the technologies related to the application, specifically the different kinds of simulators that are currently present in the market (\secref{assembly-simulators}), both specific to one architecture (\subsecref{specific-assembly-simulators}) and architecture-agnostic simulators (\subsecref{generic-assembly-simulators}).\\
+Finally, it includes a comparison between all the mentioned simulators and the proposed application (\secref{comparison}).
 
 
 
-\section{Assembly simulators}\label{sec:assembly-simulators}
+\section{Assembly Simulators}\label{sec:assembly-simulators}
 An `\gls{assembly simulator}' is a CPU simulator that enables the user to program it through an \gls{assembly}, and it usually has an educational purpose: either to aid the user in learning the language, or as an exercise for the programmer in order to give them a better understanding of CPU architecture and software development.
 
 These simulators typically offer an interface that allows the user to execute the program step-by-step and see the current state of the simulated \gls{computer}.
 
 
-\subsection{Specific simulators}\label{subsec:specific-assembly-simulators}
+\subsection{Specific Simulators}\label{subsec:specific-assembly-simulators}
 The vast majority of simulators that can be found today focus on emulating a specific \gls{ISA}, which can range from simple 8-bit microprocessors like the Intel 8080 \parencite{i8080emulator} to architectures that are used today, like \gls{ARM} Thumb \parencite{QtARMSim}.
 
 \noindent
-Here, we'll focus on two examples: \hyperref[subsubsec:kite]{Kite} and \hyperref[subsubsec:armlite]{ARMLite}.
+Here, two examples are provided: \hyperref[subsubsec:kite]{Kite} and \hyperref[subsubsec:armlite]{ARMLite}.
 
 
 \subsubsection*{Kite}\label{subsubsec:kite}
@@ -50,12 +50,12 @@ The simulator offers a \gls{GUI} (\figref{armlite}) that shows the current state
     {\includegraphics[width=0.7\textwidth]{ARMLite.png}}
 \end{figure}
 
-While not being \gls{FOSS} \textit{per se} (we couldn't find any information about the license used by this simulator), the simulator uses JavaScript, which means the browser interprets the webpages's source code locally. As the code is \glsdisp{obfuscate}{unobfuscated} and is, to date, public and free to use, we \textit{could} consider this simulator \gls{FOSS}.
+While not being \gls{FOSS} \textit{per se} (no information about the license used by this simulator could be found), the simulator uses JavaScript, which means the browser interprets the webpages's source code locally. As the code is \glsdisp{obfuscate}{unobfuscated} and is, to date, public and free to use, it is possible \textit{could} consider this simulator \gls{FOSS}.
 
 
 
-\subsection{Generic simulators}\label{subsec:generic-assembly-simulators}
-We consider simulators that are able to define and execute multiple \glspl{ISA} `generic simulators'. They add a significant complexity to those types of simulators, due to the fact that they must be able to dynamically adapt to the different architectures.
+\subsection{Generic Simulators}\label{subsec:generic-assembly-simulators}
+Simulators that are able to define and execute multiple \glspl{ISA} are considered `generic simulators'. They add a significant complexity to those types of simulators, due to the fact that they must be able to dynamically adapt to the different architectures.
 
 Two different approaches to creating such simulators can be found in two specific examples: \hyperref[subsubsec:sail]{Sail} and \hyperref[subsubsec:creator]{CREATOR}.
 
@@ -63,7 +63,7 @@ Two different approaches to creating such simulators can be found in two specifi
 \subsubsection*{Sail}\label{subsubsec:sail}
 Sail \parencite{sail} is an \gls{ISA} definition language. It was developed by the Rigorous Engineering of Mainstream Systems (REMS) \parencite{rems} research group, from the University of Cambridge, as a tool to allow \glspl{ISA} to be mathematically modeled and verified and formally proven \parencite{ArmstrongAlasdair2019IsfA}.
 
-This tool can not only type-check instruction and vector lengths for the \gls{ISA}, generate \glspl{theorem prover} definitions of the architecture and tests, or automatically generate documentation, but, more importantly for our specific case, it can generate executable simulators in C or OCaml based on those \glspl{ISA}.
+This tool can not only type-check instruction and vector lengths for the \gls{ISA}, generate \glspl{theorem prover} definitions of the architecture and tests, or automatically generate documentation, but, more importantly for this specific case, it can generate executable simulators in C or OCaml based on those \glspl{ISA}.
 
 
 \subsubsection*{CREATOR}\label{subsubsec:creator}
@@ -86,11 +86,11 @@ Furthermore, it allows the user to view, edit, and create the architecture in us
 
 
 \section{Comparison}\label{sec:comparison}
-Our proposal aims to take the desirable features from each of the different simulators presented in order to create an application which fits our needs.
+This proposal aims to take the desirable features from each of the different simulators presented in order to create an application which fits our needs.
 
-As we've justified before, we want a \textit{generic} simulator, and from the two discussed approaches we think \hyperref[subsubsec:creator]{CREATOR}'s approach is more suitable for our proposal, as the ability to quickly modify the architecture instead of \glsdisp{compilation}{re-compiling} the whole simulator encourages experimentation (less `friction'). We also must take into account that some features that make the simulator more generic might also create more of this `friction'; giving users a more fine-grained control over the architecture could discourage experimentation and add unnecessary complexity, if we prioritize for the user to understand \gls{assembly} over understanding computer architecture.
+As it was justified before, the goal is to provide a \textit{generic} simulator and, from the two discussed approaches, \hyperref[subsubsec:creator]{CREATOR}'s approach is more suitable for the proposal, as the ability to quickly modify the architecture instead of \glsdisp{compilation}{re-compiling} the whole simulator encourages experimentation (less `friction'). Another thing that must also be taken into account is that some features that make the simulator more generic might also create more of this `friction'; giving users a more fine-grained control over the architecture could discourage experimentation and add unnecessary complexity, if the goal is to prioritize for the user to understand \gls{assembly} over understanding computer architecture.
 
-In \tabref{sim-comparison}, we show a comparison of the different features of the current assembly simulators and our proposal.
+In \tabref{sim-comparison}, a comparison of the different features of the current assembly simulators and the proposal is provided.
 
 The evaluated features are the following:
 \begin{itemize}
@@ -145,6 +145,6 @@ The evaluated features are the following:
 \end{table}
 
 
-We can also compare the mentioned simulators by plotting them on a two-dimension map (\figref{simulator_map}), with one axis representing how `generic' it is and the other one representing how `didactic' it is.
+It is also possible to compare the mentioned simulators by plotting them on a two-dimension map (\figref{simulator_map}), with one axis representing how `generic' it is and the other one representing how `didactic' it is.
 
 \drawiosvgfigure[.65]{simulator_map}{Simulator comparison map}

@@ -2,22 +2,22 @@
 This chapter provides a full description of the proposed solution. It details the design process of the proposed solution, by discussing the different alternatives (\secref{study}), and describes the proposed architecture (\secref{architecture}), including all components and design decisions.
 
 
-\section{Study of the solution}\label{sec:study}  % STATE OF THE ART II
-After the elicitation of the requirements (Section \ref{sec:requirements}) and use cases (Section \ref{sec:use-cases}) of the system, we must discuss the different tools at our disposition to build the application, as our design will depend on them.
+\section{Study of the Solution}\label{sec:study}  % STATE OF THE ART II
+After the elicitation of the requirements (Section \ref{sec:requirements}) and use cases (Section \ref{sec:use-cases}) of the system, the tools to build the application must be discussed, as the design will depend on them.
 
 
-\subsection{Instruction definition language}\label{subsec:inst-lang-study}
+\subsection{Instruction Definition Language}\label{subsec:inst-lang-study}
 \reqref[Requirement]{SR-FC-05} calls for the creation of a language to encode the functionality of the different \glspl{instruction} on the \gls{ISA}. This language is the one that the simulator will actually execute. This language, as per \reqref[requirement]{SR-NF-09}, should be simple and easy to understand.
 
-One approach is to use a generic assembly language, such as the one described in the IEEE Standard for Microprocessor Assembly Language \parencite{IEEE-694-1985}. This is a set of common set of \glspl{instruction} for all microprocessors, and \textit{should} cover all \gls{ISA} possibilities. The main problem with this solution is that it wouldn't solve our main problem, to teach the user \gls{assembly} programming, as the \glspl{instruction} would be encoded in yet another \gls{assembly}. Therefore, we must use some other type of simple and generic language that's easier to understand.
+One approach is to use a generic assembly language, such as the one described in the IEEE Standard for Microprocessor Assembly Language \parencite{IEEE-694-1985}. This is a set of common set of \glspl{instruction} for all microprocessors, and \textit{should} cover all \gls{ISA} possibilities. The main problem with this solution is that it wouldn't solve the main problem, to teach the user \gls{assembly} programming, as the \glspl{instruction} would be encoded in yet another \gls{assembly}. Therefore, some other type of simple and generic language that's easier to understand must be used.
 
 There are scripting languages with good integration with other programming languages, such as Lua \parencite{lua}. Being an embeddable language, it can function as a simple language to interact with an application. Lua is currently used in several projects, such as Neovim \parencite{nvim-lua} and Lua\TeX~\parencite{luatex}. The problem with this approach is \reqref[requirement]{SR-NF-08}; Lua is not easily validatable due to the complexity of the language. 
 
-The final approach is to create our own language. This language should be simple, but able to execute any computation, and abstract enough to be easy to understand. The solution is to implement a language in the LISP family, a concept similar to WebAssembly's Text Format \parencite{wasmtext}. LISP \parencite{mccarthy1960recursive} is a simple recursive language whose operations are based on symbolic expressions. Expressions are lists of elements, where the first element is the operator and the rest of elements the operand. Elements can be atomic (numbers, operators, etc.), or other lists, which will be synthesized into atomic elements by the recursive pattern. By implementing in the language the basic operations described in \reqref[requirement]{SR-FC-02}, we fulfill all our goals for a simple language that supports any possible \gls{ISA}. 
+The final approach is to create a domain-specific language. This language should be simple, but able to execute any computation, and abstract enough to be easy to understand. The solution is to implement a language in the LISP family, a concept similar to WebAssembly's Text Format \parencite{wasmtext}. LISP \parencite{mccarthy1960recursive} is a simple recursive language whose operations are based on symbolic expressions. Expressions are lists of elements, where the first element is the operator and the rest of elements the operand. Elements can be atomic (numbers, operators, etc.), or other lists, which will be synthesized into atomic elements by the recursive pattern. By implementing in the language the basic operations described in \reqref[requirement]{SR-FC-02}, all of the goals for a simple language that supports any possible \gls{ISA} are fulfilled.
 
 
 \subsection{Interpreter}\label{subsec:interpreter-study}
-\reqref[Requirement]{SR-FC-06} states that the system must be able to execute the \gls{instruction} definition language, and \reqref[requirement]{SR-FC-07} states it should be able to do it \gls{instruction} by instruction. Therefore, the best approach is to create an \gls{interpreter} for our LISP-like language.
+\reqref[Requirement]{SR-FC-06} states that the system must be able to execute the \gls{instruction} definition language, and \reqref[requirement]{SR-FC-07} states it should be able to do it \gls{instruction} by instruction. Therefore, the best approach is to create an \gls{interpreter} for the LISP-like language.
 
 To implement an \gls{interpreter} for any language, there are two main steps involved: processing the input into an \gls{AST} (\textit{parsing}), and executing it with the help of the \gls{AST} (\textit{interpreting}) \parencite{mogensen2009basics}.
 
@@ -27,13 +27,13 @@ Nowadays, there are tools that, given a language definition as an input, generat
 Another approach is to build the \gls{interpreter} from scratch. Being a LISP-like language comes with the advantage of simplifying the \gls{interpreter} design. Make-A-Lisp \parencite{mal} is a guide for implementing a generic LISP \gls{interpreter}, and outlines the basic functionalities and architecture.
 
 
-\subsection{ISA definition format}\label{subsec:isa-format-study}
+\subsection{ISA Definition Format}\label{subsec:isa-format-study}
 \reqref[Requirement]{SR-NF-07} specifies that the format used to define and store the \gls{ISA} must be simple and easy to modify. The best approach is to use a text-based format, as they are human-readable and can be modified by any basic text editor, without the need for any specific tools. Furthermore, it allows us to encode with text  both the defined \glspl{assembly} and \gls{instruction} definition language, simplifying the system's implementation.
 
 The best approach is to use a structured data format. There are many formats, but the most widely used are those who store data in attribute-value pairs and arrays, as is the case of the \gls{json} \parencite{ISO21778} and the \gls{yaml} \parencite{yamlspec} formats. While both formats offer libraries for parsing and validating files in many programming languages, the \gls{json} format is a `friendlier' format for \gls{HTTP} due to the fact that it ignores whitespace, unlike \gls{yaml}. Using \gls{json} over \gls{yaml} offers many possibilities for the use of the system in other environments, such as \glspl{web service}.
 
 
-\subsection{Programming language}\label{subsec:language-study}
+\subsection{Programming Language}\label{subsec:language-study}
 As per \reqref[requirements]{SR-NF-01}, the \gls{programming language} must allow the system to be executed natively and on multiple platforms. Native execution has the advantage of producing more performant code, as there is no overhead derived from virtual machines or \glspl{interpreter}. Popular natively compiled languages include C \parencite{KernighanBrianW1988TCpl}, C++ \parencite{StroustrupBjarne2013TCpl}, Rust \parencite{KlabnikSteve2023TRpl}, and Go \parencite{DonovanAlan2015TGPL} \parencite{statista2023langstats}.
 
 Furthermore, \reqref[requirement]{SR-NF-02} states that the system shall also support multiple platforms, including browsers. Through the use of WebAssembly \parencite{HaasAndreas2017Btwu}, most programming languages can be compiled and executed `natively' in the browser, including all previously mentioned languages.
@@ -47,7 +47,7 @@ From the mentioned languages, C++ (specifically the current standard at the time
 
 
 
-\section{System architecture}\label{sec:architecture}
+\section{System Architecture}\label{sec:architecture}
 The system's architecture can be divided in four main elements:
 \begin{itemize}
   \item \textbf{Compiler:} Translates the \glsdisp{assembly}{assembly-like} programs into the \gls{interpreter}'s language, using the \gls{instruction} definitions.
@@ -154,7 +154,7 @@ A traceability matrix was generated (\tabref{traceability-comp-fc}) in order to 
 \FloatBarrier
 
 
-\subsection{Instruction definition language}\label{subsec:inst-lang-design}
+\subsection{Instruction Definition Language}\label{subsec:inst-lang-design}
 As stated in \subsecref{inst-lang-study}, the language used to define the instructions is a language from the LISP family. The developed language is LUISP-DA (\textit{assembLy analogoUs lISP DiAlect}).
 
 Being a LISP-like language, instructions are defined as LISP expressions, comprised of lists of symbols and/or other lists, delimited by parenthesis. Inner expressions are evaluated first, recursively. To simplify the language, there are no variables, macros, or functions, as they are not necessary for defining basic instructions.
@@ -294,7 +294,7 @@ For more information about the use of the language, see \appref{manual}.
 
 
 \subsection{Control Unit}\label{subsec:interpreter-design}
-The LUISP-DA \gls{interpreter} is implemented in the \reqref{Control Unit} component. As stated in \subsecref{interpreter-study}, the architecture of the \gls{interpreter} will be based on the Make-A-Lisp \parencite{mal} architecture. Nevertheless, as we only need to model a simple \glsdisp{assembly}{assembly-like language}, we'll use a subset of the original architecture, and modify it for our purposes.
+The LUISP-DA \gls{interpreter} is implemented in the \reqref{Control Unit} component. As stated in \subsecref{interpreter-study}, the architecture of the \gls{interpreter} will be based on the Make-A-Lisp \parencite{mal} architecture. Nevertheless, as it is only needed to model a simple \glsdisp{assembly}{assembly-like language}, a subset of the original architecture will be used, modified in order to fit the project's purposes.
 
 \figref{interpreter_architecture} shows an overview of the LUISP-DA interpreter. As stated in Subsection \ref{subsec:interpreter-study}, the interpretation is done in two stages:
 \begin{enumerate}
@@ -325,10 +325,10 @@ After \textit{read-inst} returns the \gls{AST} of the instruction, it is evaluat
 The first symbol of the \gls{AST} is passed to \textit{eval-token} to start the evaluation.
 
 
-\subsection{Program files}
+\subsection{Program Files}
 \reqref[Requirement]{SR-FC-08} states that the system must be able to load \glsdisp{assembly}{assembly-like} programs.
 
-\glsdisp{assembly}{Assembly} programs allow the user to load both \gls{text memory} and \gls{data memory} before the execution, by dividing the program in two segments: a \texttt{.data} segment and a \texttt{.text} segment. For our simple simulator, we'll allow the user to load data in the form of strings, \glspl{word}, and without type\footnote{For more information, see \subsecref{isa-design}.}. The simulator will also support the use of tags, references to instruction addresses, in order to simplify the \glsdisp{branch}{branching} syntax. Finally, there will be support for comments.
+\glsdisp{assembly}{Assembly} programs allow the user to load both \gls{text memory} and \gls{data memory} before the execution, by dividing the program in two segments: a \texttt{.data} segment and a \texttt{.text} segment. For the simulator, the user will be allowed to load data in the form of strings, \glspl{word}, and without type\footnote{For more information, see \subsecref{isa-design}.}. The simulator will also support the use of tags, references to instruction addresses, in order to simplify the \glsdisp{branch}{branching} syntax. Finally, there will be support for comments.
 
 \noindent
 For more information about the use of the program files, see \appref{manual}.
@@ -345,8 +345,8 @@ The compiler will go through the program file, line by line (ignoring empty line
 
 
 
-\subsection{ISA definition}\label{subsec:isa-design}
-As stated in Subsection \subsecref{isa-format-study}, the \gls{ISA} will be defined in a \gls{json} format, which will also serve as the configuration file for the simulator. For the configuration, we'll need to define several things:
+\subsection{ISA Definition}\label{subsec:isa-design}
+As stated in Subsection \subsecref{isa-format-study}, the \gls{ISA} will be defined in a \gls{json} format, which will also serve as the configuration file for the simulator. For the configuration, several things need to be defined:
 \begin{itemize}
   \item The name of the architecture.
   \item The start addresses of \gls{data memory} and \gls{text memory}, as well as the end address of the \gls{data memory}.

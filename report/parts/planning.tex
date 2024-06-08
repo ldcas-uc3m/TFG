@@ -1,5 +1,5 @@
-\chapter{Project plan}\label{chap:planning}
-This chapter presents an overview of the development and logistics of the project. We detail the planning of the project (\secref{planning}), analyze its budget and overall cost (\secref{budget}), and we finally discuss the socio-economic environment in which it was carried out.
+\chapter{Project Plan}\label{chap:planning}
+This chapter presents an overview of the development and logistics of the project. The planning of the project (\secref{planning}) is detailed, analyzing its budget and overall cost (\secref{budget}), and the socio-economic environment in which it was carried out is finally discussed.
 
 
 \section{Planning}\label{sec:planning}
@@ -14,7 +14,7 @@ Due to the characteristics of the design, the development process was divided in
   \item \textbf{\gls{CLI}}. The final iteration implements the \reqref{CLI} component, adding features such as the \gls{REPL environment} and the whole \gls{UI}.
 \end{enumerate}
 
-We chose to follow an iterative methodology, specifically Bohem's spiral model \parencite{BohemBSpiral}, in order to ensure that, before implementing a component, all components that it depends on are correctly implemented. It also simplifies the development life cycle and makes it more flexible, as it allows the developer to go back and modify previous elements, and encourages prototyping.
+An iterative methodology was chosen, specifically Bohem's spiral model \parencite{BohemBSpiral}, in order to ensure that, before implementing a component, all components that it depends on are correctly implemented. It also simplifies the development life cycle and makes it more flexible, as it allows the developer to go back and modify previous elements, and encourages prototyping.
 
 The life cycle development process of this model (\figref{spiral_model}) has four phases, which are repeated during the different iterations of the model. These phases are:
 \begin{enumerate}
@@ -27,8 +27,8 @@ The life cycle development process of this model (\figref{spiral_model}) has fou
 \svgfigure{spiral_model}{Spiral model life cycle}
 
 
-\subsection{Time estimation}\label{subsec:time-estimation}
-The time estimation of the project was designed with the use of a Gantt chart \parencite{clark1922gantt} (\figref{gantt}). This diagram shows all the performed tasks in each iteration of the life cycle, plus an extra documentation task in each iteration for the drafting of this thesis. We also added a final `Report' task to represent the time spent finishing this report.
+\subsection{Time Estimation}\label{subsec:time-estimation}
+The time estimation of the project was designed with the use of a Gantt chart \parencite{clark1922gantt} (\figref{gantt}). This diagram shows all the performed tasks in each iteration of the life cycle, plus an extra documentation task in each iteration for the drafting of this thesis. A final `Report' task was added to represent the time spent finishing this report.
 
 The project had a total duration of 9 months, averaging 35 hours per month (taking into account days off, holidays, sick days, and other drawbacks), around 10 hours per week. Therefore, the total time dedicated to this project is 315 hours.
 
@@ -135,7 +135,7 @@ This section details the project's budget, based on the time estimation and plan
 The different costs will be divided in two parts: direct costs (those associated with personnel and equipment), and indirect costs (those with an indirect influence to the project). These costs don't include taxes, which will be included in the costs summary on Subsection \ref{subsec:cost-summary}.
 
 
-\subsection{Direct costs}
+\subsection{Direct Costs}
 Direct costs are those that are directly related with the development of the project. These can be divided into two groups:
 \begin{itemize}
   \item \textbf{Personnel costs}: These vary in relation to the qualifications, experience, and geographical location of each member.
@@ -143,7 +143,7 @@ Direct costs are those that are directly related with the development of the pro
 \end{itemize}
 
 \noindent
-We can divide the personnel costs between four different roles:
+Personnel costs can be divided between four different roles:
 \begin{itemize}
   \item \textbf{Project manager}: Manages the project's schedule and provides feedback.
   \item \textbf{Analyst}: Analyzes the user's requirements, designs the architecture of the system, and writes documentation.
@@ -219,10 +219,10 @@ Equipment costs refer to those caused by equipment acquisition and usage. The ch
 \end{table}
 
 
-\subsection{Indirect costs}
+\subsection{Indirect Costs}
 Indirect costs are those that are present during the development process, but cannot be assigned directly to any product.
 
-For the energy consumption, we assume that the laptop's energy usage averages 80W, and the monitor and mouse average 20W, and that they were used during the whole development process, totaling 360h. Therefore, the total energy consumed is $100W \cdot 360 h = 3.600 Wh$. The internet plan includes a 600mb optic fiber connection, 31,80 €/month, which is shared between three people, two of them not included in the project, therefore the cost applicable to the project is a third of that.
+For the energy consumption, it is assumed that the laptop's energy usage averages 80W, and the monitor and mouse average 20W, and that they were used during the whole development process, totaling 360h. Therefore, the total energy consumed is $100W \cdot 360 h = 3.600 Wh$. The internet plan includes a 600mb optic fiber connection, 31,80 €/month, which is shared between three people, two of them not included in the project, therefore the cost applicable to the project is a third of that.
 
 
 \begin{table}[htb]
@@ -247,7 +247,7 @@ For the energy consumption, we assume that the laptop's energy usage averages 80
 \end{table}
 
 
-\subsection{Costs summary}\label{subsec:cost-summary}
+\subsection{Costs Summary}\label{subsec:cost-summary}
 \tabref{cost-summary} includes a summary of the costs of the whole project.
 
 \begin{table}[htb]
@@ -272,7 +272,7 @@ For the energy consumption, we assume that the laptop's energy usage averages 80
 Therefore, the total cost of the project is \textbf{12.161,84 € (TWELVE THOUSAND ONE HUNDRED SIXTY-ONE EURO AND EIGHTY-FOUR CENTS)}.
 
 
-\subsection{Project offer proposal}\label{subsec:offer-proposal}
+\subsection{Project Offer Proposal}\label{subsec:offer-proposal}
 \tabref{offer-proposal} details an offer proposal for the project. This proposal includes the estimated risks, expected benefits, and taxes. After applying all these concepts, the final cost of this project, in case it is presented to a third-party client, is \textbf{20.307,84 € (TWENTY THOUSAND THREE HUNDRED SEVEN EURO AND EIGHTY-FOUR )}.
 
 \begin{table}[htb]
@@ -299,15 +299,15 @@ Therefore, the total cost of the project is \textbf{12.161,84 € (TWELVE THOUSA
 
 
 
-\section{Socio-economic environment}\label{sec:environment}
+\section{Socio-Economic Environment}\label{sec:environment}
 % This section discusses the environment in which this project takes place: how it currently is, and how this project impacts it.
 
-% \subsection{Current environment}
+% \subsection{Current Environment}
 In 2010, RISC-V appears as an open, modular \gls{ISA} \parencite{riscvOrigin}. This comes at a time when the commercial war between the USA and China has just started, affecting the exportation of microchips. This forces countries and corporations to start investing in manufacturing their own chips, and an open standard such as the mentioned RISC-V can act as a base for designing and implementing their own \glspl{ISA}.
 
 Furthermore, recent technological advances in \gls{cloud computing}, \gls{IoT}, and \gls{AI} greatly benefit from hardware acceleration, which pushes for the design of new, more specific \glspl{ISA} that need to be tested and validated.
 
 The recent advancements (and overall push) in computing has also put a great focus in cybersecurity, as our increasing dependence on computing resources creates greater security risks. Many of the vulnerabilities and exploits occur at the \glsdisp{assembly}{assembly} level which, together with the constant search for efficiency, creates a high demand for people with deep knowledge of \gls{assembly} programming.
 
-% \subsection{Socio-economic impact}
+% \subsection{Socio-Economic Impact}
 As discussed in \chapref{state-of-the-art}, there are not many didactic and generic \gls{assembly} simulators that can be used to introduce people to \gls{assembly} programming and \glspl{ISA} design. Our proposal aims to foment these areas of computer science by providing a simple and easy to understand tool for anyone to start exploring different instruction sets, while also aiding people with the sometimes difficult process of learning \gls{assembly} programming.
