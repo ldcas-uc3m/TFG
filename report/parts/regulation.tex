@@ -1,17 +1,22 @@
 \chapter{Regulatory Framework}\label{chap:regulation}
-
-\section{Applicable Legislation}
-% privacy, security, ethical
+This chapter details the legislation (\secref{legislation}) under which this project is regulated, the different standards used (\secref{standards}), and the particular licenses that apply to the software and tools used (\secref{licenses}).
 
 
-
-
-\section{Technical Standards}
-% standards
+\section{Applicable Legislation}\label{sec:legislation}
+As the software is executed locally, and it does not transmit or use private data from the users, no data protection laws apply. The software is also used for educational purposes, meaning there are no risks involved in the execution of the software and no regulatory compliance is required.
 
 
 
+\section{Technical Standards}\label{sec:standards}
+The software makes use of two technical standards:
+\begin{itemize}
+  \item ISO/IEC 14882:2020(E) \parencite{ISOcpp20}, the standard for the C++20 programming language, which is the one the software is implemented in.
+  \item ISO/IEC 21778:2017 \parencite{ISO21778}, the standard for the \gls{json} data format, which is used to store the \gls{ISA} definition files.
+\end{itemize}
 
-\section{Licenses}
-% licenses (mine and derived)
 
+
+\section{Licenses}\label{sec:licenses}
+The software uses and redistributes one third-party library, \textit{JSON for Modern C++} \parencite{nlohmann/json}. This library is licensed under the MIT License \parencite{MITLicense}, which allows permission to use, copy, modify, or redistribute source code without restrictions or limitations.
+
+The software itself is licensed under the \gls{gplv3} \parencite{gplv3}, in order to allow free use and modification of the source code, while ensuring it will always remain that way. Furthermore, the software is publicly available at \myrepo.
