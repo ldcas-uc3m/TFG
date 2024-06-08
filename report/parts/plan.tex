@@ -1,5 +1,5 @@
 \chapter{Project Plan}\label{chap:planning}
-This chapter presents an overview of the development and logistics of the project. The planning of the project (\secref{planning}) is detailed, analyzing its budget and overall cost (\secref{budget}), and the socio-economic environment in which it was carried out is finally discussed.
+This chapter presents an overview of the development and logistics of the project. The planning of the project (\secref{planning}) is detailed, analyzing its budget and overall cost (\secref{budget}). Furthermore, it analyzes the different legislation and regulations that may apply to the project (\secref{regulation}), and discusses the socio-economic environment in which it was carried out. (\secref{environment}).
 
 
 \section{Planning}\label{sec:planning}
@@ -175,7 +175,7 @@ The tutor played the role of project manager, while the student played the rest 
     }
 \end{table}
 
-Equipment costs refer to those caused by equipment acquisition and usage. The chargeable cost, $C$, for each item is calculated using Equation \eqref{eq:chargeable-cost}, where:
+Equipment costs refer to those caused by equipment acquisition and usage. For software, all the software tools used for this project were \gls{FOSS}. The chargeable cost, $C$, for each item is calculated using Equation \eqref{eq:chargeable-cost}, where:
 \begin{itemize}
   \item $c$ is the cost of the item.
   \item $d$ is the time the item has been used.
@@ -207,8 +207,7 @@ Equipment costs refer to those caused by equipment acquisition and usage. The ch
           Mouse       &  79,95 € & 50 \% & 9 months &  36 months &   9,99 € \\
           Adapter     &  39,90 € & 70 \% & 9 months &  48 months &   5,24 € \\
           Video cable &   5,75 € & 50 \% & 9 months &  48 months &   0,54 € \\
-          Software\footnote{All the software tools used for this project were \gls{FOSS}.}
-                      &   0,00 € & 40 \% & 9 months & 120 months &   0,00 € \\
+          Software    &   0,00 € & 40 \% & 9 months & 120 months &   0,00 € \\
           \midrule
           \textbf{Total}
                       & 899,59 € &       &          &           &\textbf{139,44 €} \\
@@ -273,7 +272,7 @@ Therefore, the total cost of the project is \textbf{12.161,84 € (TWELVE THOUSA
 
 
 \subsection{Project Offer Proposal}\label{subsec:offer-proposal}
-\tabref{offer-proposal} details an offer proposal for the project. This proposal includes the estimated risks, expected benefits, and taxes. After applying all these concepts, the final cost of this project, in case it is presented to a third-party client, is \textbf{20.307,84 € (TWENTY THOUSAND THREE HUNDRED SEVEN EURO AND EIGHTY-FOUR )}.
+\tabref{offer-proposal} details an offer proposal for the project. This proposal includes the estimated risks, expected benefits, and taxes. After applying all these concepts, the final cost of this project, in case it is presented to a third-party client, is \textbf{20.307,84 € (TWENTY THOUSAND THREE HUNDRED SEVEN EURO AND EIGHTY-FOUR CENTS)}.
 
 \begin{table}[htb]
   \ttabbox[\FBwidth]
@@ -299,15 +298,33 @@ Therefore, the total cost of the project is \textbf{12.161,84 € (TWELVE THOUSA
 
 
 
-\section{Socio-Economic Environment}\label{sec:environment}
-% This section discusses the environment in which this project takes place: how it currently is, and how this project impacts it.
+\section{Regulatory Framework}\label{sec:regulation}
+This section details and discusses the different regulation that may apply to the project.
 
-% \subsection{Current Environment}
+\subsection{Applicable Legislation}\label{subsec:legislation}
+As the software is executed locally, and it does not transmit or use private data from the users, no data protection laws apply. The software is also used for educational purposes, meaning there are no risks involved in the execution of the software and no regulatory compliance is required.
+
+
+\subsection{Technical Standards}\label{subsec:standards}
+The software makes use of two technical standards:
+\begin{itemize}
+  \item ISO/IEC 14882:2020(E) \parencite{ISOcpp20}, the standard for the C++20 programming language, which is the one the software is implemented in.
+  \item ISO/IEC 21778:2017 \parencite{ISO21778}, the standard for the \gls{json} data format, which is used to store the \gls{ISA} definition files.
+\end{itemize}
+
+
+\subsection{Licenses}\label{subsec:licenses}
+The software uses and redistributes one third-party library, \textit{JSON for Modern C++} \parencite{nlohmann/json}. This library is licensed under the MIT License \parencite{MITLicense}, which allows permission to use, copy, modify, or redistribute source code without restrictions or limitations.
+
+The software itself is licensed under the \gls{gplv3} \parencite{gplv3}, in order to allow free use and modification of the source code, while ensuring it will always remain that way. Furthermore, the software is publicly available at \myrepo.
+
+
+
+\section{Socio-Economic Environment}\label{sec:environment}
 In 2010, RISC-V appears as an open, modular \gls{ISA} \parencite{riscvOrigin}. This comes at a time when the commercial war between the USA and China has just started, affecting the exportation of microchips. This forces countries and corporations to start investing in manufacturing their own chips, and an open standard such as the mentioned RISC-V can act as a base for designing and implementing their own \glspl{ISA}.
 
 Furthermore, recent technological advances in \gls{cloud computing}, \gls{IoT}, and \gls{AI} greatly benefit from hardware acceleration, which pushes for the design of new, more specific \glspl{ISA} that need to be tested and validated.
 
 The recent advancements (and overall push) in computing has also put a great focus in cybersecurity, as our increasing dependence on computing resources creates greater security risks. Many of the vulnerabilities and exploits occur at the \glsdisp{assembly}{assembly} level which, together with the constant search for efficiency, creates a high demand for people with deep knowledge of \gls{assembly} programming.
 
-% \subsection{Socio-Economic Impact}
 As discussed in \chapref{state-of-the-art}, there are not many didactic and generic \gls{assembly} simulators that can be used to introduce people to \gls{assembly} programming and \glspl{ISA} design. Our proposal aims to foment these areas of computer science by providing a simple and easy to understand tool for anyone to start exploring different instruction sets, while also aiding people with the sometimes difficult process of learning \gls{assembly} programming.
