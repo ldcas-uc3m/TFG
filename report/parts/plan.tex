@@ -20,7 +20,7 @@ The life cycle development process of this model (\figref{spiral_model}) has fou
 \begin{enumerate}
   \item \textbf{Planning}: The user requirements are gathered, and the iteration's objectives are determined.
   \item \textbf{Analysis}: An analysis of the user requirements is performed in order to identify potential risks, and the test cases are designed.
-  \item \textbf{Development and testing}: The software is implemented, and tests are performed.
+  \item \textbf{Development and testing}: The architecture is designed, implemented, and tests are performed.
   \item \textbf{Evaluation}: The software is evaluated with the client, in order to provide feedback. In this specific case, the tutor acted as the client. This is the critical task of the life cycle, as the iteration isn't finished until the software is approved.
 \end{enumerate}
 
@@ -30,7 +30,7 @@ The life cycle development process of this model (\figref{spiral_model}) has fou
 \subsection{Time Estimation}\label{subsec:time-estimation}
 The time estimation of the project was designed with the use of a Gantt chart \parencite{clark1922gantt} (\figref{gantt}). This diagram shows all the performed tasks in each iteration of the life cycle, plus an extra documentation task in each iteration for the drafting of this thesis. A final `Report' task was added to represent the time spent finishing this report.
 
-The project had a total duration of 9 months, averaging 35 hours per month (taking into account days off, holidays, sick days, and other drawbacks), around 10 hours per week. Therefore, the total time dedicated to this project is 315 hours.
+The project had a total duration of 9 months, averaging 35 hours per month (taking into account days off, holidays, sick days, and other drawbacks), around 10 hours per week. Therefore, the total pero time dedicated to this project, excluding the tutor's work, is 315 hours.
 
 
 \begin{landscape}
@@ -72,17 +72,17 @@ The project had a total duration of 9 months, averaging 35 hours per month (taki
           \ganttlinkedbar{Evaluation}{2023-12-10}{2023-12-14}\\
           \ganttlinkedbar{Documentation}{2023-12-14}{2023-12-23}\\
 
-          \ganttgroup{III. Compiler}{2024-01-07}{2024-03-22} \\
+          \ganttgroup{III. Compiler}{2024-01-07}{2024-04-09} \\
           \ganttbar{Planning}{2024-01-07}{2024-01-09}\\
           \ganttlinkedbar{Analysis}{2024-01-10}{2024-01-12}\\
-          \ganttlinkedbar{Development and testing}{2024-01-13}{2024-02-25}\\
-          \ganttlinkedbar{Evaluation}{2024-02-26}{2024-02-28}\\
-          \ganttlinkedbar{Documentation}{2024-02-29}{2024-03-22}\\
+          \ganttlinkedbar{Development and testing}{2024-01-14}{2024-03-28}\\
+          \ganttlinkedbar{Evaluation}{2024-03-29}{2024-04-01}\\
+          \ganttlinkedbar{Documentation}{2024-04-02}{2024-04-09}\\
 
-          \ganttgroup{IV. \gls{CLI}}{2024-04-02}{2024-05-26} \\
-          \ganttbar{Planning}{2024-04-02}{2024-04-04}\\
-          \ganttlinkedbar{Analysis}{2024-04-05}{2024-04-07}\\
-          \ganttlinkedbar{Development and testing}{2024-04-08}{2024-05-01}\\
+          \ganttgroup{IV. \gls{CLI}}{2024-04-10}{2024-05-26} \\
+          \ganttbar{Planning}{2024-04-10}{2024-04-12}\\
+          \ganttlinkedbar{Analysis}{2024-04-13}{2024-04-16}\\
+          \ganttlinkedbar{Development and testing}{2024-04-17}{2024-05-01}\\
           \ganttlinkedbar{Evaluation}{2024-05-02}{2024-05-05}\\
           \ganttlinkedbar{Documentation}{2024-05-06}{2024-05-26}\\
 
@@ -123,7 +123,7 @@ This section details the project's budget, based on the time estimation and plan
         Start date          & 13th of September of 2023 \\ \midrule
         End date            & 13th of June of 2024 \\ \midrule
         Duration            & 9 months \\ \midrule
-        Total budget        & 12.161,84 € \\
+        Total budget        & 12.161,84 \euro \\
         \bottomrule
       \end{tabular}
     }
@@ -164,12 +164,12 @@ The tutor played the role of project manager, while the student played the rest 
         \toprule
         \textbf{Role} & \textbf{Hours} & \textbf{Cost per hour} & \textbf{Total} \\
         \midrule
-        Project Manager &  40 h & 65,00 €/h & 2.600,00 € \\
-        Analyst         &  80 h & 35,00 €/h & 2.800,00 € \\
-        Programmer      & 175 h & 30,00 €/h & 5.250,00 € \\
-        Tester          &  60 h & 20,00 €/h & 1.200,00 € \\
+        Project Manager &  40 h & 65,00 \euro/h & 2.600,00 \euro \\
+        Analyst         &  80 h & 35,00 \euro/h & 2.800,00 \euro \\
+        Programmer      & 175 h & 30,00 \euro/h & 5.250,00 \euro \\
+        Tester          &  60 h & 20,00 \euro/h & 1.200,00 \euro \\
         \midrule
-        \textbf{Total}  & 385 h &           & \textbf{11.850,00 €} \\
+        \textbf{Total}  & 385 h &           & \textbf{11.850,00 \euro} \\
         \bottomrule
       \end{tabular}
     }
@@ -202,15 +202,15 @@ Equipment costs refer to those caused by equipment acquisition and usage. For so
           \toprule
           \textbf{Item} & \textbf{Cost ($c$)} & \textbf{Usage ($u$)} & \textbf{Dedication ($d$)} & \textbf{Depreciation ($D$)} & \textbf{Chargeable cost ($C$)}   \\
           \midrule
-          Laptop      & 649,00 € & 60 \% & 9 months &  72 months &  48,68 € \\
-          Monitor     & 124,99 € & 40 \% & 9 months &  60 months &  74,99 € \\
-          Mouse       &  79,95 € & 50 \% & 9 months &  36 months &   9,99 € \\
-          Adapter     &  39,90 € & 70 \% & 9 months &  48 months &   5,24 € \\
-          Video cable &   5,75 € & 50 \% & 9 months &  48 months &   0,54 € \\
-          Software    &   0,00 € & 40 \% & 9 months & 120 months &   0,00 € \\
+          Laptop      & 649,00 \euro & 60 \% & 9 months &  72 months &  48,68 \euro \\
+          Monitor     & 124,99 \euro & 40 \% & 9 months &  60 months &  74,99 \euro \\
+          Mouse       &  79,95 \euro & 50 \% & 9 months &  36 months &   9,99 \euro \\
+          Adapter     &  39,90 \euro & 70 \% & 9 months &  48 months &   5,24 \euro \\
+          Video cable &   5,75 \euro & 50 \% & 9 months &  48 months &   0,54 \euro \\
+          Software    &   0,00 \euro & 40 \% & 9 months & 120 months &   0,00 \euro \\
           \midrule
           \textbf{Total}
-                      & 899,59 € &       &          &           &\textbf{139,44 €} \\
+                      & 899,59 \euro &       &          &           &\textbf{139,44 \euro} \\
           \bottomrule
         \end{tabular}
       \end{adjustbox}
@@ -221,7 +221,7 @@ Equipment costs refer to those caused by equipment acquisition and usage. For so
 \subsection{Indirect Costs}
 Indirect costs are those that are present during the development process, but cannot be assigned directly to any product.
 
-For the energy consumption, it is assumed that the laptop's energy usage averages 80W, and the monitor and mouse average 20W, and that they were used during the whole development process, totaling 360h. Therefore, the total energy consumed is $100W \cdot 360 h = 3.600 Wh$. The internet plan includes a 600mb optic fiber connection, 31,80 €/month, which is shared between three people, two of them not included in the project, therefore the cost applicable to the project is a third of that.
+For the energy consumption, it is assumed that the laptop's energy usage averages 80W, and the monitor and mouse average 20W, and that they were used during the whole development process, totaling 360h. Therefore, the total energy consumed is $100W \cdot 360 h = 3.600 Wh$. The internet plan includes a 600mb optic fiber connection, 31,80 \euro/month, which is shared between three people, two of them not included in the project, therefore the cost applicable to the project is a third of that.
 
 
 \begin{table}[htb]
@@ -235,11 +235,11 @@ For the energy consumption, it is assumed that the laptop's energy usage average
         \toprule
         \textbf{Resource} & \textbf{Unitary cost} & \textbf{Units} & \textbf{Total} \\
         \midrule
-        Electricity    &     0.14 €/kWh & 3.600 Wh &  0,50 € \\
-        Internet       &  10,60 €/month & 9 months & 95,40 € \\
-        Transportation &      8 €/month & 9 months & 72,00 € \\
+        Electricity    &     0.14 \euro/kWh & 3.600 Wh &  0,50 \euro \\
+        Internet       &  10,60 \euro/month & 9 months & 95,40 \euro \\
+        Transportation &      8 \euro/month & 9 months & 72,00 \euro \\
         \midrule
-        \textbf{Total} & & & \textbf{172,40 €} \\
+        \textbf{Total} & & & \textbf{172,40 \euro} \\
         \bottomrule
       \end{tabular}
     }
@@ -258,21 +258,21 @@ For the energy consumption, it is assumed that the laptop's energy usage average
     {
       \begin{tabular}{p{5cm}r}
         \toprule
-        Personnel          & 11.850,00 € \\
-        Equipment          &    139,44 € \\
-        Indirect costs     &    172,40 € \\
+        Personnel          & 11.850,00 \euro \\
+        Equipment          &    139,44 \euro \\
+        Indirect costs     &    172,40 \euro \\
         \midrule
-        \textbf{Total}     & \textbf{12.161,84 €} \\
+        \textbf{Total}     & \textbf{12.161,84 \euro} \\
         \bottomrule
       \end{tabular}
     }
 \end{table}
 
-Therefore, the total cost of the project is \textbf{12.161,84 € (TWELVE THOUSAND ONE HUNDRED SIXTY-ONE EURO AND EIGHTY-FOUR CENTS)}.
+Therefore, the total cost of the project is \textbf{12.161,84 \euro~(TWELVE THOUSAND ONE HUNDRED SIXTY-ONE EURO AND EIGHTY-FOUR CENTS)}.
 
 
 \subsection{Project Offer Proposal}\label{subsec:offer-proposal}
-\tabref{offer-proposal} details an offer proposal for the project. This proposal includes the estimated risks, expected benefits, and taxes. After applying all these concepts, the final cost of this project, in case it is presented to a third-party client, is \textbf{20.307,84 € (TWENTY THOUSAND THREE HUNDRED SEVEN EURO AND EIGHTY-FOUR CENTS)}.
+\tabref{offer-proposal} details an offer proposal for the project. This proposal includes the estimated risks, expected benefits, and taxes. After applying all these concepts, the final cost of this project, in case it is presented to a third-party client, is \textbf{20.307,84 \euro~(TWENTY THOUSAND THREE HUNDRED SEVEN EURO AND EIGHTY-FOUR CENTS)}.
 
 \begin{table}[htb]
   \ttabbox[\FBwidth]
@@ -285,12 +285,12 @@ Therefore, the total cost of the project is \textbf{12.161,84 € (TWELVE THOUSA
         \toprule
         \textbf{Concept} & \textbf{Increment} & \textbf{Partial cost} & \textbf{Aggregated cost} \\
         \midrule
-        Project cost   & --    & 12.161,84 € & 12.161,84 € \\
-        Risk           & 20 \% &  2.432,37 € & 14.594,21 € \\
-        Benefits       & 15 \% &  2.189,13 € & 16.783,34 € \\
-        Tax            & 21 \% &  3.524,50 € & 20.307,84 € \\
+        Project cost   & --    & 12.161,84 \euro & 12.161,84 \euro \\
+        Risk           & 20 \% &  2.432,37 \euro & 14.594,21 \euro \\
+        Benefits       & 15 \% &  2.189,13 \euro & 16.783,34 \euro \\
+        Tax            & 21 \% &  3.524,50 \euro & 20.307,84 \euro \\
         \midrule
-        \textbf{Total} & 67 \% & & \textbf{20.307,84 €} \\
+        \textbf{Total} & 67 \% & & \textbf{20.307,84 \euro} \\
         \bottomrule
       \end{tabular}
     }
