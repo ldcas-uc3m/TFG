@@ -11,18 +11,18 @@ These simulators typically offer an interface that allows the user to execute th
 
 
 \subsection{Specific Simulators}\label{subsec:specific-assembly-simulators}
-The vast majority of simulators that can be found today focus on emulating a specific \gls{ISA}, which can range from simple 8-bit microprocessors like the Intel 8080 \parencite{i8080emulator} to architectures that are used today, like \gls{ARM} Thumb \parencite{QtARMSim}.
+The vast majority of simulators that can be found today focus on emulating a specific \gls{ISA}, which can range from simple 8-bit microprocessors like the Intel 8080 \parencite{i8080emulator} to architectures that are used today, like ARM Thumb \parencite{QtARMSim}.
 
 \noindent
 Here, two examples are provided: \hyperref[subsubsec:kite]{Kite} and \hyperref[subsubsec:armlite]{ARMLite}.
 
 
 \subsubsection*{Kite}\label{subsubsec:kite}
-Kite \parencite{song_kite2019} is a simulator that models a five-stage \gls{pipeline} \gls{RISC-V} CPU, based on the model described in \textit{Computer organization and design: the hardware/software interface (RISC-V edition)} \parencite{PattersonDavidA.2018Coad}, by D. Patterson and J. Hennessy, and implemented in C/C++. It was developed in 2019 in order to provide students of Yonsei University (Seoul, Korea) with an easy-to use simulator to accompany follow its Computer Architecture course.
+Kite \parencite{song_kite2019} is a simulator that models a five-stage \gls{pipeline} RISC-V CPU, based on the model described in \textit{Computer organization and design: the hardware/software interface (RISC-V edition)} \parencite{PattersonDavidA.2018Coad}, by D. Patterson and J. Hennessy, and implemented in C/C++. It was developed in 2019 in order to provide students of Yonsei University (Seoul, Korea) with an easy-to use simulator to accompany follow its Computer Architecture course.
 
 It incorporates advanced features derived from a \gls{pipeline} architecture, such as \gls{instruction dependency} detection and \gls{pipeline stalls}, among others. These `under the hood' features offer a better understanding of the underlying concepts of computer architecture.
 
-The simulator consists of an executable with a \gls{CLI} that takes three input files: the program's code, the register's state, and the data \gls{memory}'s state. It loads the state of registers and data \gls{memory}, executes the program's code and saves the state to the specified files, after the execution, printing some statistics (\figref{kite}). It also implements a \gls{debug} mode that prints the state of each instruction on the \gls{pipeline}, each \gls{clock cycle}.
+The simulator consists of an executable with a \gls{CLI} that takes three input files: the program's code, the register's state, and the data \gls{memory}'s state. It loads the state of registers and data \gls{memory}, executes the program's code and saves the state to the specified files, after the execution, printing some statistics (\figref{kite}). It also implements a \glsdisp{debugging}{debug} mode that prints the state of each instruction on the \gls{pipeline}, each \gls{clock cycle}.
 
 \begin{figure}[htb]
   \ffigbox[\FBwidth]
@@ -37,7 +37,7 @@ Its source code can be found in the Yonsei University Computer Architecture and 
 
 
 \subsection*{ARMLite}\label{subsubsec:armlite}
-ARMLite \parencite{ARMLite} is a web-based simulator for a 32-bit `\glsdisp{ARM}{ARM-like}' processor. It includes a basic set of instructions described in \textit{Assembly Language Programming} \parencite{PawsonRichard.2020Ass}, by R. Pawson. This simulator was developed for educational purposes, but specifically to target AQA \parencite{AQA}'s Assembly language instruction set for its A-level computer syllabus \parencite{AQAInstructionSet}.
+ARMLite \parencite{ARMLite} is a web-based simulator for a 32-bit `ARM-like' processor. It includes a basic set of instructions described in \textit{Assembly Language Programming} \parencite{PawsonRichard.2020Ass}, by R. Pawson. This simulator was developed for educational purposes, but specifically to target AQA \parencite{AQA}'s Assembly language instruction set for its A-level computer syllabus \parencite{AQAInstructionSet}.
 
 The simulator offers a \gls{GUI} (\figref{armlite}) that shows the current state of the \glspl{register} and the data \gls{memory}, as well as the current instruction and the status bits. It also adds \gls{I/O} support (a text box and a display), and options to start, stop, pause, resume, and slow or speed up execution, as well as step-by-step execution. It allows for users to load, save, and edit their programs, as well as a box to output system information (errors, last action performed, etc.).
 

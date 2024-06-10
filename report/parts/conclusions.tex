@@ -38,7 +38,7 @@ As mentioned before, this document was created and written in \LaTeX~\parencite{
 
 The class template, along with a template for the organization of the whole report, and documentation, was made publicly available at \url{https://github.com/ldcas-uc3m/thesis-template}, in order to provide a better and easier to use bachelor thesis template for future engineering students.
 
-The source code for this document also makes use of a fork (modified version) of Javier López Gómez's SRS package \parencite{SRSpackage}. This package automates the process of generating tables for software engineering tasks, such as requirements, use cases, traceability matrices, etc. This fork changes the style of the generated tables and adds several features such as support for the English language, generation of template tables, automatic captions, and hyperlinks on traceability matrices. The source code for the fork is also publicly available at \url{https://github.com/ldcas-uc3m/srs-latex}, in order to aid computer science students to perform these tasks in \LaTeX.
+The source code for this document also makes use of a fork (modified version) of Javier López Gómez's SRS package \parencite{SRSpackage}. This package automates the process of generating tables for \gls{software engineering} tasks, such as requirements, use cases, traceability matrices, etc. This fork changes the style of the generated tables and adds several features such as support for the English language, generation of template tables, automatic captions, and hyperlinks on traceability matrices. The source code for the fork is also publicly available at \url{https://github.com/ldcas-uc3m/srs-latex}, in order to aid computer science students to perform these tasks in \LaTeX.
 
 
 
@@ -46,9 +46,10 @@ The source code for this document also makes use of a fork (modified version) of
 This project provided a basic simulator, but there are several lines of work that could be explored, in order to improve the system:
 \begin{itemize}
   \item As mentioned in \subsecref{language-study}, C++ allows to compile the source code to WebAssembly \parencite{HaasAndreas2017Btwu}. Further research in this topic could allow the simulator to be executed in browsers, making it even more accessible.
+  \item The simulator could also offer support for more types of operations: floating point, bitwise, etc.
   \item Support for even more \gls{assembly} features could be added, such as non-aligned memory, multiple names for the same registers, and inline comments.
   \item Many other simulators implement ease-of-use features, such as breakpoints, and save states. These features and others, such as not requiring to reload the whole simulator to change the \gls{ISA}, or more formatting options for the display, would be appreciated by the users.
-  \item The base system is robust enough for it to be built upon, specially as it's implemented in C++. It currently uses a \gls{CLI}, but it could also use a \gls{GUI} such as Qt \parencite{QtFramework}. It could also be converted into a Web Service, executing on a server instead of on the client. The system could also be converted into a Python extension module \parencite{pythonExtension}, opening even more possibilities.
+  \item The base system is robust enough for it to be built upon, specially as it's implemented in C++. It currently uses a \gls{CLI}, but it could also use a \gls{GUI} such as Qt \parencite{QtFramework}. It could also be converted into a \gls{web service}, executing on a server instead of on the client. The system could also be converted into a Python extension module \parencite{pythonExtension}, opening even more possibilities.
 \end{itemize}
 
 \noindent
