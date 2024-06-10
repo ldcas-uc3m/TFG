@@ -19,7 +19,7 @@ All secondary objectives were also fulfilled:
 \end{itemize}
 
 % process conclusions
-One of the main obstacles encountered while developing this project, as shown on the Gantt diagram (\figref{gantt}), was the design and implementation of the compiler (LUISP-DA interpreter). As stated in \subsecref{subsec:interpreter-study}, several design options were considered and explored, until reaching the final design. This design also took considerable time, as it required a good understanding of the programming language, C++20, in order to implement. Greater knowledge and experience in the field of compilers and C++20 would have decreased greatly development time, and may have resulted in an even better end product.
+One of the main obstacles encountered while developing this project, as shown on the Gantt diagram (\figref{gantt}), was the design and implementation of the compiler (LUISP-DA interpreter). As stated in \subsecref{interpreter-study}, several design options were considered and explored, until reaching the final design. This design also took considerable time, as it required a good understanding of the programming language, C++20, in order to implement. Greater knowledge and experience in the field of compilers and C++20 would have decreased greatly development time, and may have resulted in an even better end product.
 
 
 
@@ -43,3 +43,17 @@ The source code for this document also makes use of a fork (modified version) of
 
 
 \section{Future Work}\label{sec:future-work}
+This project provided a basic simulator, but there are several lines of work that could be explored, in order to improve the system:
+\begin{itemize}
+  \item As mentioned in \subsecref{language-study}, C++ allows to compile the source code to WebAssembly \parencite{HaasAndreas2017Btwu}. Further research in this topic could allow the simulator to be executed in browsers, making it even more accessible.
+  \item Support for even more \gls{assembly} features could be added, such as non-aligned memory, multiple names for the same registers, and inline comments.
+  \item The base system is robust enough for it to be built upon, specially as it's implemented in C++. It currently uses a \gls{CLI}, but it could also use a \gls{GUI} such as Qt \parencite{QtFramework}. It could also be converted into a Web Service, executing on a server instead of on the client. The system could also be converted into a Python extension module \parencite{pythonExtension}, opening even more possibilities.
+\end{itemize}
+
+\noindent
+Some aspects of the implementation could also be improved:
+\begin{itemize}
+  \item Currently, the LUISP-DA interpreter stores all of its data (tokens) in \texttt{std::string}, due to the fact that a token can hold either strings, integers, or boolean values. This forces static castings (from and to string) for any operation, which creates a great overhead. One possible solution is the use of \texttt{std::variant} \parencite{stdVariant}, a data structure that can hold many types.
+  \item Instead of C-style libraries, the implementation could make use of C++20 modules \parencite{cpp20modules}\footnote{At the time of writing, this feature is not fully implemented in any of the C++ compilers.}.
+  \item The C++23 ISO standard is in the approval phase, and the system could benefit from some of the new features the standard provides.
+\end{itemize}
