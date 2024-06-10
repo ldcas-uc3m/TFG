@@ -328,7 +328,7 @@ The first symbol of the \gls{AST} is passed to \textit{eval-token} to start the 
 \subsection{Program Files}
 \reqref[Requirement]{SR-FC-08} states that the system must be able to load \glsdisp{assembly}{assembly-like} programs.
 
-\glsdisp{assembly}{Assembly} programs allow the user to load both \gls{text memory} and \gls{data memory} before the execution, by dividing the program in two segments: a \texttt{.data} segment and a \texttt{.text} segment. For the simulator, the user will be allowed to load data in the form of strings, \glspl{word}, and without type\footnote{For more information, see \subsecref{isa-design}.}. The simulator will also support the use of tags, references to instruction addresses, in order to simplify the \glsdisp{branch}{branching} syntax. Finally, there will be support for comments.
+\glsdisp{assembly}{Assembly} programs allow the user to load both \gls{text memory} and \gls{data memory} before the execution, by dividing the program in two segments: a \texttt{.data} segment and a \texttt{.text} segment. For the simulator, the user will be allowed to load data in the form of strings or \glspl{word}\footnote{For more information, see \subsecref{isa-design}.}. The simulator will also support the use of tags, references to instruction addresses, in order to simplify the \glsdisp{branch}{branching} syntax. Finally, there will be support for comments.
 
 \noindent
 For more information about the use of the program files, see \appref{manual}.

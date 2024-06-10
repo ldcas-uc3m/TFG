@@ -47,6 +47,7 @@ This project provided a basic simulator, but there are several lines of work tha
 \begin{itemize}
   \item As mentioned in \subsecref{language-study}, C++ allows to compile the source code to WebAssembly \parencite{HaasAndreas2017Btwu}. Further research in this topic could allow the simulator to be executed in browsers, making it even more accessible.
   \item Support for even more \gls{assembly} features could be added, such as non-aligned memory, multiple names for the same registers, and inline comments.
+  \item Many other simulators implement ease-of-use features, such as breakpoints, and save states. These features and others, such as not requiring to reload the whole simulator to change the \gls{ISA}, or more formatting options for the display, would be appreciated by the users.
   \item The base system is robust enough for it to be built upon, specially as it's implemented in C++. It currently uses a \gls{CLI}, but it could also use a \gls{GUI} such as Qt \parencite{QtFramework}. It could also be converted into a Web Service, executing on a server instead of on the client. The system could also be converted into a Python extension module \parencite{pythonExtension}, opening even more possibilities.
 \end{itemize}
 

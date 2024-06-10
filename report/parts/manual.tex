@@ -1,8 +1,50 @@
 \chapter{User manual}\label{app:manual}
+This annex presents a user manual for the developed simulator. The simulator allows for the definition of different computer architectures, with assembly-like instruction sets, and executing assembly-like programs using those instruction sets.
+
+
+\section*{Instalation and execution}
+\begin{enumerate}
+  \item Install CMake\footurl{https://cmake.org/} 3.22, Ninja-build\footurl{https://ninja-build.org/} 1.11.1 and GCC\footurl{https://gcc.gnu.org/} 11.4, or compatible versions.
+  \item Download and decompress the source code from the repository\footnote{\myrepo}.
+  \item Move to the \texttt{build} directory and build and compile the source code\footnote{You will need an Internet connection for CMake to download the dependencies.}:
+  \begin{tcolorbox}[bottom=-8pt]
+    \begin{verbatim}
+cd build/
+cmake -G Ninja ..
+cmake --build .
+    \end{verbatim}
+  \end{tcolorbox}
+  \item Execute the simulator (which can be found in \texttt{build/src/}) with an input \gls{ISA} file. E.g.:
+  \begin{tcolorbox}[bottom=-8pt]
+    \begin{verbatim}
+./src/tfg --isa=../architectures/RISC-V.json
+    \end{verbatim}
+  \end{tcolorbox}
+\end{enumerate}
+
+
+\section*{Usage}
+When launching the simulator, you must specify the architecture definition file, through the \texttt{--isa} argument, which starts the simulator with that architecture. In order to change architecture, you must reload the simulator.
+
+Once inside the simulator, the CLI offers several options, specified by entering the action letter:
+\begin{itemize}
+  \item \textbf{\texttt{p} -- load program}: Prompts the user to specify a program file, and loads the program.
+  \item \textbf{\texttt{s} -- stop program}: Stops the execution of the current program.
+  \item \textbf{\texttt{n} -- execute next instruction}: Executes the next instruction
+  \item \textbf{\texttt{e} -- enter REPL environment}: Enters the REPL environment, that allows the user to evaluate LUISP-DA expressions.
+  \item \textbf{\texttt{f} -- full run}: Executes the current program until it exits.
+  \item \textbf{\texttt{r} -- show registers}: Displays the registers and its contents (including the program counter).
+  \item \textbf{\texttt{t} -- show text memory}: Displays text memory.
+  \item \textbf{\texttt{d} -- show data}: Displays data memory.
+  \item \textbf{\texttt{c} -- change format}: Changes the display format, between the options it prompts the user: signed decimal, unsigned decimal, and hexadecimal.
+  \item \textbf{\texttt{x} -- exit}: Exits the simulator.
+  \item \textbf{\texttt{h} -- help}: Shows the different actions to perform.
+\end{itemize}
+
 
 
 \section*{LUISP-DA}
-LUISP-DA stands for \textit{assembLy analogoUs lISP DiAlect}. It's the language used to program the simulator.
+LUISP-DA stands for \textit{assembLy analogoUs lISP DiAlect}. It's the language used to define the instructions of the architecture.
 
 It's a Lisp-like language, where instructions are defined as a list (\qdist{LIST}) of symbols and/or other lists.
 
@@ -72,11 +114,11 @@ An operand symbol can be:
   That would return the result of \texttt{(+ 1 1)}, \texttt{2}.
   \item A system call \qdist{CALL}. It checks the \textit{opcode} (first element) (which must evaluate to a \qdist{NUM}), and executes the specified system call with its arguments.
   \begin{itemize}
-    \item \texttt{print\_int} - \texttt{call N A}: Prints the value of the \qdist{NUM} `A`.
-    \item \texttt{print\_char} - \texttt{call N A}: Prints the value of the \qdist{NUM} `A` as an ascii character.
-    \item \texttt{read\_int} - \texttt{call N RA}: Reads the value of a \qdist{NUM} and saves it to the register \texttt{RA}.
-    \item \texttt{read\_char} - \texttt{call N RA}: Reads the value of an ascii character and saves it as a \qdist{NUM} to the register \texttt{RA}.
-    \item \texttt{exit} - \texttt{call N}: Stops the execution of the program.
+    \item \textit{print\_int} -- \texttt{call N A}: Prints the value of the \qdist{NUM} `A`.
+    \item \textit{print\_char} -- \texttt{call N A}: Prints the value of the \qdist{NUM} `A` as an ascii character.
+    \item \textit{read\_int} -- \texttt{call N RA}: Reads the value of a \qdist{NUM} and saves it to the register \texttt{RA}.
+    \item \textit{read\_char} -- \texttt{call N RA}: Reads the value of an ascii character and saves it as a \qdist{NUM} to the register \texttt{RA}.
+    \item \textit{exit} -- \texttt{call N}: Stops the execution of the program.
   \end{itemize}
   The definition of the \textit{opcodes} is defined in the architecture definition file.
 \end{itemize}
@@ -115,37 +157,37 @@ The structure of the \gls{json} files is the following:
         \item \texttt{def}: LUISP-DA definition (\texttt{string}).
       \end{itemize}
     \end{itemize}
-  \item \texttt{data\_types}: Map of memory data types and their mappings.  
-      Supported data types are:
-      \begin{itemize}[nosep,noitemsep]
-        \item \texttt{str}: zero-terminated strings
-        \item \texttt{word}: 32-bit words
-        \item \texttt{none}: no type
-      \end{itemize}
+  \item \texttt{data\_types}: Map of memory data types and their mappings.
+  Supported data types are:
+  \begin{itemize}[nosep,noitemsep]
+    \item \texttt{str}: zero-terminated strings
+    \item \texttt{word}: 32-bit words
+  \end{itemize}
+  \item \texttt{comment\_char}: Character that starts a comment line (\texttt{string}).
 \end{itemize}
 
+\noindent
+You can find examples of instruction sets in the \texttt{architectures/} folder.
 
-
-\section*{Instalation and Execution}
-
-\begin{enumerate}
-  \item Install CMake\footurl{https://cmake.org/} 3.22, Ninja-build\footurl{https://ninja-build.org/} 1.11.1 and GCC\footurl{https://gcc.gnu.org/} 11.4, or compatible versions.
-  \item Download and decompress the source code from the repository\footnote{\myrepo}.
-  \item Move to the \texttt{build} directory and build and compile the source code\footnote{You will need an Internet connection for CMake to download the dependencies.}:
-  \begin{tcolorbox}[bottom=-8pt]
-    \begin{verbatim}
-cd build/
-cmake -G Ninja ..
-cmake --build .
-    \end{verbatim}
-  \end{tcolorbox}
-  \item Execute the simulator (which can be found in \texttt{build/src/}) with an input \gls{ISA} file. E.g.:
-  \begin{tcolorbox}[bottom=-8pt]
-    \begin{verbatim}
-./src/tfg --isa=../architectures/RISC-V.json
-    \end{verbatim}
-  \end{tcolorbox}
-\end{enumerate}
 
 
 \section*{Assembly Program File}
+This text file will contain the instructions and data for the program to be executed. Empty lines and extra whitespace is ignored. The simulator only allows line comments, and they must start by the defined \texttt{comment\_char}. You can find examples of programs in the \texttt{examples/} folder.
+
+\noindent
+The program file is divided into two segments: the data and the text segment.
+
+
+\subsection*{Data segment}
+Here you can specify how to preload the data memory of the computer. The segment start is marked by the use of the \texttt{.data} keyword.
+
+They are divided into three parts, separated by spaces: label (\texttt{<name>:}), type (those defined in \texttt{data\_types}), and value, which can be a string (\texttt{"<data>"}), a hexadecimal value (\texttt{0x<number>}), or an integer value.
+
+
+\subsection*{Text segment}
+Here you can define the different instructions and labels. The segment start is marked by the use of the \texttt{.text} keyword.
+
+Instructions must occupy only one line. Labels, with a `\texttt{<name>:}' format, must be defined in a single line, and are mark to the next instruction.
+
+In your instruction you can use any of the defined label, including those from the data segment. The only required label is \texttt{main}, which marks the entry point of the program.
+

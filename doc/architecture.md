@@ -37,13 +37,13 @@ The architecture is defined in a JSON file, with the following format:
 - `instruction_set`: Set of architecture instructions.  
   Each instruction is a JSON object with the following format:
   - `<instruction_name>`
-    - `args`: Function arguments. They must all start by `$`. (`array[string]`)
+    - `args`: Instruction arguments (`array[string]`). They must all start by `$`.
     - `def`: LUISP-DA definition (`string`).
 - `data_types`: Map of memory data types and their mappings.  
     Supported data types are:
     - `str`: zero-terminated strings
     - `word`: 32-bit words
-    - `none`: no type
+- `comment_char`: Character that starts a comment line (`string`).
 
 You can see example architectures in the [`architectures/`](../architectures/) folder.
 
@@ -250,16 +250,4 @@ There are three modes:
 
 These modes are defined in the `rfdmode::dmode` enum and can be changed through the `RegisterFile.setdmode()` method (which the `_dmode` attribute).
 
-
-
-<!--
-- "GDB" interface
-    - With register status
-- Registers
-    - Treat as unsigned
-- System calls
-- Memory (dynamically generated)
-- GUI
-- Savestates
--->
 
