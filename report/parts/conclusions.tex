@@ -1,5 +1,5 @@
 \chapter{Conclusions and Future Work}\label{chap:conclusions}
-This chapter presents both the conclusions of the project \secref{project-conclusions}, and personal conclusions \secref{personal-conclusions}. It also highlights the project's main contributions \secref{contributions}, and discusses what future work could be done to the project \secref{future-work}.
+This chapter presents both the conclusions of the project \secref{project-conclusions}, and personal conclusions \secref{personal-conclusions}. It also highlights some of the contributions that were made during this project that are not directly related to it \secref{contributions}, and discusses what future work could be done to the project \secref{future-work}.
 
 
 \section{Project Conclusions}\label{sec:project-conclusions}
@@ -19,7 +19,7 @@ All secondary objectives were also fulfilled:
 \end{itemize}
 
 % process conclusions
-One of the main obstacles encountered while developing this project, as shown on the Gantt diagram (\figref{gantt}), was the design and implementation of the compiler (LUISP-DA interpreter). As stated in \subsecref{interpreter-study}, several design options were considered and explored, until reaching the final design. This design also took considerable time, as it required a good understanding of the programming language, C++20, in order to implement. Greater knowledge and experience in the field of compilers and C++20 would have decreased greatly development time, and may have resulted in an even better end product.
+One of the main obstacles encountered while developing this project, as shown on the Gantt diagram (\figref{gantt}), was the design and implementation of the \reqref{Control Unit} (LUISP-DA interpreter). As stated in \subsecref{interpreter-study}, several design options were considered and explored, until reaching the final design. This design also took considerable time, as it required a good understanding of the programming language, C++20, in order to implement. Greater knowledge and experience in the field of compilers and C++20 would have decreased greatly development time, and may have resulted in an even better end product.
 
 
 
@@ -33,7 +33,7 @@ A lot of knowledge gained from the implementation of the software and the writin
 
 
 
-\section{Contributions}\label{sec:contributions}
+\section{Additional Contributions}\label{sec:contributions}
 As mentioned before, this document was created and written in \LaTeX~\parencite{lamport1986latex}. Not only the source code of this report is publicly available at \myrepo, but the code was structured in such a way that it is easily reusable, through the use of a \LaTeX~class template file that contains the configuration for the formatting of the document. This template was based on the template document provided by the Universidad Carlos III de Madrid's library \parencite{UC3MthesisTemplate}, and (loosely) follows the doctoral thesis guidelines for this university \parencite{UC3MthesisStyleGuide}.
 
 The class template, along with a template for the organization of the whole report, and documentation, was made publicly available at \url{https://github.com/ldcas-uc3m/thesis-template}, in order to provide a better and easier to use bachelor thesis template for future engineering students.
@@ -49,7 +49,7 @@ This project provided a basic simulator, but there are several lines of work tha
   \item The simulator could also offer support for more types of operations: floating point, bitwise, etc.
   \item Support for even more \gls{assembly} features could be added, such as non-aligned memory, multiple names for the same registers, and inline comments.
   \item Many other simulators implement ease-of-use features, such as breakpoints, and save states. These features and others, such as not requiring to reload the whole simulator to change the \gls{ISA}, or more formatting options for the display, would be appreciated by the users.
-  \item The base system is robust enough for it to be built upon, specially as it's implemented in C++. It currently uses a \gls{CLI}, but it could also use a \gls{GUI} such as Qt \parencite{QtFramework}. It could also be converted into a \gls{web service}, executing on a server instead of on the client. The system could also be converted into a Python extension module \parencite{pythonExtension}, opening even more possibilities.
+  \item The base system is robust enough for it to be built upon, specially as it's implemented in C++. It currently uses a \gls{CLI}, but it could also include a \gls{GUI} implemented in Qt \parencite{QtFramework}. It could also be converted into a \gls{web service}, executing on a server instead of on the client. The system could also be converted into a Python extension module \parencite{pythonExtension}, opening even more possibilities.
 \end{itemize}
 
 \noindent
