@@ -5,27 +5,28 @@ This chapter describes the proposed solution by briefly recapping the project (\
 
 \section{Project Overview}\label{sec:project-description}
 % pequeño resumen del projecto
-The main objective of this project is to create an application that is capable of simulating an \gls{ISA} defined by the user, with educational purposes. This will help the user learn \gls{assembly} programming by incentivizing experimentation and, in turn, giving the user a deeper understanding of \gls{assembly} programming. Moreover, the instructions should be defined using a simple language that supports some form of validation of the instruction set, in order to facilitate ensuring that the \gls{ISA} is correct even before executing any program.
+The main objective of this project is to create an application that is capable of simulating an \gls{ISA} defined by the user, with educational purposes. This will help the user learn \gls{assembly} programming by incentivizing experimentation and, in turn, giving the user a deeper understanding of \glspl{assembly}. Moreover, the instructions should be defined using a simple language that supports some form of validation of the instruction set, in order to facilitate ensuring that the \gls{ISA} is correct even before executing any program.
 
 As stated in \chapref{state-of-the-art}, current simulators either don't offer this possibility, or offer an overwhelming amount of options and configurations, which focus on the hardware and architecture aspects of the simulation instead on the \gls{assembly} itself.
 
-The aim is to provide the user with a more \textit{logical} approach to understanding \gls{assembly} programming, by abstracting the hardware details and providing a simple and generic architecture.
+The aim is to provide the user with a more `logical' approach to understanding \gls{assembly} programming, by abstracting the hardware details and providing a simple and generic architecture.
 
 
 
 \section{Requirements}\label{sec:requirements}
 This section provides a detailed description of the system's requirements. For the requirement specification task, the IEEE recommended practices \parencite{IEEE830-1984} were followed. According to these practices, a good specification must address the software functionality, performance issues, external interfaces, other non-functional features and design or implementation constraints.
 
+\noindent
 Moreover, the requirement specification must be:
 \begin{enumerate}
-  \item \textbf{Complete:} the document reflects all significant software requirements.
-  \item \textbf{Consistent:} requirements must not generate conflicts with each other.
-  \item \textbf{Correct:} every requirement is one that the software shall meet according to the user needs.
-  \item \textbf{Modifiable:} the structure of the specification allows changes to the requirements in a simple, complete and consistent way.
-  \item \textbf{Ranked based on importance and stability:} every requirement must indicate its importance and its stability.
-  \item \textbf{Traceable:} the origin of every requirement is clear, and it can be easily referenced in further stages.
-  \item \textbf{Unambiguous:} every requirement has a single interpretation.
-  \item \textbf{Verifiable:} every requirement must be verifiable, that is, there exists some process to verify that the software complies with every single requirement.
+  \item \textbf{Complete:} The document reflects all significant software requirements.
+  \item \textbf{Consistent:} Requirements must not generate conflicts with each other.
+  \item \textbf{Correct:} Every requirement is one that the software shall meet according to the user needs.
+  \item \textbf{Modifiable:} The structure of the specification allows changes to the requirements in a simple, complete and consistent way.
+  \item \textbf{Ranked based on importance and stability:} Every requirement must indicate its importance and its stability.
+  \item \textbf{Traceable:} The origin of every requirement is clear, and it can be easily referenced in further stages.
+  \item \textbf{Unambiguous:} Every requirement has a single interpretation.
+  \item \textbf{Verifiable:} Every requirement must be verifiable, that is, there exists some process to verify that the software complies with every single requirement.
 \end{enumerate}
 
 Starting from the user requirements (\subsecref{user-requirements}), which constitute an informal reference to the product the client expects, the software requirements (\subsecref{soft-requirements}) were derived. These requirements guided the design process with specific information on the functionality of the system, as well as any and other related characteristics.
@@ -35,6 +36,7 @@ Starting from the user requirements (\subsecref{user-requirements}), which const
 \subsection{User Requirements}\label{subsec:user-requirements}
 This section provides a detailed description of the user's requirements for the project. These requirements indicate the main functionality and restrictions the developed system must fulfill.
 
+\noindent
 The user requirements are divided into two distinct types:
 \begin{itemize}
   \item \textbf{Capacities:} Describe the expected system's functionality.
@@ -83,7 +85,7 @@ Each user requirement is uniquely identified by an ID, which follows the format 
 \end{userReq}
 \stepcounter{i}
 
-\begin{userReq}{UR-CA-\padtwo{i}}{pc=l,pd=l,s=nc,v=h}
+\begin{userReq}{UR-CA-\padtwo{i}}{pc=l,pd=l,s=c,v=h}
   The data on the components shall be represented in various formats: signed integer, unsigned integer, and hexadecimal.
 \end{userReq}
 \stepcounter{i}
@@ -107,7 +109,7 @@ Each user requirement is uniquely identified by an ID, which follows the format 
 \end{userReq}
 \stepcounter{i}
 
-\begin{userReq}{UR-RE-\padtwo{i}}{pc=m,pd=m,s=nc,v=h}
+\begin{userReq}{UR-RE-\padtwo{i}}{pc=m,pd=m,s=c,v=h}
   The system shall be \gls{FOSS}.
 \end{userReq}
 \stepcounter{i}
@@ -128,7 +130,7 @@ Each user requirement is uniquely identified by an ID, which follows the format 
 \stepcounter{i}
 
 \begin{userReq}{UR-RE-\padtwo{i}}{pc=m,pd=m,s=nc,v=l}
-  The instruction definition language shall be simple, easy to understand, and  validatable by an external tool.
+  The instruction definition language shall be simple, easy to understand, and validatable by an external tool.
 \end{userReq}
 \stepcounter{i}
 
@@ -139,13 +141,14 @@ Each user requirement is uniquely identified by an ID, which follows the format 
 \subsection{Software Requirements}\label{subsec:soft-requirements}
 This section provides a detailed description of the system's software requirements for the project. These requirements are derived from the user requirements, defined in Subsection \ref{subsec:user-requirements}, and comprise the software specifications for the system.
 
+\noindent
 The user requirements are divided into two distinct types:
 \begin{itemize}
   \item \textbf{Functional requirements:} Specify the software's functionalities and characteristics.
   \item \textbf{Non-functional requirements:} Specify other non-functional characteristics of the software.
 \end{itemize}
 
-Each user requirement is uniquely identified by an ID, which follows the format \textit{SR-YY-XX}, where \textit{YY} identifies the type of the requirement, either functional (\textit{FC}) or non-functional (\textit{NF}); and \textit{XX} identifies the sequential number of the requirement within that type, starting at \textit{01}.
+Each software requirement is uniquely identified by an ID, which follows the format \textit{SR-YY-XX}, where \textit{YY} identifies the type of the requirement, either functional (\textit{FC}) or non-functional (\textit{NF}); and \textit{XX} identifies the sequential number of the requirement within that type, starting at \textit{01}.
 
 \tabref{sr-template} provides the template used for the specification of the requirements, including the description of each attribute.
 
@@ -330,7 +333,7 @@ Each use case represents the process an external agent (actor) should follow in 
   {Load \gls{ISA}}  % name
   {User}  % actors
   {Loading the \gls{ISA} on the simulator from a file specified by the user.}  % objetive
-  {None.}  % pre-cond
+  {\NA}  % pre-cond
   {The \gls{ISA} is loaded in the simulator, and the main \gls{CLI} starts.}  % post-cond
   \begin{enumerate}[leftmargin=*, topsep=0pt, noitemsep]  % description
     \item User provides the route to the \gls{ISA} file through an executable argument.

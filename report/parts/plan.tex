@@ -9,8 +9,8 @@ This section details the project's planning, by describing the followed methodol
 Due to the characteristics of the design, the development process was divided into four iterations:
 \begin{enumerate}[label=\Roman*.]
   \item \textbf{\Gls{memory} and \Gls{register} File}. This iteration's goal was to implement the \reqref{Text Memory}, \reqref{Data Memory}, and \reqref{Register File} components separately.
-  \item \textbf{Control Unit and \gls{ALU}}. This phase consists on implementing the \reqref{Control Unit} and \reqref{ALU} components, and connecting them to all the previous components. The goal of this iteration is to be able to simulate the full \gls{CPU} and \gls{memory}, and execute LUISP-DA instructions.
-  \item \textbf{Compiler}. This iteration consists on implementing the \reqref{Compiler} component, with the purpose of being able to load \glspl{ISA} and execute programs.
+  \item \textbf{Control Unit and \gls{ALU}}. This phase consists on implementing the \reqref{Control Unit} and \reqref{ALU} components, and connecting them to all the previous components. The goal of this iteration is to be able to simulate the full \gls{CPU} and \gls{memory}, and interpret LUISP-DA instructions.
+  \item \textbf{Compiler}. This iteration consists on implementing the \reqref{Compiler} component, with the purpose of being able to load \glspl{ISA} and interpret full programs.
   \item \textbf{\gls{CLI}}. The final iteration implements the \reqref{CLI} component, adding features such as the \gls{REPL environment} and the whole \gls{UI}.
 \end{enumerate}
 
@@ -18,10 +18,10 @@ An iterative methodology was chosen, based on Bohem's spiral model \parencite{Bo
 
 The life cycle development process of this model (\figref{spiral_model}) has four phases, which are repeated during the different iterations of the model. These phases are:
 \begin{enumerate}
-  \item \textbf{Planning}: The user requirements are gathered, and the iteration's objectives are determined.
-  \item \textbf{Analysis}: An analysis of the user requirements is performed in order to identify potential risks, and the test cases are designed.
-  \item \textbf{Development and testing}: The architecture is designed, implemented, and tests are performed.
-  \item \textbf{Evaluation}: The software is evaluated with the client, in order to provide feedback. In this specific case, the tutor acted as the client. This is the critical task of the life cycle, as the iteration isn't finished until the software is approved.
+  \item \textbf{Planning:} The user requirements are gathered, and the iteration's objectives are determined.
+  \item \textbf{Analysis:} An analysis of the user requirements is performed in order to identify potential risks, and the test cases are designed.
+  \item \textbf{Development and testing:} The architecture is designed, implemented, and the tests are performed.
+  \item \textbf{Evaluation:} The software is evaluated with the client, in order to provide feedback. In this specific case, the tutor acted as the client. This is the critical task of the life cycle, as the iteration isn't finished until the software is approved.
 \end{enumerate}
 
 \svgfigure{spiral_model}{Spiral model life cycle}
@@ -30,7 +30,7 @@ The life cycle development process of this model (\figref{spiral_model}) has fou
 \subsection{Time Estimation}\label{subsec:time-estimation}
 The time estimation of the project was designed with the use of a Gantt chart \parencite{clark1922gantt} (\figref{gantt}). This diagram shows all the performed tasks in each iteration of the life cycle, plus an extra documentation task in each iteration for the drafting of this thesis. A final `Report' task was added to represent the time spent finishing this report.
 
-The project had a total duration of 9 months, averaging 35 hours per month (taking into account days off, holidays, sick days, and other drawbacks), around 10 hours per week. Therefore, the total pero time dedicated to this project, excluding the tutor's work, is 315 hours.
+The project had a total duration of 9 months, averaging 35 hours per month, around 10 hours per week (without taking into account days off, holidays, sick days, and other drawbacks). Therefore, the total time dedicated to this project, excluding the tutor's work, is 315 hours.
 
 
 \begin{landscape}
@@ -138,17 +138,17 @@ The different costs will be divided in two parts: direct costs (those associated
 \subsection{Direct Costs}
 Direct costs are those that are directly related with the development of the project. These can be divided into two groups:
 \begin{itemize}
-  \item \textbf{Personnel costs}: These vary in relation to the qualifications, experience, and geographical location of each member.
-  \item \textbf{Equipment costs}: These are all the costs associated to the tools required for developing the software, mainly hardware and software tools.
+  \item \textbf{Personnel costs:} These vary in relation to the qualifications, experience, and geographical location of each member.
+  \item \textbf{Equipment costs:} These are all the costs associated to the tools required for developing the software, mainly hardware and software tools.
 \end{itemize}
 
 \noindent
 Personnel costs can be divided between four different roles:
 \begin{itemize}
-  \item \textbf{Project manager}: Manages the project's schedule and provides feedback.
-  \item \textbf{Analyst}: Analyzes the user's requirements, designs the architecture of the system, and writes documentation.
-  \item \textbf{Programmer}: Implements the required functionalities.
-  \item \textbf{Tester}: Designs and performs the tests for the different functionalities.
+  \item \textbf{Project manager:} Manages the project's schedule and provides feedback.
+  \item \textbf{Analyst:} Analyzes the user's requirements, designs the architecture of the system, and writes documentation.
+  \item \textbf{Programmer:} Implements the required functionalities.
+  \item \textbf{Tester:} Designs and performs the tests for the different functionalities.
 \end{itemize}
 
 The tutor played the role of project manager, while the student played the rest of the roles. \tabref{personnel-cost} shows the direct costs caused by each of the roles, and the total personnel costs.
@@ -302,13 +302,13 @@ Therefore, the total cost of the project is \textbf{12.161,84 \euro~(TWELVE THOU
 This section details and discusses the different regulation that may apply to the project.
 
 \subsection{Applicable Legislation}\label{subsec:legislation}
-As the software is executed locally, and it does not transmit or use private data from the users, no data protection laws apply. The software is also used for educational purposes, meaning there are no risks involved in the execution of the software and no regulatory compliance is required.
+As the software is executed locally, and it does not transmit or use private data from the users, no data protection laws apply. The software is also used for educational purposes, meaning there are no risks involved in the execution of the software and no other regulatory compliance is required.
 
 
 \subsection{Technical Standards}\label{subsec:standards}
 The software makes use of two technical standards:
 \begin{itemize}
-  \item ISO/IEC 14882:2020(E) \parencite{ISOcpp20}, the standard for the C++20 programming language, which is the one the software is implemented in.
+  \item ISO/IEC 14882:2020 \parencite{ISOcpp20}, the standard for the C++20 programming language, which is the one the software is implemented in.
   \item ISO/IEC 21778:2017 \parencite{ISO21778}, the standard for the \gls{json} data format, which is used to store the \gls{ISA} definition files.
 \end{itemize}
 

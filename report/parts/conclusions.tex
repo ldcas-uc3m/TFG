@@ -11,15 +11,15 @@ As stated in \secref{objectives}, the main objective in this project was to crea
 \noindent
 All secondary objectives were also fulfilled:
 \begin{itemize}
-  \item \textbf{O1}: The software simulates a simple and generic computer, with \glspl{register}, \gls{memory}, and a processor that executes LUISP-DA, a simple domain specific language.
-  \item \textbf{O2}: LUISP-DA is a simple \gls{programming language} that allows to program all the components of the simulated computer.
-  \item \textbf{O3}: The simulator allows the user to view the state of the computer of the at each \gls{clock cycle}.
-  \item \textbf{O4}: The user can execute any \gls{assembly} program in the defined \gls{ISA}.
-  \item \textbf{O5}: The software can be executed natively in many platforms.
+  \item \textbf{O1:} The software simulates a simple and generic computer, with \glspl{register}, \gls{memory}, and a processor that executes LUISP-DA, a simple domain specific language.
+  \item \textbf{O2:} LUISP-DA is a simple \gls{programming language} that allows to program all the components of the simulated computer.
+  \item \textbf{O3:} The simulator allows the user to view the state of the computer of the at each \gls{clock cycle}.
+  \item \textbf{O4:} The user can execute any \gls{assembly} program in the defined \gls{ISA}.
+  \item \textbf{O5:} The software can be executed natively in many platforms.
 \end{itemize}
 
 % process conclusions
-One of the main obstacles encountered while developing this project, as shown on the Gantt diagram (\figref{gantt}), was the design and implementation of the \reqref{Control Unit} (LUISP-DA interpreter). As stated in \subsecref{interpreter-study}, several design options were considered and explored, until reaching the final design. This design also took considerable time, as it required a good understanding of the programming language, C++20, in order to implement. Greater knowledge and experience in the field of compilers and C++20 would have decreased greatly development time, and may have resulted in an even better end product.
+One of the main obstacles encountered while developing this project, as shown on the Gantt chart (\figref{gantt}), was the design and implementation of the \reqref{Control Unit} (LUISP-DA interpreter). As stated in \subsecref{interpreter-study}, several design options were considered and explored, until reaching the final design. This design also took considerable time, as it required a good understanding of the programming language, C++20, in order to implement. Greater knowledge and experience in the field of compilers and C++20 would have decreased greatly development time, and may have resulted in an even better end product.
 
 
 
@@ -29,7 +29,7 @@ This project has been a great opportunity for me personally, as it has allowed n
 The main sources of knowledge for this project have been the \textit{Computer Structure}, \textit{Computer Architecture}, and \textit{Computer Organization} courses, which coincidentally are also amongst my favorites. These subjects taught me about how computers are made, about \glspl{ISA}, and about \gls{assembly}. Other source of knowledge would have been the \textit{Language Processors} course, focused on compilers, but unfortunately due to my academic plan, I wasn't able to attend it.
 It is also worth it to mention other courses, such as \textit{Programming}, \textit{Data Structure and Algorithms}, \textit{Functional Programming}, and \textit{Automata Theory and Formal Language}, whose knowledge also helped be during this process.
 
-A lot of knowledge gained from the implementation of the software and the writing of this document. I started this project with very little knowledge and experience on C++, and learned the language through the course of it. The same goes for CMake, and the overall organization of C++ projects. Writing this document in \LaTeX~has also offered me the chance to greatly deepen my knowledge of this tool, something that I'm sure will be useful in the future.
+A lot of knowledge was gained from the implementation of the software and the writing of this document. I started this project with very little knowledge and experience on C++, and learned the language through the course of it. The same goes for CMake, and the overall organization of C++ projects. Writing this document in \LaTeX~has also offered me the chance to greatly deepen my knowledge of this tool, something that I'm sure will be useful in the future.
 
 
 
@@ -57,5 +57,5 @@ Some aspects of the implementation could also be improved:
 \begin{itemize}
   \item Currently, the LUISP-DA interpreter stores all of its data (tokens) in \texttt{std::string}, due to the fact that a token can hold either strings, integers, or boolean values. This forces static castings (from and to string) for any operation, which creates a great overhead. One possible solution is the use of \texttt{std::variant} \parencite{stdVariant}, a data structure that can hold many types.
   \item Instead of C-style libraries, the implementation could make use of C++20 modules \parencite{cpp20modules}\footnote{At the time of writing, this feature is not fully implemented in any of the C++ compilers.}.
-  \item The C++23 ISO standard is in the approval phase, and the system could benefit from some of the new features the standard provides.
+  \item The C++23 ISO standard \parencite{ISOcpp23} is in the approval phase, and the system could benefit from some new features the standard provides.
 \end{itemize}

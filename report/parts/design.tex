@@ -1,9 +1,9 @@
 \chapter{Design}\label{chap:design}
-This chapter provides a full description of the proposed solution. It details the design process of the proposed solution, by discussing the different alternatives (\secref{study}), and describes the proposed architecture (\secref{architecture}), including all components and design decisions.
+This chapter provides a full description of the proposed solution. It details the system's design process, by discussing the different alternatives (\secref{study}), and describes the proposed architecture (\secref{architecture}), including all components and design decisions.
 
 
 \section{Study of the Solution}\label{sec:study}  % STATE OF THE ART II
-After the elicitation of the requirements (Section \ref{sec:requirements}) and use cases (Section \ref{sec:use-cases}) of the system, the tools to build the application must be discussed, as the design will depend on them.
+After the elicitation of the requirements (\secref{requirements}) and use cases (\secref{use-cases}) of the system, the tools to build the application must be discussed, as the design will depend on them.
 
 
 \subsection{Instruction Definition Language}\label{subsec:inst-lang-study}
@@ -19,12 +19,11 @@ The final approach is to create a domain-specific language. This language should
 \subsection{Interpreter}\label{subsec:interpreter-study}
 \reqref[Requirement]{SR-FC-06} states that the system must be able to execute the \gls{instruction} definition language, and \reqref[requirement]{SR-FC-07} states it should be able to do it \gls{instruction} by instruction. Therefore, the best approach is to create an \gls{interpreter} for the LISP-like language.
 
-To implement an \gls{interpreter} for any language, there are two main steps involved: processing the input into an \gls{AST} (\textit{parsing}), and executing it with the help of the \gls{AST} (\textit{interpreting}) \parencite{mogensen2009basics}.
+To implement an \gls{interpreter} for any language, there are two main steps involved: processing the input into an \gls{AST} (\textit{parsing}), and executing it with the help of the \gls{AST} (\textit{evaluating}) \parencite{mogensen2009basics}.
 
-Nowadays, there are tools that, given a language definition as an input, generate parsers for those languages, simplifying the process of creating an \gls{interpreter}. Such is the case of Lex and yacc \parencite{LevineJohnR1992Ly} (and its modern counterpart Flex and bison \parencite{LevineJohnR2009Fb}), and ANTLR \parencite{ParrTerenceTerenceJohn2010Lip}%, the three of them being the `state of the art' options \parencite{OrtinFrancisco2022Aeeo}
-. These parser generator tools generate libraries that parse the inputs into \glspl{AST} that are later used in the execution. The main problem with this approach is that you need to recompile the parser each time you modify the language, which gives less flexibility to add new features (floating point operations, etc.).
+Nowadays, there are tools that, given a language definition as an input, generate parsers for those languages, simplifying the process of creating an \gls{interpreter}. Such is the case of Lex and yacc \parencite{LevineJohnR1992Ly} (or its modern counterpart, Flex and bison \parencite{LevineJohnR2009Fb}), and ANTLR \parencite{ParrTerenceTerenceJohn2010Lip}. These parser generator tools generate libraries that parse the inputs into \glspl{AST} that can be later used in the evaluation phase. The main problem with this approach is that you need to re-generate the parser libraries each time you modify the language, which gives less flexibility to add new features (floating point operations, etc.).
 
-Another approach is to build the \gls{interpreter} from scratch. Being a LISP-like language comes with the advantage of simplifying the \gls{interpreter} design. Make-A-Lisp \parencite{mal} is a guide for implementing a generic LISP \gls{interpreter}, and outlines the basic functionalities and architecture.
+The final approach is to build the \gls{interpreter} from scratch. Being a LISP-like language comes with the advantage of simplifying the \gls{interpreter}'s design. Make-A-Lisp \parencite{mal} is a guide for implementing a generic LISP \gls{interpreter}, and outlines the basic functionalities and architecture.
 
 
 \subsection{ISA Definition Format}\label{subsec:isa-format-study}
@@ -36,12 +35,12 @@ The best approach is to use a structured data format. There are many formats, bu
 \subsection{Programming Language}\label{subsec:language-study}
 As per \reqref[requirements]{SR-NF-01}, the \gls{programming language} must allow the system to be executed natively and on multiple platforms. Native execution has the advantage of producing more performant code, as there is no overhead derived from virtual machines or \glspl{interpreter}. Popular natively compiled languages include C \parencite{KernighanBrianW1988TCpl}, C++ \parencite{StroustrupBjarne2013TCpl}, Rust \parencite{KlabnikSteve2023TRpl}, and Go \parencite{DonovanAlan2015TGPL} \parencite{statista2023langstats}.
 
-Furthermore, \reqref[requirement]{SR-NF-02} states that the system shall also support multiple platforms, including browsers. Through the use of WebAssembly \parencite{HaasAndreas2017Btwu}, most programming languages can be compiled and executed `natively' in the browser, including all previously mentioned languages.
+Furthermore, \reqref[requirement]{SR-NF-02} states that the system shall also support multiple platforms, and this includes browsers. Through the use of WebAssembly \parencite{HaasAndreas2017Btwu}, many programming languages can be compiled and executed `natively' in the browser, including all previously mentioned languages.
 
 From the mentioned languages, C++ (specifically the current standard at the time of writing, ISO C++20 \parencite{ISOcpp20}) was chosen for several reasons:
-\begin{itemize}[nosep]
+\begin{itemize}
   \item It's a mature language, with support for modern features and multiple \glspl{programming paradigm}.
-  \item It's strongly typed, memory safe, and high-performant, with zero-cost abstractions.  % TODO? get ref from stroustroup
+  \item It's strongly typed, memory safe, and high-performant, with zero-cost abstractions.
   \item It's an ISO standard language.
 \end{itemize}
 
@@ -134,12 +133,6 @@ The system's architecture can be divided in four main elements:
 
 \FloatBarrier
 
-% TODO: sequence diagrams?
-% To provide a more detailed description how the different components interact between them, several UML sequence diagrams were defined \parencite{Cook2017}:
-% \begin{itemize}
-%   \item a
-% \end{itemize}
-
 
 
 \subsubsection{Traceability}\label{subsec:comp-traceability}
@@ -155,7 +148,7 @@ A traceability matrix was generated (\tabref{traceability-comp-fc}) in order to 
 
 
 \subsection{Instruction Definition Language}\label{subsec:inst-lang-design}
-As stated in \subsecref{inst-lang-study}, the language used to define the instructions is a language from the LISP family. The developed language is LUISP-DA (\textit{assembLy analogoUs lISP DiAlect}).
+As stated in Subsection \ref{subsec:inst-lang-study}, the language used to define the instructions is a language from the LISP family. The developed language is LUISP-DA (\textit{assembLy analogoUs lISP DiAlect}).
 
 Being a LISP-like language, instructions are defined as LISP expressions, comprised of lists of symbols and/or other lists, delimited by parenthesis. Inner expressions are evaluated first, recursively. To simplify the language, there are no variables, macros, or functions, as they are not necessary for defining basic instructions.
 
@@ -294,9 +287,9 @@ For more information about the use of the language, see \appref{manual}.
 
 
 \subsection{Control Unit}\label{subsec:interpreter-design}
-The LUISP-DA \gls{interpreter} is implemented in the \reqref{Control Unit} component. As stated in \subsecref{interpreter-study}, the architecture of the \gls{interpreter} will be based on the Make-A-Lisp \parencite{mal} architecture. Nevertheless, as it is only needed to model a simple \glsdisp{assembly}{assembly-like language}, a subset of the original architecture will be used, modified in order to fit the project's purposes.
+The LUISP-DA \gls{interpreter} is implemented in the \reqref{Control Unit} component. As stated in Subsection \ref{subsec:interpreter-study}, the architecture of the \gls{interpreter} will be based on the Make-A-Lisp \parencite{mal} architecture. Nevertheless, as it is only needed to model a simple \glsdisp{assembly}{assembly-like language}, a subset of the original architecture will be used, modified in order to fit the project's purposes.
 
-\figref{interpreter_architecture} shows an overview of the LUISP-DA interpreter. As stated in Subsection \ref{subsec:interpreter-study}, the interpretation is done in two stages:
+\figref{interpreter_architecture} shows an overview of the Control Unit. As stated in Subsection \ref{subsec:interpreter-study}, the interpretation is done in two stages:
 \begin{enumerate}
   \item \textbf{\nameref{subsubsec:read}:} The instruction, a string, is parsed into an \gls{AST}.
   \item \textbf{\nameref{subsubsec:eval}:} The \gls{AST} is evaluated recursively.
@@ -304,7 +297,7 @@ The LUISP-DA \gls{interpreter} is implemented in the \reqref{Control Unit} compo
 
 Finally, after each instruction (except the ones inside a \qdist{block}), the \gls{program counter} is incremented.
 
-\graphicfigure[.8]{interpreter_architecture}{Interpreter architecture}
+\graphicfigure[.8]{interpreter_architecture}{Control Unit architecture}
 
 \subsubsection{READ}\label{subsubsec:read}
 In this stage, the \gls{interpreter} first reads the instruction from the \reqref{Text Memory} (\textit{read-inst}), then parses the string (\textit{read-str}) and extracts (and stores) the tokens (\textit{tokenize}). After that, it starts generating the \gls{AST} by reading and evaluating the first token. This is done through the use of three functions:
@@ -328,7 +321,7 @@ The first symbol of the \gls{AST} is passed to \textit{eval-token} to start the 
 \subsection{Program Files}
 \reqref[Requirement]{SR-FC-08} states that the system must be able to load \glsdisp{assembly}{assembly-like} programs.
 
-\glsdisp{assembly}{Assembly} programs allow the user to load both \gls{text memory} and \gls{data memory} before the execution, by dividing the program in two segments: a \texttt{.data} segment and a \texttt{.text} segment. For the simulator, the user will be allowed to load data in the form of strings or \glspl{word}\footnote{For more information, see \subsecref{isa-design}.}. The simulator will also support the use of tags, references to instruction addresses, in order to simplify the \glsdisp{branch}{branching} syntax. Finally, there will be support for comments.
+\glsdisp{assembly}{Assembly} programs allow the user to load both \gls{text memory} and \gls{data memory} before the execution, by dividing the program in two segments: a data segment and a text segment. For the simulator, the user will be allowed to load data in the form of strings or \glspl{word}\footnote{For more information, see \subsecref{isa-design}.}. The simulator will also support the use of tags, references to instruction addresses, in order to simplify the \glsdisp{branch}{branching} syntax. Finally, there will be support for comments.
 
 \noindent
 For more information about the use of the program files, see \appref{manual}.
@@ -337,16 +330,16 @@ For more information about the use of the program files, see \appref{manual}.
 \subsection{Compiler}\label{subsec:compiler-design}
 According to \reqref[requirement]{SR-FC-06}, the system must be able to transform \glsdisp{assembly}{assembly-like} instructions into interpreter instructions.
 
-The compiler will go through the program file, line by line (ignoring empty lines), searching for the segment keywords (\texttt{.data} and \texttt{.text}), and applying different procedures for each segment:
+The compiler will go through the program file, line by line (ignoring empty lines), searching for the data and text segment keywords, and applying different procedures for each segment:
 \begin{itemize}
   \item \textbf{\glsdisp{data memory}{Data} segment:} The compiler will read the tag, type and value of each datum to store, map the tags to the memory references, and store the data in \gls{data memory}.
-  \item \textbf{\glsdisp{text memory}{Text} segment:} The compiler will go instruction by instruction, translating and temporarily saving them to LUISP-DA with the locations of tags, if any. Afterwards, the compiler will translate the tags in the instructions by the addresses they represent, and load the finished instructions in the \gls{text memory}.
+  \item \textbf{\glsdisp{text memory}{Text} segment:} The compiler will go instruction by instruction, translating them to LUISP-DA instructions, and temporarily with the locations of tags, if any. Afterwards, the compiler will translate the tags in the instructions by the addresses they represent, and load the finished instructions in the \gls{text memory}.
 \end{itemize}
 
 
 
 \subsection{ISA Definition}\label{subsec:isa-design}
-As stated in Subsection \subsecref{isa-format-study}, the \gls{ISA} will be defined in a \gls{json} format, which will also serve as the configuration file for the simulator. For the configuration, several things need to be defined:
+As stated in Subsection \ref{subsec:isa-format-study}, the \gls{ISA} will be defined in a \gls{json} format, which will also serve as the configuration file for the simulator. For the configuration, several things need to be defined:
 \begin{itemize}
   \item The name of the architecture.
   \item The start addresses of \gls{data memory} and \gls{text memory}, as well as the end address of the \gls{data memory}.

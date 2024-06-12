@@ -313,8 +313,9 @@
 		{\titlerule*[.7pc]{.}\contentspage}
 
 % blue colors for chapters
-\renewcommand{\cftchapfont}{\hypersetup{hidelinks}\bfseries\color{azulUC3M}}
-\renewcommand{\cftchappagefont}{\bfseries\color{azulUC3M}}
+\tocloftpagestyle{noheader}
+% \renewcommand{\cftchapfont}{\hypersetup{hidelinks}\bfseries\color{azulUC3M}}
+% \renewcommand{\cftchappagefont}{\bfseries\color{azulUC3M}}
 
 
 %----------
@@ -447,7 +448,6 @@
 }
 \newcommand{\degree}[1]{\gdef\@degree{#1}}
 \newcommand{\subject}[1]{\gdef\@subject{#1}}
-\newcommand{\course}[1]{\gdef\@course{#1}}
 \newcommand{\place}[1]{\gdef\@place{#1}}
 \newcommand{\shorttitle}[1]{\gdef\@shorttitle{#1}}
 
@@ -465,7 +465,6 @@
 			\vspace{1.5cm}
 			\begin{Large}
 				\@degree\\
-				\@course\\  % Academic year
 				\vspace{2cm}
 				\textsl{\@thesis@text}
 				\bigskip
@@ -574,14 +573,21 @@
 		\pagestyle{noheader}
 		\chapter*{\@abstract@text}
 	}
-	{\cleardoublepage}  % end definition
+	{\cleardoublepage\pagestyle{noheader}  % end definition
+
+% TODO: automate keywords, inserting automatic separators
 
 \newcommand{\keywords}[1]{
-	% TODO: make command only work inside abstract environment
 	\vfill
-	\textbf{\@keywords@text:} #1.%
+	\textbf{\@keywords@text:} #1%
 }
+
+\newcommand*\bigcdot{\mathpalette\bigcdot@{.5}}
+\newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+
 \makeatother
+
+\newcommand{\sep}{$\bigcdot$\xspace}
 
 
 
@@ -591,7 +597,7 @@
 
 \newenvironment{thesis}
 	{  % begin definition
-		\clearpage
+		\cleardoublepage
 		\pagestyle{fancy}
 		\pagenumbering{arabic}  % numbering with Arabic numerals for the rest of the document
 	}
@@ -635,6 +641,7 @@
 \makeatother
 
 \AtBeginEnvironment{appendices}{%
+	\cleardoublepage
 	\pagenumbering{gobble}  % remove appendices have no page numbers
 	\setcounter{footnote}{0}  % reset footnote counter
 }

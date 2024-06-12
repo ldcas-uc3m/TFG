@@ -1,5 +1,7 @@
 \chapter{State of the Art}\label{chap:state-of-the-art}
-This chapter presents the current stage of the technologies related to the application, specifically the different kinds of simulators that are currently present in the market (\secref{assembly-simulators}), both specific to one architecture (\subsecref{specific-assembly-simulators}) and architecture-agnostic simulators (\subsecref{generic-assembly-simulators}).\\
+This chapter presents the current stage of the technologies related to the project, specifically the different kinds of simulators that are currently present in the market (\secref{assembly-simulators}), both specific to one architecture (\subsecref{specific-assembly-simulators}) and architecture-agnostic simulators (\subsecref{generic-assembly-simulators}).
+
+\noindent
 Finally, it includes a comparison between all the mentioned simulators and the proposed application (\secref{comparison}).
 
 
@@ -7,7 +9,7 @@ Finally, it includes a comparison between all the mentioned simulators and the p
 \section{Assembly Simulators}\label{sec:assembly-simulators}
 An `\gls{assembly simulator}' is a CPU simulator that enables the user to program it through an \gls{assembly}, and it usually has an educational purpose: either to aid the user in learning the language, or as an exercise for the programmer in order to give them a better understanding of CPU architecture and software development.
 
-These simulators typically offer an interface that allows the user to execute the program step-by-step and see the current state of the simulated \gls{computer}.
+These simulators typically offer an interface that allows the user to execute the program step-by-step and see the current state of the simulated \gls{computer} at each step.
 
 
 \subsection{Specific Simulators}\label{subsec:specific-assembly-simulators}
@@ -18,7 +20,7 @@ Here, two examples are provided: \hyperref[subsubsec:kite]{Kite} and \hyperref[s
 
 
 \subsubsection*{Kite}\label{subsubsec:kite}
-Kite \parencite{song_kite2019} is a simulator that models a five-stage \gls{pipeline} RISC-V CPU, based on the model described in \textit{Computer organization and design: the hardware/software interface (RISC-V edition)} \parencite{PattersonDavidA.2018Coad}, by D. Patterson and J. Hennessy, and implemented in C/C++. It was developed in 2019 in order to provide students of Yonsei University (Seoul, Korea) with an easy-to use simulator to accompany follow its Computer Architecture course.
+Kite \parencite{song_kite2019} is a simulator that models a five-stage \gls{pipeline} RISC-V CPU, based on the model described in \textit{Computer organization and design: the hardware/software interface (RISC-V edition)}, by D. Patterson and J. Hennessy \parencite{PattersonDavidA.2018Coad}, and implemented in C/C++. It was developed in 2019 in order to provide students of Yonsei University (Seoul, Korea) with an easy-to use simulator to accompany follow its Computer Architecture course.
 
 It incorporates advanced features derived from a \gls{pipeline} architecture, such as \gls{instruction dependency} detection and \gls{pipeline stalls}, among others. These `under the hood' features offer a better understanding of the underlying concepts of computer architecture.
 
@@ -37,7 +39,7 @@ Its source code can be found in the Yonsei University Computer Architecture and 
 
 
 \subsection*{ARMLite}\label{subsubsec:armlite}
-ARMLite \parencite{ARMLite} is a web-based simulator for a 32-bit `ARM-like' processor. It includes a basic set of instructions described in \textit{Assembly Language Programming} \parencite{PawsonRichard.2020Ass}, by R. Pawson. This simulator was developed for educational purposes, but specifically to target AQA \parencite{AQA}'s Assembly language instruction set for its A-level computer syllabus \parencite{AQAInstructionSet}.
+ARMLite \parencite{ARMLite} is a web-based simulator for a 32-bit `ARM-like' processor. It includes a basic set of instructions described in \textit{Assembly Language Programming}, by R. Pawson \parencite{PawsonRichard.2020Ass}. This simulator was developed for educational purposes, but specifically to target AQA \parencite{AQA}'s Assembly language instruction set for its A-level computer syllabus \parencite{AQAInstructionSet}.
 
 The simulator offers a \gls{GUI} (\figref{armlite}) that shows the current state of the \glspl{register} and the data \gls{memory}, as well as the current instruction and the status bits. It also adds \gls{I/O} support (a text box and a display), and options to start, stop, pause, resume, and slow or speed up execution, as well as step-by-step execution. It allows for users to load, save, and edit their programs, as well as a box to output system information (errors, last action performed, etc.).
 
@@ -53,6 +55,9 @@ The simulator offers a \gls{GUI} (\figref{armlite}) that shows the current state
 While not being \gls{FOSS} \textit{per se} (no information about the license used by this simulator could be found), the simulator uses JavaScript, which means the browser interprets the webpages's source code locally. As the code is \glsdisp{obfuscate}{unobfuscated} and is, to date, public and free to use, it is possible \textit{could} consider this simulator \gls{FOSS}.
 
 
+% should've mentioned WepSim (https://wepsim.github.io/wepsim)...
+
+
 
 \subsection{Generic Simulators}\label{subsec:generic-assembly-simulators}
 Simulators that are able to define and execute multiple \glspl{ISA} are considered `generic simulators'. They add a significant complexity to those types of simulators, due to the fact that they must be able to dynamically adapt to the different architectures.
@@ -61,7 +66,7 @@ Two different approaches to creating such simulators can be found in two specifi
 
 
 \subsubsection*{Sail}\label{subsubsec:sail}
-Sail \parencite{sail} is an \gls{ISA} definition language. It was developed by the Rigorous Engineering of Mainstream Systems (REMS) \parencite{rems} research group, from the University of Cambridge, as a tool to allow \glspl{ISA} to be mathematically modeled and verified and formally proven \parencite{ArmstrongAlasdair2019IsfA}.
+Sail \parencite{sail} is an \gls{ISA} definition language. It was developed by the Rigorous Engineering of Mainstream Systems (REMS) research group \parencite{rems}, from the University of Cambridge, as a tool to allow \glspl{ISA} to be mathematically modeled and verified and formally proven \parencite{ArmstrongAlasdair2019IsfA}.
 
 This tool can not only type-check instruction and vector lengths for the \gls{ISA}, generate \glspl{theorem prover} definitions of the architecture and tests, or automatically generate documentation, but, more importantly for this specific case, it can generate executable simulators in C or OCaml based on those \glspl{ISA}.
 
@@ -69,9 +74,9 @@ This tool can not only type-check instruction and vector lengths for the \gls{IS
 \subsubsection*{CREATOR}\label{subsubsec:creator}
 CREATOR \parencite{creator} is a web-based didactic and generic \gls{assembly} simulator. It was created by the ARCOS group from Universidad Carlos III de Madrid as a tool to teach students from the Computer Architecture and Computer Structure courses \gls{assembly} programming \parencite{creatorZenodo}.
 
-It is a fully-fledged simulator, with support for an \gls{assembly} editor with syntax highlighting and error detection, step-by-step execution, \gls{I/O}, breakpoints, visualization of \gls{memory}, \glspl{register} and \gls{stack}, floating point support, loading and saving files, adding libraries, detection of argument passing conventions, etc., all accessible through its \gls{GUI} (\figref{creator}), or \gls{CLI}.
+It is a fully-fledged simulator, with support for an \gls{assembly} editor with syntax highlighting and error detection, step-by-step execution, \gls{I/O}, breakpoints, visualization of \gls{memory}, \glspl{register} and \gls{stack}, floating point support, loading and saving files, adding libraries, detection of argument passing conventions, etc., all accessible through its \gls{GUI} (\figref{creator}), or a \gls{CLI}.
 
-Furthermore, it allows the user to view, edit, and create the architecture in use, using JavaScript. CREATOR allows the user to tweak and control a lot of the simulator's architecture and behavior. They can edit the \gls{memory} layout, register file (including number of bits, names and alias, and properties such as enabling reading or writing, if its value is saved when jumping into a \gls{subroutine}, which one is the stack and global pointer), \glspl{instruction} and \glspl{pseudo-instruction} (\glspl{clock cycle}, number of words, fields, etc.), and \glspl{directive}.
+Furthermore, it allows the user to view, edit, and create the architecture in use, using JavaScript. CREATOR also allows the user to tweak a lot of the simulator's architecture and behavior. They can edit the \gls{memory} layout, register file (including number of bits, names and alias, and properties such as enabling reading or writing, if its value is saved when jumping into a \gls{subroutine}, or which one is the stack and global pointer), \glspl{instruction} and \glspl{pseudo-instruction} (\glspl{clock cycle}, number of words, fields, etc.), and \glspl{directive}.
 
 
 \begin{figure}[htb]
@@ -88,10 +93,11 @@ Furthermore, it allows the user to view, edit, and create the architecture in us
 \section{Comparison}\label{sec:comparison}
 This proposal aims to take the desirable features from each of the different simulators presented in order to create an application which fits our needs.
 
-As it was justified before, the goal is to provide a \textit{generic} simulator and, from the two discussed approaches, \hyperref[subsubsec:creator]{CREATOR}'s approach is more suitable for the proposal, as the ability to quickly modify the architecture instead of \glsdisp{compilation}{re-compiling} the whole simulator encourages experimentation (less `friction'). Another thing that must also be taken into account is that some features that make the simulator more generic might also create more of this `friction'; giving users a more fine-grained control over the architecture could discourage experimentation and add unnecessary complexity, if the goal is to prioritize for the user to understand \gls{assembly} over understanding computer architecture.
+As it was justified before, the goal is to provide a \textit{generic} simulator and, from the two discussed approaches, \hyperref[subsubsec:creator]{CREATOR}'s approach is more suitable for the proposal, as the ability to quickly modify the architecture instead of \glsdisp{compilation}{re-compiling} the whole simulator encourages experimentation (less `friction'). Another thing that must also be taken into account is that some features that make the simulator more generic might also create more of this `friction'; giving users a more fine-grained control over the architecture could discourage experimentation and add unnecessary complexity, if the goal is to prioritize for the user's understanding of \gls{assembly} over their understanding of computer architecture.
 
-In \tabref{sim-comparison}, a comparison of the different features of the current assembly simulators and the proposal is provided.
+\tabref{sim-comparison} provides a comparison of the different features of the current assembly simulators and the proposal.
 
+\noindent
 The evaluated features are the following:
 \begin{itemize}
   \item \textbf{Language:} The main \gls{programming language} the software is written in.
