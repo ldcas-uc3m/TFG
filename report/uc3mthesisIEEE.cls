@@ -271,6 +271,15 @@
 
 \setcounter{tocdepth}{2}  % until subsection
 
+% pagestyle
+\tocloftpagestyle{noheader}
+
+% fix bug where middle pages don't get the style
+\preto{\tableofcontents}{\pagestyle{noheader}}
+\preto{\listoffigures}{\pagestyle{noheader}}
+\preto{\listoftables}{\pagestyle{noheader}}
+
+
 % chapters
 \makeatletter
 \titlecontents{chapter}
@@ -297,25 +306,25 @@
 	}
 \makeatother
 
-	% sections
-	\titlecontents{section}
-		[5pt]  % left margin
-		{}  % above
-		{\contentsmargin{0pt}\thecontentslabel.\enspace}  % before with label
-		{\contentsmargin{0pt}}  % before without label
-		{\titlerule*[.7pc]{.}\contentspage}  % filler and page
+% sections
+\titlecontents{section}
+	[5pt]  % left margin
+	{}  % above
+	{\contentsmargin{0pt}\thecontentslabel.\enspace}  % before with label
+	{\contentsmargin{0pt}}  % before without label
+	{\titlerule*[.7pc]{.}\contentspage}  % filler and page
 
-	% subsections
-	\titlecontents{subsection}[10pt]
-		{}
-		{\contentsmargin{0pt} \thecontentslabel.\enspace}
-		{\contentsmargin{0pt}}
-		{\titlerule*[.7pc]{.}\contentspage}
+% subsections
+\titlecontents{subsection}[10pt]
+	{}
+	{\contentsmargin{0pt} \thecontentslabel.\enspace}
+	{\contentsmargin{0pt}}
+	{\titlerule*[.7pc]{.}\contentspage}
 
 % blue colors for chapters
-\tocloftpagestyle{noheader}
-% \renewcommand{\cftchapfont}{\hypersetup{hidelinks}\bfseries\color{azulUC3M}}
-% \renewcommand{\cftchappagefont}{\bfseries\color{azulUC3M}}
+\renewcommand{\cftchapfont}{\hypersetup{hidelinks}\bfseries\color{azulUC3M}}
+\renewcommand{\cftchappagefont}{\bfseries\color{azulUC3M}}
+
 
 
 %----------
@@ -573,7 +582,7 @@
 		\pagestyle{noheader}
 		\chapter*{\@abstract@text}
 	}
-	{\cleardoublepage\pagestyle{noheader}  % end definition
+	{\cleardoublepage\pagestyle{noheader}}  % end definition
 
 % TODO: automate keywords, inserting automatic separators
 
