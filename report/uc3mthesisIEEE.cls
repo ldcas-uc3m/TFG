@@ -1,4 +1,4 @@
-% Bachelor Thesis Template of the Universidad Carlos III de Madrid, IEEE style, loosely following doctoral thesis guidelines (https://uc3m.libguides.com/en/thesis/writing)
+% Bachelor Thesis Template of the Universidad Carlos III de Madrid, IEEE style, following bachelor thesis guidelines (https://uc3m.libguides.com/en/TFG/writing), except the page number position, because it's stupid.
 % Based on the University Library's Bachelor Thesis Template, found in https://www.overleaf.com/latex/templates/bachelor-thesis-template-uc3m-ieee-style/rtmtnzvxjnwt
 % Made by Luis Daniel Casais Mezquida <https://github.com/ldcas-uc3m>
 
