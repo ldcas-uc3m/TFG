@@ -323,9 +323,10 @@ const Token ALU::read_char(const std::vector<Token> & v) {
 }
 
 const Token ALU::exit(const std::vector<Token> & v) {
-    // TODO: exit functionality
-    for (auto [val, _] : v)
-        std::cout << val << ' ';
+
+    throw StopExecution("exit");
+    // for (auto [val, _] : v)
+    //     std::cout << val << ' ';
 
     return Token {"nil", token_type::NIL};
 }

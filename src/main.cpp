@@ -99,6 +99,10 @@ int main() {
 
 
     }
+    catch (StopExecution &e) {
+        std::cout << "[" << e.type << "] " << e.what() << std::endl;
+        return 0;
+    }
     catch (MEMException &e) {
         std::cout << "[" << e.type << "] " << e.what() << std::endl;
         std::cout << ".text" << '\n' << mem_t;

@@ -40,4 +40,12 @@ class MEMException : public TFGException {
 };
 
 
+class StopExecution : public TFGException {
+    using TFGException::TFGException;
+    public:
+        const std::string type = "StopExecution";
+
+};
+
+
 #endif
