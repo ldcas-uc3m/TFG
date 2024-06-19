@@ -23,10 +23,12 @@ namespace Memory {
 
     class data {
         public:
-            data(Address start_addr, Address end_addr) : _data_map {} {
-                _start_addr = start_addr;
-                _end_addr = end_addr;
-            }
+            data(Address start_addr, Address end_addr)
+            :
+                start_addr {start_addr},
+                end_addr {end_addr},
+                _data_map {}
+            {}
 
             const Value & get_value(Address addr) const {
                 _validateAddress(addr);
@@ -60,12 +62,12 @@ namespace Memory {
                 return out;
             }
 
-            // TODO: stack & stack pointer (initialize to _end_addr)
+            // TODO: stack & stack pointer (initialize to end_addr)
+
+            Address start_addr;  // start address of the memory segment
+            Address end_addr;  // end address of the memory segment
 
         private:
-            Address _start_addr;  // start address of the memory segment
-            Address _end_addr;  // end address of the memory segment
-
             // TODO: rely only on vector, not on map ('tis faster)
             std::map<Address, Value> _data_map;  // map between addreses and values
 
@@ -74,7 +76,7 @@ namespace Memory {
                 if (addr % WORD_SIZE != 0)
                     throw MEMException(std::format("Illegal addr {:#010x}.", addr));
 
-                if (addr < _start_addr || addr >= _end_addr)
+                if (addr < start_addr || addr >= end_addr)
                     throw MEMException(std::format(".text Segmentation fault. Requested addr: {:#010x}.", addr));
             }
 

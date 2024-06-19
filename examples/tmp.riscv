@@ -1,3 +1,7 @@
+.data
+    four: .word 4
+    text: .string "caca de la vaca paca"
+
 .text
     main:
 

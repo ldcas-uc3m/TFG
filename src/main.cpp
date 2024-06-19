@@ -84,18 +84,22 @@ int main() {
     Interpreter interp {reg_file, mem_t, mem_d, syscalls};
     Compiler comp {inst_set, data_types, mem_d, mem_t, comment_char};
 
+    reg_file.setdmode(dmode::HEX);
+
 
     try {
-        // repl(interp, reg_file, mem_d);
+        // repl(interp, reg_file, mem_d); return 0;
 
         std::ifstream asm_file {ASM_FILE};
-        comp.compile_file(asm_file);
+        Memory::Address main_addr = comp.compile_file(asm_file);
+        reg_file.pc = main_addr;
         std::cout << ".text" << '\n' << mem_t << std::endl;
+        std::cout << ".data" << '\n' << mem_d << std::endl;
 
-        // return 0;
-        while(interp.next()) {
+        do {
             std::cout << reg_file << '\n';
-        }
+            std::cin.get();
+        } while(interp.next());
 
 
     }

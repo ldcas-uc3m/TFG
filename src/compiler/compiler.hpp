@@ -34,7 +34,7 @@ class Compiler final {
         }
 
 
-        void compile_file(std::ifstream & file);
+        Memory::Address compile_file(std::ifstream & file);
 
     private:
         json _inst_set;
@@ -42,12 +42,21 @@ class Compiler final {
         Memory::text & _mem_t;
         Memory::data & _mem_d;
         char _comment_char;
+        int _curr_line = 1;
 
-        std::unordered_map<std::string, std::uint32_t> _tags;
+        std::unordered_map<std::string, Memory::Address> _tags;
 
+        /**
+        * @brief parses a data segment
+        * @return The next line starting w/ a directive ('.')
+        */
+        std::string parse_data(std::ifstream & file);
 
-        void parse_data(std::ifstream & file);
-        void parse_text(std::ifstream & file);
+        /**
+        * @brief parses a text segment
+        * @return The main start address
+        */
+        Memory::Address parse_text(std::ifstream & file);
 };
 
 

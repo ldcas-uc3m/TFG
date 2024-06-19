@@ -39,6 +39,12 @@ class MEMException : public TFGException {
         const std::string type = "MEMException";
 };
 
+class CompilerException : public TFGException {
+    using TFGException::TFGException;
+    public:
+        const std::string type = "CompilerException";
+};
+
 
 class StopExecution : public TFGException {
     using TFGException::TFGException;

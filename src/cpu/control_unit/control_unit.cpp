@@ -154,8 +154,8 @@ const AST_Node Interpreter::eval_token(const AST & ast) const {
             return AST { Token {"nil", token_type::NIL} };
         }
 
-        // if the list only has one non-list member, return the member
-        if (children.size() == 1 && children[0].get_token().type != token_type::LIST) {
+        // if the list only has one non-list, non-op member, return the member
+        if (children.size() == 1 && children[0].get_token().type != token_type::LIST && children[0].get_token().type != token_type::OP) {
             return AST_Node { children[0].get_token() };
         }
 
