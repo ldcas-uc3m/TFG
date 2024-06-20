@@ -5,18 +5,19 @@
             "start_addr": "0x00000000"
         },
         "data": {
-            "start_addr": "0x00000100",
+            "start_addr": "0x00001000",
             "end_addr": "0xFFFFFFFF"
         }
     },
     "registers": [
         "zero",
         "ra",
-        "sp",
-        "gp",
+        // "sp",
+        // "gp",
         "t0", "t1", "t2", "t3", "t4", "t5", "t6",
-        "a0", "a1", "a2", "a3", "a4", "a5", "a6", "a7",
-        "s0", "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11"
+        "a0", "a1"
+        // , "a2", "a3", "a4", "a5", "a6", "a7",
+        // "s0", "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11"
     ],
     "syscalls": {
         "1": "print_int",
@@ -42,6 +43,30 @@
             "args": [ "$reg", "$x" ],
             "def": "(reg! $reg $x))"
         },
+        "mv": {
+            "args": [ "$rd", "$rs" ],
+            "def": "(reg! $rd (reg $rs))"
+        },
+        "la": {
+            "args": [ "$rd", "$addr" ],
+            "def": "(reg! $rd $addr)"
+        },
+        "lw": {
+            "args": [ "$rd", "$rs" ],
+            "def": "(reg! $rd (mem (reg $rs)))"
+        },
+        "jal": {
+            "args": [ "$ra", "$addr" ],
+            "def": "(do (reg! $ra (pc)) (pc! $addr))"
+        },
+        "jr": {
+            "args": [ "$ra" ],
+            "def": "(pc! (reg $ra))"
+        },
+        "j": {
+            "args": [ "$addr" ],
+            "def": "(pc! $addr)"
+        },
         "ecall": {
             "args": [ ],
             "def": "(if (== 1 (reg a7)) (call (reg a7) (reg a0)) (if (== 11 (reg a7)) (call (reg a7) (reg a0)) (if (== 5 (reg a7)) (call (reg a7) a0) (if (== 12 (reg a7)) (call (reg a7) a0) (if (== 10 (reg a7)) (call (reg a7)) ) ) ) ) )"
@@ -49,8 +74,7 @@
     },
     "data_types": {
         "str": ".string",
-        "word": ".word",
-        "none": ".zero"
+        "word": ".word"
     },
     "comment_char": "#"
 }

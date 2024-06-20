@@ -188,7 +188,7 @@ Memory::Address Compiler::compile_file(std::ifstream & file) {
         else if (line == ".data") {
             line = parse_data(file);
             if (line == ".text") {
-                for (const auto& [tag, value] : _tags) std::cout << tag << ": " << std::hex << value << "\n";
+                // for (const auto& [tag, value] : _tags) std::cout << tag << ": " << std::hex << value << "\n";
                 return parse_text(file);
             }
         }

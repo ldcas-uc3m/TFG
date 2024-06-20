@@ -49,6 +49,8 @@ namespace Memory {
 
             }
 
+            void clear() { _data_map.clear(); }
+
 
             // overload << operator
             friend std::ostream & operator << (std::ostream & out, data const & data) {

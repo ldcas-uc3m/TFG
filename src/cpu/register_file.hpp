@@ -35,7 +35,7 @@ class RegisterFile {
         RegisterFile(
             std::uint32_t pc_start_addr,
             std::initializer_list<std::string> l
-        ) : pc {pc_start_addr}, _reg_names{l} {
+        ) : pc {pc_start_addr}, _reg_names{l}, start_pc {pc_start_addr} {
 
             // fill up register map
             for (std::size_t i = 0; i < _reg_names.size(); ++i) {
@@ -48,7 +48,7 @@ class RegisterFile {
         RegisterFile(
             std::uint32_t pc_start_addr,
             std::vector<std::string> l
-        ) : pc {pc_start_addr}, _reg_names{l} {
+        ) : pc {pc_start_addr}, _reg_names{l}, start_pc {pc_start_addr} {
 
             // fill up register map
             for (std::size_t i = 0; i < _reg_names.size(); ++i) {
@@ -160,6 +160,11 @@ class RegisterFile {
 
         void setdmode(dmode dmode) { _dmode = dmode; }
 
+        void clear() {
+            std::fill(_rf.begin(), _rf.end(), 0);  // reset values
+            pc = start_pc;
+        }
+
 
     private:
 
@@ -170,6 +175,8 @@ class RegisterFile {
         const std::vector<std::string> _reg_names;  // map between register indexes and register names
 
         dmode _dmode = dmode::HEX;  // display mode
+
+        std::uint32_t start_pc;
 
 };
 

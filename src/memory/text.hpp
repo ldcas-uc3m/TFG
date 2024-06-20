@@ -54,7 +54,7 @@ namespace Memory {
             }
 
 
-            void purge() {
+            void clear() {
                 _inst_map.clear();
                 _curr_addr = _start_addr;
             }
