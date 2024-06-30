@@ -1,0 +1,69 @@
+% compile: pdflatex gantt.tex
+
+\documentclass[12pt]{article}
+
+\usepackage{pgfgantt}  % gannt diagrams
+
+
+\usepackage[paperwidth=26.5cm,paperheight=15.5cm,margin=.5cm]{geometry}
+
+\begin{document}
+  \pagenumbering{gobble}
+
+  \begin{figure}[ht]
+    \begin{ganttchart}[
+      hgrid,
+      % vgrid,
+      time slot format=isodate,
+      time slot unit=day,
+      x unit=.075cm,
+      y unit chart=.481cm,
+      y unit title=.7cm,
+      title label font=\footnotesize,
+      group label font=\bf\scriptsize,
+      bar label font=\scriptsize,
+      milestone label font=\it\scriptsize,
+      % expand chart=\textwidth
+    ]{2023-09-13}{2024-06-13}
+
+      \gantttitlecalendar{year, month=shortname} \\
+
+      \ganttgroup{I. Memory and Register File}{2023-09-13}{2023-10-21} \\
+      \ganttbar{Planning}{2023-09-13}{2023-09-15}\\
+      \ganttlinkedbar{Analysis}{2023-09-16}{2023-09-18}\\
+      \ganttlinkedbar{Development and testing}{2023-09-18}{2023-10-12}\\
+      \ganttlinkedbar{Evaluation}{2023-10-12}{2023-10-14}\\
+      \ganttlinkedbar{Documentation}{2023-10-14}{2023-10-21}\\
+
+      \ganttgroup{II. Control Unit and ALU}{2023-10-22}{2024-02-02} \\
+      \ganttbar{Planning}{2023-10-22}{2023-10-24}\\
+      \ganttlinkedbar{Analysis}{2023-10-25}{2023-10-27}\\
+      \ganttlinkedbar{Development and testing}{2023-10-27}{2024-01-19}\\
+      \ganttlinkedbar{Evaluation}{2024-01-20}{2024-01-22}\\
+      \ganttlinkedbar{Documentation}{2024-01-23}{2024-02-02}\\
+
+      \ganttgroup{III. Compiler}{2024-02-03}{2024-04-09} \\
+      \ganttbar{Planning}{2024-02-03}{2024-02-05}\\
+      \ganttlinkedbar{Analysis}{2024-02-06}{2024-02-10}\\
+      \ganttlinkedbar{Development and testing}{2024-02-11}{2024-03-28}\\
+      \ganttlinkedbar{Evaluation}{2024-03-29}{2024-04-01}\\
+      \ganttlinkedbar{Documentation}{2024-04-02}{2024-04-09}\\
+
+      \ganttgroup{IV. CLI}{2024-04-10}{2024-05-26} \\
+      \ganttbar{Planning}{2024-04-10}{2024-04-12}\\
+      \ganttlinkedbar{Analysis}{2024-04-13}{2024-04-16}\\
+      \ganttlinkedbar{Development and testing}{2024-04-17}{2024-05-01}\\
+      \ganttlinkedbar{Evaluation}{2024-05-02}{2024-05-05}\\
+      \ganttlinkedbar{Documentation}{2024-05-06}{2024-05-26}\\
+
+      \ganttgroup{Report}{2024-05-27}{2024-06-12} \\
+
+      % link iterations
+      \ganttlink{elem0}{elem6}
+      \ganttlink{elem6}{elem12}
+      \ganttlink{elem12}{elem18}
+      \ganttlink{elem18}{elem24}
+    \end{ganttchart}
+  \end{figure}
+
+\end{document}
