@@ -193,7 +193,7 @@ class ALU final {
         bool _to_bool(const Token & token) const;
 
         Token _from_bool(bool value) const {
-            return Token {std::to_string(value), token_type::BOOL};
+            return Token {value ? "true" : "false", token_type::BOOL};
         }
 
 
