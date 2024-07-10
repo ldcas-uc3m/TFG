@@ -36,6 +36,8 @@ class Compiler final {
 
         Memory::Address compile_file(std::ifstream & file);
 
+        void clear() { _tags.clear(); }
+
     private:
         json _inst_set;
         json _data_types;

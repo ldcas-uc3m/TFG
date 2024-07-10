@@ -201,6 +201,8 @@ int main(int argc, char *argv[]) {
                     mem_t.clear();
                     mem_d.clear();
                     reg_file.clear();
+                    comp.clear();
+                    programLoaded = false;
 
                     std::cout << "Simulator reset!\n";
                     break;
@@ -222,7 +224,9 @@ int main(int argc, char *argv[]) {
                 case action::run:
                     try {
                         while (interp.next()) {}
-                    } catch (StopExecution &e) {}
+                    } catch (StopExecution &e) {
+                        std::cout << "Finished execution!\n";
+                    }
                     break;
 
                 case action::reg:

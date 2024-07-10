@@ -79,7 +79,7 @@ AST_Node Interpreter::read_atom(Reader & reader) {  // lexer
     }
     /* Registers */
     else if (_rf.contains(token_str)) {
-        type = token_type::REG; 
+        type = token_type::REG;
     }
     /* Blocks */
     else if (token_str == "do") {
@@ -159,10 +159,8 @@ const AST_Node Interpreter::eval_token(const AST & ast) const {
             return AST_Node { children[0].get_token() };
         }
 
-        std::vector<AST_Node> evaluated_list = eval_ast(ast).get_children();
-
         // get function (head)
-        Token symbol = evaluated_list[0].get_token();
+        Token symbol = children[0].get_token();
 
         switch (symbol.type) {
             /* Blocks */
@@ -170,8 +168,8 @@ const AST_Node Interpreter::eval_token(const AST & ast) const {
                 // evaluate the elements of the list and return the final evaluated element
 
                 Token result = symbol;
-                for (auto child : evaluated_list) {
-                    result = eval_ast(child).get_token();
+                for (auto child : children) {
+                    result = eval_token(child).get_token();
                 }
 
                 return AST_Node { result };
@@ -181,29 +179,31 @@ const AST_Node Interpreter::eval_token(const AST & ast) const {
             case token_type::CND: {
                 // Evaluate the first parameter. If the result is anything other than nil or false, then evaluate the second parameter and return the result. Otherwise, evaluate the third parameter and return the result. If condition is false and there is no third parameter, then return nil
 
-                if (evaluated_list.size() > 4 || evaluated_list.size() < 3) {
-                    throw LUISPDAException("Not enough arguments for 'if' statement");
+                if (children.size() > 4 || children.size() < 3) {
+                    throw LUISPDAException("Incorrect number of arguments for 'if' statement");
                 }
 
-                Token first_param = eval_ast(evaluated_list[1]).get_token();
+                Token first_param = eval_token(children[1]).get_token();
 
                 // if
                 if (first_param.type != token_type::NIL && first_param.value != "false") {
                     // then
-                    return eval_ast(evaluated_list[2]);
+                    return eval_token(children[2]);
                 }
 
-                if (evaluated_list.size() == 3) {  // no else
+                if (children.size() == 3) {  // no else
                     return AST_Node { Token {"nil", token_type::NIL} };
                 }
 
                 // else
-                return eval_ast(evaluated_list[3]);
+                return eval_token(children[3]);
             }
 
             /* Operators */
             case token_type::OP: {
                 // call first item of the evaluated list as function using the rest of the evaluated list as its arguments
+
+                std::vector<AST_Node> evaluated_list = eval_ast(ast).get_children();
 
                 lisp_function func = _alu.op_env.find(symbol.value)->second;
 
@@ -226,6 +226,8 @@ const AST_Node Interpreter::eval_token(const AST & ast) const {
             /* System calls */
             case token_type::CALL: {
                 // find the correct system call to execute acording to its opcode and execute it
+
+                std::vector<AST_Node> evaluated_list = eval_ast(ast).get_children();
 
                 // get opcode (head)
                 Token opcode = evaluated_list[1].get_token();
@@ -258,7 +260,7 @@ const AST_Node Interpreter::eval_token(const AST & ast) const {
             }
 
             default:
-                throw LUISPDAException("Token " + symbol.value + " is not suitable as a symbol");
+                throw LUISPDAException("Token '" + symbol.value + "' is not suitable as a symbol");
         }
     }
 
@@ -274,7 +276,7 @@ const AST_Node Interpreter::eval_ast(const AST & ast) const {
             // check the symbol exists in REPL
 
             if (!_alu.op_env.contains(token.value))
-                throw LUISPDAException("Unrecognized symbol: " + token.value);
+                throw LUISPDAException("Unrecognized operator '" + token.value + "'");
 
 
             return ast;
