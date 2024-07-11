@@ -47,40 +47,43 @@ Leganés, July 2024
 <!-- header: '**Introduction**' -->
 
 <!--
-- Need for ISA design the last few years (commercial war, hardware acceleration) -> need for prototyping and validation
-- Learning how hardware works helps us build better programs
+TODO: prepare this shit
 
-- Important to get the concepts of assembly -> ISA changes
-- assembly is important (cybersecurity, efficiency)
 -->
 ## Motivation
 - ISA design **matters**
-    - RISC-V, NPUs, etc.
+    <!-- - Geopolitical reasons: microchip embargoes, shortages -->
+    - Move to new and open modular designs (RISC-V)
+    - Hardware acceleration (NPUs for IA)
+- Assembly language **matters**
     - Software built on top of hardware
+    - Helps us build better programs
+        - Cybersecurity, efficiency, etc.
 - Learning assembly language is _hard_
-    - Assembly language depends on ISA
-    - Unintuitive
+    - Unintuitive, depends on ISA, etc.
     - Few educational tools
 
 
 ---
 <!--
-- Interactive approach has been proven to help learning
 -->
 ## Objectives
-- Helping people learn assembly language programming
+1. Helping people learn assembly language programming
     - Understanding underlying concepts
-    - Interactive approach
-- Introduce people to ISA design
+2. Introduce people to ISA design
+
 
 ---
-Create an assembly simulator that is:
+## How?
+An intuitive assembly simulator.
 - Agnostic
 - Easily programmable
 - Interactive
+<!-- - Interactive approach has been proven to help learning -->
 - Able to be executed in multiple platforms
 - Performant
 - FOSS
+
 
 
 ---
@@ -93,64 +96,74 @@ See what we can learn
 
 ---
 <!-- header: 'State of the Art'-->
-
-## Specific simulators
-E.g. [ARMLite](https://www.peterhigginson.co.uk/ARMlite/), [Kite](https://casl.yonsei.ac.kr/kite/).
-- Simulate one ISA
-- Educational
-- Step-by-step execution
-- Advanced features (pipelining)
-- Error checking
-- CLI/GUI
-- I/O
-
-
----
-## Generic simulators
 <!--
-Can incorporate some features from specific
-
-- Sail used in proffesional settings (e.g. RISC-V) as theorem prover
-- CREATOR from UC3M
+-- NO HABLAR DE LOS SIMULADORES -> descritos en la memoria --
 -->
+## Specific simulators
+- E.g. [ARMLite](https://www.peterhigginson.co.uk/ARMlite/), [Kite](https://casl.yonsei.ac.kr/kite/).
+- Simulate one ISA, complex in-depth features (pipelining)
+  <!-- Pipelining unintuitive -->
+
+## Generic simulators
 - Simulate user-defined ISA
 - Two approaches:
-    - Generate executable simulators (e.g. [Sail](https://github.com/rems-project/sail))
-    - Interpret assembly instructions (e.g. [CREATOR](https://creatorsim.github.io/))
+    1. Generate executable simulators (e.g. [Sail](https://github.com/rems-project/sail))
+    2. Interpret assembly instructions (e.g. [CREATOR](https://creatorsim.github.io/))
 
 ---
 <!--
-Plot of current simulators
-- Balance didactic and generic
-    - Validation / simplicity
+Plot of discussed simulators
+- Proposal facilitates ISA definition
+    - CREATOR goes too in detail
 -->
 ![w:550 center](../report/img/simulator_map.drawio.svg)
-
-
----
-<!--
-1. through the use of an powerfull, but easily understandable language
-2. Interactive
-3.
-1. Important for education
-2. Useful for teachers -> checking through scripts
-3. Better
-4. In order to be used in many settings
--->
-## Desired features
-1. Simple ISA definition
-2. Step-by-step execution
-3. I/O support
-4. Error checking
-5. Architecture validation support
-6. FOSS
-7. Multi-platform support
 
 
 
 ---
 <!-- header: ''-->
 # Design
+
+---
+<!--
+Design generic language to describe the behaviour of the ISA instructions
+-->
+## LUISP-DA: _assembLy analogoUs lISP DiAlect_
+
+- Lisp-like DSL (IR on compilers' backend)
+    <!-- IR: Intermediate Representation, intuitive -->
+    - Based on recursive expressions
+        <!-- first element operator, rest arguments -->
+        <!-- Inner expressions evaluated first -->
+        ```lisp
+        (+ 1 (* 2 3))
+        ```
+    - Simple, easy to use, and easily validatable
+- Basic operators: arithmetic, logical, register/memory manipulation
+    ```lisp
+    ; addi t0 t1 69
+    (reg! t0 (+ (reg t1) 69))
+    ```
+
+---
+
+- Conditionals and blocks
+    ```lisp
+    ; beq t0 t1 0x000001a4
+    (if (== (reg t0) (reg t1)) (pc! 0x000001a4) ())
+    ```
+
+    ```lisp
+    ; jal ra 0x000001a4
+    (do (reg! ra (pc)) (pc! 0x000001a4))
+    ```
+<!-- - Syscalls map number to type -> defined in ISA file -->
+- System calls
+    ```lisp
+    ; exit*
+    (call 0)
+    (call (reg a7))
+    ```
 
 
 ---
@@ -162,46 +175,6 @@ Compile file with ISA definition into LUISP-DA, execute that
 ![center](img/compilation.png)
 
 
----
-<!--
-- Syscalls map number to type -> defined in ISA file
--->
-
-## LUISP-DA
-_assembLy analogoUs lISP DiAlect_
-- Lisp-like DSL
-    - Instructions are expressions
-    - Simple, easy to use, and easily validatable
-- Basic operators
-    - Arithmetic and logical
-    - Register and memory manipulation
-- Conditionals and blocks
-- System calls
-
----
-<!--
-* ISA defines syscall codes
--->
-```lisp
-; addi t0 t1 69
-(reg! t0 (+ (reg t1) 69))
-```
-
-```lisp
-; beq t0 t1 0x000001a4
-(if (== (reg t0) (reg t1)) (pc! 0x000001a4) ())
-```
-
-```lisp
-; jal ra 0x000001a4
-(do (reg! ra (pc)) (pc! 0x000001a4))
-```
-
-```lisp
-; exit*
-(call 0)
-```
-
 
 ---
 ## Architecture
@@ -212,12 +185,16 @@ _assembLy analogoUs lISP DiAlect_
 
 
 ---
-## Implementation (?)
+## Design choices
 - C++20
+    <!-- Multi-platform support, efficient -->
+    <!-- learn -->
     - STL + [JSON for Modern C++](https://json.nlohmann.me/)
 - Modular design
+    <!-- goes down to implementation -> good for expanding -->
 - LUISP-DA interpreter based on [Make a Lisp](https://github.com/kanaka/mal)
-- https://github.com/ldcas-uc3m/TFG
+- GPLv3
+  <!-- Ensure anyone can use and improve the software -->
 
 
 
@@ -225,19 +202,11 @@ _assembLy analogoUs lISP DiAlect_
 <!-- header: ''-->
 # Planning
 
----
-<!-- header: 'Planning'-->
-- **Duration:** 9 months, 315 h (35 h/month)
-- **Cost:** 20.307,84 €
-
 
 ---
 ## Time estimation
 <!--
-- Iterative methodology
-    - Based on Bohem's spiral model
-    - Flexible -> allows backtracking
-    - Encourages prototyping
+- 9 months, 315 h (35 h/month)
 - Divided in four iterations
 - Hardest part was Interpreter (Control Unit)
 -->
@@ -246,7 +215,7 @@ _assembLy analogoUs lISP DiAlect_
 
 ---
 <!--
-- Personnel: Project Manager, Analyst, Programmer, Tester
+- Reports has the breakdown
 -->
 ## Budget
 <center>
@@ -256,10 +225,7 @@ _assembLy analogoUs lISP DiAlect_
 | Personnel      |     11.850,00 € |
 | Equipment      |        139,44 € |
 | Indirect costs |        172,40 € |
-| Risk (20%)     |      2.432,37 € |
-| Benefits (15%) |      2.189,13 € |
-| Tax (21%)      |      3.524,50 € |
-| **TOTAL**      | **20.307,84 €** |
+| **TOTAL**      | **12.161,84 €** |
 
 </center>
 
@@ -274,11 +240,10 @@ _assembLy analogoUs lISP DiAlect_
 <!-- header: 'Conclusions and Future Work'-->
 
 ## Conclusions
-- Created a generic assembly language simulator
+- Fulfilled objectives
     - Instructions defined through a simple DSL
     - Portable to multiple platforms
     - Easily expandable
-    - GPLv3
 - Gained knowledge
     - Compiler design
     - Modern C++
@@ -286,10 +251,15 @@ _assembLy analogoUs lISP DiAlect_
 
 ---
 ## Future Work
+<!--
+There are many ways to expand the simulator. The time restrictions caused many features to be future work.
+This slides sumarizes some of them, such as...
+-->
 - More operators (floating point, bitwise, etc.)
 - Browser support (WASM)
 - Ease of use features (breakpoints, save states, etc.)
 - GUI
+- Indirect addressing
 - Implementation improvements
     - `std::variant` for tokens
     - C++20 modules
