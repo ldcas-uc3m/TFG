@@ -18,6 +18,7 @@ style: |
 ![bg contain opacity:.04](img/uc3m_logo.svg)
 # Analysis, Design and Implementation of a Didactic and Generic Assembly Language Simulator
 By Luis Daniel Casais Mezquida
+Advisor: Prof. Alejandro Calderón Mateos
 
 _Bachelor's Degree in Computer Science and Engineering  
 Universidad Carlos III de Madrid_
@@ -46,21 +47,24 @@ Leganés, July 2024
 ---
 <!-- header: '**Introduction**' -->
 
-<!--
-TODO: prepare this shit
 
--->
 ## Motivation
+<!-- There are several factors that motivated this project-->
 - ISA design **matters**
-    <!-- - Geopolitical reasons: microchip embargoes, shortages -->
+    <!-- - Geopolitical climate: microchip embargoes, chip shortages have LEAD TO -->
     - Move to new and open modular designs (RISC-V)
-    - Hardware acceleration (NPUs for IA)
+    - Hardware acceleration (NPUs for AI)
+    <!-- Recent technological advancements have lead to an increase demand for...
+    - Specialized instructions
+    -->
 - Assembly language **matters**
     - Software built on top of hardware
+    <!-- High level programming languages on top of low level. Knowing the underlying structure... -->
     - Helps us build better programs
         - Cybersecurity, efficiency, etc.
 - Learning assembly language is _hard_
     - Unintuitive, depends on ISA, etc.
+    <!-- There is no one "assembly language" -->
     - Few educational tools
 
 
@@ -68,9 +72,9 @@ TODO: prepare this shit
 <!--
 -->
 ## Objectives
-1. Helping people learn assembly language programming
+- Helping people learn assembly language programming
     - Understanding underlying concepts
-2. Introduce people to ISA design
+- Introduce people to ISA design
 
 
 ---
@@ -79,9 +83,9 @@ An intuitive assembly simulator.
 - Agnostic
 - Easily programmable
 - Interactive
-<!-- - Interactive approach has been proven to help learning -->
-- Able to be executed in multiple platforms
+<!-- - Interactive approach has been proven to help the learning process -->
 - Performant
+- Able to be executed in multiple platforms
 - FOSS
 
 
@@ -100,15 +104,17 @@ See what we can learn
 -- NO HABLAR DE LOS SIMULADORES -> descritos en la memoria --
 -->
 ## Specific simulators
-- E.g. [ARMLite](https://www.peterhigginson.co.uk/ARMlite/), [Kite](https://casl.yonsei.ac.kr/kite/).
 - Simulate one ISA, complex in-depth features (pipelining)
+- E.g. [ARMLite](https://www.peterhigginson.co.uk/ARMlite/), [Kite](https://casl.yonsei.ac.kr/kite/).
   <!-- Pipelining unintuitive -->
 
 ## Generic simulators
 - Simulate user-defined ISA
 - Two approaches:
     1. Generate executable simulators (e.g. [Sail](https://github.com/rems-project/sail))
+   <!-- generate from ISA definition -->
     2. Interpret assembly instructions (e.g. [CREATOR](https://creatorsim.github.io/))
+   <!-- At runtime, using intermediate language -->
 
 ---
 <!--
@@ -126,19 +132,21 @@ Plot of discussed simulators
 
 ---
 <!--
-Design generic language to describe the behaviour of the ISA instructions
+Design generic language to describe the behaviour of the instructions
 -->
 ## LUISP-DA: _assembLy analogoUs lISP DiAlect_
 
 - Lisp-like DSL (IR on compilers' backend)
-    <!-- IR: Intermediate Representation, intuitive -->
+    <!--
+    - IR: Intermediate Representation
+    -->
+    - Simple, yet powerful, and easily validatable
     - Based on recursive expressions
-        <!-- first element operator, rest arguments -->
+        <!-- first element operator, rest arguments. Apply arguments to operator -->
         <!-- Inner expressions evaluated first -->
         ```lisp
         (+ 1 (* 2 3))
         ```
-    - Simple, easy to use, and easily validatable
 - Basic operators: arithmetic, logical, register/memory manipulation
     ```lisp
     ; addi t0 t1 69
@@ -169,7 +177,8 @@ Design generic language to describe the behaviour of the ISA instructions
 ---
 <!-- header: 'Design'-->
 <!--
-Compile file with ISA definition into LUISP-DA, execute that
+- Interpret approach
+- Compile file with ISA definition into LUISP-DA, execute that
 -->
 ## Overview
 ![center](img/compilation.png)
@@ -179,7 +188,7 @@ Compile file with ISA definition into LUISP-DA, execute that
 ---
 ## Architecture
 <!--
-- Based on real processor architecture
+- Based on real computer architecture
 -->
 ![w:600 center](img/component_diagram.drawio.svg)
 
@@ -187,12 +196,14 @@ Compile file with ISA definition into LUISP-DA, execute that
 ---
 ## Design choices
 - C++20
-    <!-- Multi-platform support, efficient -->
-    <!-- learn -->
+    <!-- Modern, safe, efficient -->
+    <!-- support for Multiple platforms (WASM) -->
+    <!-- in order to learn -->
     - STL + [JSON for Modern C++](https://json.nlohmann.me/)
 - Modular design
     <!-- goes down to implementation -> good for expanding -->
 - LUISP-DA interpreter based on [Make a Lisp](https://github.com/kanaka/mal)
+<!-- MAL is a guide to make a Lisp interpreter -->
 - GPLv3
   <!-- Ensure anyone can use and improve the software -->
 
@@ -215,7 +226,7 @@ Compile file with ISA definition into LUISP-DA, execute that
 
 ---
 <!--
-- Reports has the breakdown
+- Report has the breakdown
 -->
 ## Budget
 <center>
@@ -252,7 +263,7 @@ Compile file with ISA definition into LUISP-DA, execute that
 ---
 ## Future Work
 <!--
-There are many ways to expand the simulator. The time restrictions caused many features to be future work.
+There are many ways to expand the simulator. The time constraints caused many ideas to be left as future work.
 This slides sumarizes some of them, such as...
 -->
 - More operators (floating point, bitwise, etc.)
@@ -277,6 +288,7 @@ This slides sumarizes some of them, such as...
 ![bg contain opacity:.04](img/uc3m_logo.svg)
 # Analysis, Design and Implementation of a Didactic and Generic Assembly Language Simulator
 By Luis Daniel Casais Mezquida
+Advisor: Prof. Alejandro Calderón Mateos
 
 _Bachelor's Degree in Computer Science and Engineering  
 Universidad Carlos III de Madrid_
